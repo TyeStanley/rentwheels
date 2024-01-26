@@ -31,6 +31,10 @@ const config: Config = {
         white100: '#F7F9FC',
         white200: '#F6F7F9',
       },
+      boxShadow: {
+        mobileMenuLight: '0px 0px 10px 0px rgba(201,215,255,0.50)',
+        mobileMenuDark: '0px 0px 10px 0px #3C475B',
+      },
       screens: {
         xs: '475px',
         xl: '1440px',
