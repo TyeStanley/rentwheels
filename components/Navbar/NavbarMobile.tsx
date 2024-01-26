@@ -1,10 +1,12 @@
-import React from 'react';
-import ThemeToggle from './ThemeToggle';
+import React, { FC } from 'react';
+import ThemeToggle from '@/components/Navbar/ThemeToggle';
+import NavbarMenu from '@/components/Navbar/NavbarMenu';
 
-const NavbarMobile = () => {
+const NavbarMobile: FC = () => {
   return (
     <div className="md:hidden">
       <ThemeToggle />
+      <NavbarMenu />
     </div>
   );
 };

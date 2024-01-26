@@ -1,16 +1,18 @@
 'use client';
 
-import Sun from '@/components/icons/Sun';
-import Moon from '@/components/icons/Moon';
-import TinySun from '@/components/icons/TinySun';
-import TinyMoon from '@/components/icons/TinyMoon';
-import System from '@/components/icons/System';
 import { useTheme } from '@/context/ThemeProvider';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import {
+  Sun,
+  Moon,
+  TinySun,
+  TinyMoon,
+  System,
+} from '@/components/icons/ThemeToggle';
 
 const ThemeToggle = () => {
   const { mode, setMode } = useTheme();
