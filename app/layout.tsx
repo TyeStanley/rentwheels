@@ -4,6 +4,7 @@ import { Plus_Jakarta_Sans as plusJakartaSans } from 'next/font/google';
 
 import '@/app/globals.css';
 import { ThemeProvider } from '@/context/ThemeProvider';
+import Navbar from '@/components/Navbar';
 
 const font = plusJakartaSans({ subsets: ['latin'] });
 
@@ -20,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
