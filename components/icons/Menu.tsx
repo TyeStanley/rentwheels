@@ -1,10 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-
 const Menu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

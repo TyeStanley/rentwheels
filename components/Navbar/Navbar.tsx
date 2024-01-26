@@ -1,17 +1,15 @@
-import React from 'react';
-
-import Logo from '@/components/icons/Logo';
-import Menu from '../icons/Menu';
+import NavbarLogo from '@/components/Navbar/NavbarLogo';
+import NavbarDesktop from '@/components/Navbar/NavbarDesktop';
+import NavbarMobile from '@/components/Navbar/NavbarMobile';
 
 const Navbar = () => {
   return (
-    <nav className="w-full bg-white p-6 dark:bg-gray900">
-      <div className="flex max-w-xs items-center justify-between">
-        <Logo />
+    <nav className="w-full border-b border-[#C3D4E9]/40 bg-white p-6 dark:border-gray850 dark:bg-gray900">
+      <div className="flex items-center justify-between">
+        <NavbarLogo />
 
-        <div>
-          <Menu />
-        </div>
+        <NavbarMobile />
+        <NavbarDesktop />
       </div>
     </nav>
   );
