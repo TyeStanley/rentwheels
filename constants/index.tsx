@@ -19,3 +19,18 @@ export const navbarMobileLinks = [
     text: 'Add Car',
   },
 ];
+
+export const navbarDesktopLinks = [
+  {
+    link: '/',
+    text: 'Home',
+  },
+  {
+    link: '/search',
+    text: 'Search',
+  },
+  {
+    link: '/add-car',
+    text: 'Add Car',
+  },
+];

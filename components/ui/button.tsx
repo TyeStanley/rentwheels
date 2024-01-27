@@ -10,6 +10,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-white',
+        primary: 'h-[2.75rem] bg-primary px-6 text-base text-white',
+        navbarDesktopLink: 'text-base text-gray700 dark:text-white200',
         navbarMobileLink:
           'gap-2 bg-transparent p-3 text-sm font-medium text-gray700 dark:text-white',
         primaryMobileMenu:

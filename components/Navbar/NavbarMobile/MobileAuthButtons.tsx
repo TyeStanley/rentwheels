@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 
-const MobileAuthenticationButtons = () => {
+const MobileAuthButtons = () => {
   const isUserLoggedIn = true;
 
   return (
@@ -28,4 +28,4 @@ const MobileAuthenticationButtons = () => {
   );
 };
 
-export default MobileAuthenticationButtons;
+export default MobileAuthButtons;

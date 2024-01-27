@@ -1,7 +1,7 @@
 import {
   NavbarMobileLinks,
   NavbarMobileMenuHeader,
-  MobileAuthenticationButtons,
+  MobileAuthButtons,
 } from '@/components/Navbar/NavbarMobile';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Menu from '@/components/icons/Menu';
@@ -15,7 +15,7 @@ const NavbarMobileMenu = () => {
       <DialogContent>
         <NavbarMobileMenuHeader />
         <NavbarMobileLinks />
-        <MobileAuthenticationButtons />
+        <MobileAuthButtons />
       </DialogContent>
     </Dialog>
   );
