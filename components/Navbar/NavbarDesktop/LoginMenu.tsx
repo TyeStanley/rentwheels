@@ -17,7 +17,7 @@ const LoginMenu = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end">
-        <Tabs defaultValue="signin" className="w-[400px]">
+        <Tabs defaultValue="signin" className="my-2 w-[305px]">
           <TabsList>
             <TabsTrigger value="signin">Sign-in</TabsTrigger>
             <TabsTrigger value="signup">Sign-up</TabsTrigger>

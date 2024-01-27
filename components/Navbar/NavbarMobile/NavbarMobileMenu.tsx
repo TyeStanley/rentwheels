@@ -10,8 +10,8 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Menu from '@/components/icons/Menu';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import SignInForm from '../SignInForm';
-import SignUpForm from '../SignUpForm';
+import SignInForm from '@/components/Navbar/SignInForm';
+import SignUpForm from '@/components/Navbar/SignUpForm';
 
 const NavbarMobileMenu = () => {
   const [showForm, setShowForm] = useState(false);
@@ -28,7 +28,7 @@ const NavbarMobileMenu = () => {
         <NavbarMobileMenuHeader closeForm={closeForm} />
 
         {showForm ? (
-          <Tabs defaultValue="signin" className="w-full">
+          <Tabs defaultValue="signin" className="mt-5 w-full">
             <TabsList>
               <TabsTrigger value="signin">Sign-in</TabsTrigger>
               <TabsTrigger value="signup">Sign-up</TabsTrigger>
