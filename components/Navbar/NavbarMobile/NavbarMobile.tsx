@@ -1,12 +1,11 @@
-import React, { FC } from 'react';
 import ThemeToggle from '@/components/Navbar/ThemeToggle';
-import NavbarMenu from '@/components/Navbar/NavbarMenu';
+import { NavbarMobileMenu } from '@/components/Navbar/NavbarMobile';
 
-const NavbarMobile: FC = () => {
+const NavbarMobile = () => {
   return (
     <div className="flex items-center gap-3 md:hidden">
       <ThemeToggle />
-      <NavbarMenu />
+      <NavbarMobileMenu />
     </div>
   );
 };
