@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 
-const MobileAuthButtons = () => {
-  const isUserLoggedIn = true;
+const MobileAuthButtons = ({ openForm }: { openForm: () => void }) => {
+  const isUserLoggedIn = false;
 
   return (
     <section className="mt-5 flex flex-col gap-2.5">
@@ -22,7 +22,9 @@ const MobileAuthButtons = () => {
           <Button variant="logout">Logout</Button>
         </>
       ) : (
-        <Button variant="primaryMobileMenu">Login</Button>
+        <Button variant="primaryMobileMenu" onClick={openForm}>
+          Login
+        </Button>
       )}
     </section>
   );
