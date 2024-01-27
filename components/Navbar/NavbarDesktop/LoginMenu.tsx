@@ -5,8 +5,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import SignInForm from '@/components/Navbar/SignInForm';
+import SignUpForm from '@/components/Navbar/SignUpForm';
 
-const LoginDropdown = () => {
+const LoginMenu = () => {
   return (
     <Popover>
       <PopoverTrigger>
@@ -17,15 +19,19 @@ const LoginDropdown = () => {
       <PopoverContent align="end">
         <Tabs defaultValue="signin" className="w-[400px]">
           <TabsList>
-            <TabsTrigger value="signin">Signin</TabsTrigger>
-            <TabsTrigger value="signup">Signup</TabsTrigger>
+            <TabsTrigger value="signin">Sign-in</TabsTrigger>
+            <TabsTrigger value="signup">Sign-up</TabsTrigger>
           </TabsList>
-          <TabsContent value="signin">signin</TabsContent>
-          <TabsContent value="signup">signup</TabsContent>
+          <TabsContent value="signin">
+            <SignInForm />
+          </TabsContent>
+          <TabsContent value="signup">
+            <SignUpForm />
+          </TabsContent>
         </Tabs>
       </PopoverContent>
     </Popover>
   );
 };
 
-export default LoginDropdown;
+export default LoginMenu;
