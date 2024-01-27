@@ -4,7 +4,7 @@ import Close from '@/components/icons/Close';
 
 const NavbarMobileMenuHeader = () => {
   return (
-    <section className="flex items-center justify-between px-1">
+    <section className="flex items-center justify-between ">
       <NavbarLogo />
       <DialogClose>
         <Close />

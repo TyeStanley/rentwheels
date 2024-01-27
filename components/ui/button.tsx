@@ -12,17 +12,13 @@ const buttonVariants = cva(
         default: 'bg-primary text-white',
         navbarMobileLink:
           'gap-2 bg-transparent p-3 text-sm font-medium text-gray700 dark:text-white',
-      },
-      size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
-        lg: 'h-11 rounded-md px-8',
-        icon: 'size-10',
+        primaryMobileMenu:
+          'justify-center gap-2 border border-ps50 bg-white py-4 text-sm text-primary dark:border-gray700 dark:bg-gray700 dark:text-white',
+        logout: 'justify-center bg-red-500 py-4 text-sm text-white',
       },
     },
     defaultVariants: {
       variant: 'default',
-      size: 'default',
     },
   }
 );
@@ -34,11 +30,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ variant, className }))}
         ref={ref}
         {...props}
       />
