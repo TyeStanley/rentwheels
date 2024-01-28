@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Popover,
@@ -7,6 +6,10 @@ import {
 } from '@/components/ui/popover';
 import SignInForm from '@/components/Navbar/SignInForm';
 import SignUpForm from '@/components/Navbar/SignUpForm';
+
+import dynamic from 'next/dynamic';
+
+const Button = dynamic(() => import('@/components/ui/button'), { ssr: false });
 
 const LoginMenu = () => {
   return (

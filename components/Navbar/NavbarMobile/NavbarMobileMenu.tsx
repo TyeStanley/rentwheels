@@ -7,11 +7,11 @@ import {
   NavbarMobileMenuHeader,
   MobileAuthButtons,
 } from '@/components/Navbar/NavbarMobile';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import Menu from '@/components/icons/Menu';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SignInForm from '@/components/Navbar/SignInForm';
 import SignUpForm from '@/components/Navbar/SignUpForm';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const NavbarMobileMenu = () => {
   const [showForm, setShowForm] = useState(false);
