@@ -17,6 +17,8 @@ const buttonVariants = cva(
         primaryMobileMenu:
           'justify-center gap-2 border border-ps50 bg-white py-4 text-sm text-primary dark:border-gray700 dark:bg-gray700 dark:text-white',
         logout: 'justify-center bg-red-500 py-4 text-sm text-white',
+        signInUp:
+          'h-12 w-full justify-center rounded-lg bg-primary text-white disabled:bg-green-500 disabled:opacity-80 dark:bg-primary dark:disabled:bg-green-500',
       },
     },
     defaultVariants: {

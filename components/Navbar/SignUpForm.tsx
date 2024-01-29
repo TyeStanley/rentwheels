@@ -2,17 +2,28 @@
 
 import { useState, FormEvent } from 'react';
 
+import Button from '@/components/ui/button';
+import { createUser } from '@/lib/actions/user.actions';
+import { createUserErrors } from '@/types';
+
 const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<createUserErrors>({});
+  const [createdUser, setCreatedUser] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Handle form submission here
-    console.log(
-      `Username: ${username}, Email: ${email}, Password: ${password}`
-    );
+    const user = await createUser({ username, email, password });
+    setErrors(user.errors);
+
+    if (user.created) {
+      setCreatedUser(user.created);
+      setUsername('');
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (
@@ -27,8 +38,9 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
+        <span className="h-5 text-red-500">{errors.username}</span>
       </label>
-      <label htmlFor="email" className="mt-5 flex flex-col">
+      <label htmlFor="email" className="mt-3 flex flex-col">
         <span className="font-semibold">Email</span>
         <input
           id="email"
@@ -38,6 +50,7 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
+        <span className="h-5 text-red-500">{errors.email}</span>
       </label>
       <label htmlFor="password" className="mt-5 flex flex-col">
         <span className="font-semibold">Password</span>
@@ -49,13 +62,16 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
+        <span className="h-5 text-red-500">{errors.password}</span>
       </label>
-      <button
+      <Button
         type="submit"
-        className="mt-10 h-12 w-full rounded-lg bg-primary text-white dark:bg-primary"
+        variant="signInUp"
+        className="mt-5"
+        disabled={createdUser}
       >
-        Sign Up
-      </button>
+        {createdUser ? 'Account Created' : 'Sign Up'}
+      </Button>
     </form>
   );
 };
