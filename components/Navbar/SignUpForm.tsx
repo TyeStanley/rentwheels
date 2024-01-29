@@ -28,7 +28,7 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col dark:text-white">
-      <label htmlFor="username" className="mt-5 flex flex-col">
+      <label htmlFor="username" className="mt-3 flex flex-col">
         <span className="font-semibold">Username</span>
         <input
           id="username"
@@ -38,7 +38,7 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
-        <span className="h-5 text-red-500">{errors.username}</span>
+        <span className="mt-1 h-4 text-xs text-red-500">{errors.username}</span>
       </label>
       <label htmlFor="email" className="mt-3 flex flex-col">
         <span className="font-semibold">Email</span>
@@ -50,9 +50,9 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
-        <span className="h-5 text-red-500">{errors.email}</span>
+        <span className="mt-1 h-4 text-xs text-red-500">{errors.email}</span>
       </label>
-      <label htmlFor="password" className="mt-5 flex flex-col">
+      <label htmlFor="password" className="mt-3 flex flex-col">
         <span className="font-semibold">Password</span>
         <input
           id="password"
@@ -62,7 +62,7 @@ const SignUpForm = () => {
           required
           className="mt-2.5 h-10 rounded bg-ps50 px-2 outline-none dark:bg-gray700"
         />
-        <span className="h-5 text-red-500">{errors.password}</span>
+        <span className="mt-1 h-4 text-xs text-red-500">{errors.password}</span>
       </label>
       <Button
         type="submit"
