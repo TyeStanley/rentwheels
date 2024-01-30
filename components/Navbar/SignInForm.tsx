@@ -17,9 +17,7 @@ const SignInForm = () => {
 
     if (user?.error) {
       setError(user.error);
-      return;
     }
-    console.log('yes');
   };
 
   return (

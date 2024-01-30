@@ -9,7 +9,7 @@ const MobileAuthButtons = ({ openForm }: { openForm: () => void }) => {
     <section className="mt-5 flex flex-col gap-2.5">
       {isUserLoggedIn ? (
         <>
-          <Button variant="primaryMobileMenu">
+          <Button variant="primaryMenu">
             <Image
               src="/userPlaceholder.jpg"
               alt="User profile picture"
@@ -22,7 +22,7 @@ const MobileAuthButtons = ({ openForm }: { openForm: () => void }) => {
           <Button variant="logout">Logout</Button>
         </>
       ) : (
-        <Button variant="primaryMobileMenu" onClick={openForm}>
+        <Button variant="primaryMenu" onClick={openForm}>
           Login
         </Button>
       )}

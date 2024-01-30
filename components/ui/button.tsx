@@ -14,7 +14,7 @@ const buttonVariants = cva(
         navbarDesktopLink: 'text-base text-gray700 dark:text-white200',
         navbarMobileLink:
           'gap-2 bg-transparent p-3 text-sm font-medium text-gray700 dark:text-white',
-        primaryMobileMenu:
+        primaryMenu:
           'justify-center gap-2 border border-ps50 bg-white py-4 text-sm text-primary dark:border-gray700 dark:bg-gray700 dark:text-white',
         logout: 'justify-center bg-red-500 py-4 text-sm text-white',
         signInUp:

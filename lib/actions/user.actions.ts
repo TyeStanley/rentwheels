@@ -138,17 +138,63 @@ export async function loginUser({
   });
 }
 
-export async function verifyUser() {
+export async function logoutUser() {
+  try {
+    cookies().delete('token');
+  } catch (error) {
+    console.error(error);
+    throw new Error('An error occurred while logging out');
+  }
+}
+
+export async function verifyUser(): Promise<string | null> {
   try {
     const token = cookies().get('token');
 
-    if (!token) return {};
+    if (!token || !token.value) return null;
 
     const payload = jwt.verify(token.value, process.env.JWT_SECRET as string);
 
-    return { id: (payload as JwtPayload).id };
+    return (payload as JwtPayload).id;
+  } catch (error) {
+    console.error(`An error occurred while verifying the user: ${error}`);
+    return null;
+  }
+}
+
+export interface GetUserType {
+  id: string;
+  username: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export async function getUser(): Promise<GetUserType | null> {
+  try {
+    const id = await verifyUser();
+
+    if (!id) return null;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: false,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) return null;
+
+    return user;
   } catch (error) {
     console.error(error);
-    return {};
+    throw new Error('An error occurred while getting the user');
   }
 }

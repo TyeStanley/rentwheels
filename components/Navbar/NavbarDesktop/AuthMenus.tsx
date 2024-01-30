@@ -1,12 +1,12 @@
 import { LoginMenu, UserMenu } from '@/components/Navbar/NavbarDesktop';
-import { verifyUser } from '@/lib/actions/user.actions';
+import { getUser } from '@/lib/actions/user.actions';
 
 const AuthMenus = async () => {
-  const { id } = await verifyUser();
+  const user = await getUser();
 
-  if (!id) return <LoginMenu />;
+  if (!user) return <LoginMenu />;
 
-  return <UserMenu />;
+  return <UserMenu {...user} />;
 };
 
 export default AuthMenus;
