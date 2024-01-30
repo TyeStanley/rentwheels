@@ -133,7 +133,7 @@ export async function loginUser({
   const sevenDays = 1000 * 60 * 60 * 24 * 7;
 
   cookies().set('token', token, {
-    expires: Date.now() - sevenDays,
+    expires: Date.now() + sevenDays,
     httpOnly: true,
   });
 }
