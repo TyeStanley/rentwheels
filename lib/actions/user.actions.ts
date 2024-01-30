@@ -2,7 +2,8 @@
 
 import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
-// import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { cookies } from 'next/headers';
 import { createUserType } from '@/types';
 
 export async function createUser({
@@ -102,27 +103,52 @@ export async function createUser({
   }
 }
 
-// export async function loginUser({
-//   email,
-//   password,
-// }: {
-//   email: string;
-//   password: string;
-// }) {
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       email,
-//     },
-//   });
+export async function loginUser({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) {
+  const user = await prisma.user.findMany({
+    where: {
+      email: {
+        equals: email,
+        mode: 'insensitive',
+      },
+    },
+  });
 
-//   if (!user) throw new Error('Invalid email or password');
+  if (user.length === 0) return { error: "Email or Password doesn't match" };
 
-//   const valid = await bcrypt.compare(password, user.password);
+  const valid = await bcrypt.compare(password, user[0].password);
 
-//   if (valid) {
-//     const token = jwt.sign(
-//       { id: user.id, email: user.email },
-//       process.env.JWT_SECRET as string
-//     );
-//   }
-// }
+  if (!valid) return { error: "Email or Password doesn't match" };
+
+  const token = jwt.sign(
+    { id: user[0].id, email: user[0].email },
+    process.env.JWT_SECRET as string
+  );
+
+  const sevenDays = 1000 * 60 * 60 * 24 * 7;
+
+  cookies().set('token', token, {
+    expires: Date.now() - sevenDays,
+    httpOnly: true,
+  });
+}
+
+export async function verifyUser() {
+  try {
+    const token = cookies().get('token');
+
+    if (!token) return {};
+
+    const payload = jwt.verify(token.value, process.env.JWT_SECRET as string);
+
+    return { id: (payload as JwtPayload).id };
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+}
