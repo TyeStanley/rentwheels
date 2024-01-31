@@ -1,26 +1,21 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
-import LogoutButton from '@/components/Navbar/NavbarDesktop';
-import Button from '@/components/ui/button';
+import { LogoutButton } from '@/components/Navbar/NavbarDesktop';
+import { buttonVariants } from '@/components/ui/button';
+import { GetUserMenuType } from '@/lib/actions/user.actions';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { GetUserType } from '@/lib/actions/user.actions';
 
-const UserMenu = async ({
-  id,
-  username,
-  email,
-  createdAt,
-  updatedAt,
-}: GetUserType) => {
+const UserMenu = async ({ username, picture }: GetUserMenuType) => {
   return (
     <Popover>
       <PopoverTrigger className="ml-7">
         <Image
-          src="/userPlaceholder.jpg"
+          src={picture}
           alt="user button"
           width="44"
           height="44"
@@ -28,16 +23,19 @@ const UserMenu = async ({
         />
       </PopoverTrigger>
       <PopoverContent align="end" className="flex w-[292px] flex-col gap-4">
-        <Button variant="primaryMenu" className="w-full">
+        <Link
+          className={buttonVariants({ variant: 'primaryMenu' })}
+          href={`/profile/${username}`}
+        >
           <Image
-            src="/userPlaceholder.jpg"
-            alt="User profile picture"
+            src={picture}
+            alt={`User profile of ${username}`}
             width="20"
             height="20"
             className="rounded-full"
           />
           My Profile
-        </Button>
+        </Link>
         <LogoutButton />
       </PopoverContent>
     </Popover>

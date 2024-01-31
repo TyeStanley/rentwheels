@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import prisma from '@/lib/prisma';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { cookies } from 'next/headers';
-import { createUserType } from '@/types';
+import { CreateUserType } from '@/types';
 
 export async function createUser({
   username,
@@ -14,7 +14,7 @@ export async function createUser({
   username: string;
   email: string;
   password: string;
-}): Promise<createUserType> {
+}): Promise<CreateUserType> {
   try {
     username = username.trim();
     email = email.trim();
@@ -23,7 +23,7 @@ export async function createUser({
       username: '',
       email: '',
       password: '',
-    } as createUserType['errors'];
+    } as CreateUserType['errors'];
 
     let usernameExists;
 
@@ -91,6 +91,8 @@ export async function createUser({
         username,
         email,
         password: hashedPassword,
+        picture:
+          'https://cdn.discordapp.com/attachments/571883066017185802/1202061969033793556/userPlaceholder.jpg?ex=65cc1672&is=65b9a172&hm=76ad723735e39a0d73bab46bfc68a067ffe63bae69ac427d248d287180469672&',
       },
     });
 
@@ -162,15 +164,12 @@ export async function verifyUser(): Promise<string | null> {
   }
 }
 
-export interface GetUserType {
-  id: string;
+export interface GetUserMenuType {
   username: string;
-  email: string;
-  createdAt: Date;
-  updatedAt: Date;
+  picture: string;
 }
 
-export async function getUser(): Promise<GetUserType | null> {
+export async function getUserMenu(): Promise<GetUserMenuType | null> {
   try {
     const id = await verifyUser();
 
@@ -181,12 +180,8 @@ export async function getUser(): Promise<GetUserType | null> {
         id,
       },
       select: {
-        id: true,
         username: true,
-        email: true,
-        password: false,
-        createdAt: true,
-        updatedAt: true,
+        picture: true,
       },
     });
 

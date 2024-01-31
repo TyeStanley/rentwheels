@@ -7,12 +7,12 @@ export interface ThemeContextType {
 
 export interface IconProps extends HTMLAttributes<HTMLElement> {}
 
-export interface createUserErrors {
+export interface CreateUserErrors {
   username?: string;
   email?: string;
   password?: string;
 }
-export interface createUserType {
+export interface CreateUserType {
   created?: boolean;
-  errors: createUserErrors;
+  errors: CreateUserErrors;
 }
