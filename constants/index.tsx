@@ -34,36 +34,3 @@ export const navbarDesktopLinks = [
     text: 'Add Car',
   },
 ];
-
-export const homepageAds = [
-  {
-    image: '/homepage/mobile_ad1.svg',
-    width: 327,
-    height: 232,
-    className: 'w-full lg:hidden',
-  },
-  {
-    image: '/homepage/tablet_ad1.svg',
-    width: 471,
-    height: 360,
-    className: 'hidden w-full lg:block xl:hidden',
-  },
-  {
-    image: '/homepage/tablet_ad2.svg',
-    width: 471,
-    height: 360,
-    className: 'hidden w-full lg:block xl:hidden',
-  },
-  {
-    image: '/homepage/desktop_ad1.svg',
-    width: 640,
-    height: 360,
-    className: 'hidden w-full xl:block',
-  },
-  {
-    image: '/homepage/desktop_ad2.svg',
-    width: 640,
-    height: 360,
-    className: 'hidden w-full xl:block',
-  },
-];
