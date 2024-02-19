@@ -1,4 +1,4 @@
-const SearchNormal = () => {
+const SearchNormal = ({ className }: { className?: string }) => {
   return (
     <svg
       width="14"
@@ -6,7 +6,7 @@ const SearchNormal = () => {
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="stroke-white"
+      className={className || 'stroke-white'}
     >
       <path
         d="M6.70817 12.25C9.76875 12.25 12.2498 9.76893 12.2498 6.70835C12.2498 3.64778 9.76875 1.16669 6.70817 1.16669C3.64759 1.16669 1.1665 3.64778 1.1665 6.70835C1.1665 9.76893 3.64759 12.25 6.70817 12.25Z"
