@@ -34,3 +34,18 @@ export const navbarDesktopLinks = [
     text: 'Add Car',
   },
 ];
+
+export const locationList = [
+  { label: 'New York', value: 'new york' },
+  { label: 'Los Angeles', value: 'los angeles' },
+  { label: 'Chicago', value: 'chicago' },
+  { label: 'Houston', value: 'houston' },
+  { label: 'Phoenix', value: 'phoenix' },
+  { label: 'Philadelphia', value: 'philadelphia' },
+  { label: 'San Antonio', value: 'san antonio' },
+  { label: 'San Diego', value: 'san diego' },
+  { label: 'Dallas', value: 'dallas' },
+  { label: 'San Jose', value: 'san jose' },
+  { label: 'Austin', value: 'austin' },
+  { label: 'Jacksonville', value: 'jacksonville' },
+];
