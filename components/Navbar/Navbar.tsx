@@ -4,7 +4,7 @@ import NavbarMobile from '@/components/Navbar/NavbarMobile';
 
 const Navbar = () => {
   return (
-    <nav className="w-full border-b border-[#C3D4E9]/40 bg-white px-6 py-8 dark:border-gray850 dark:bg-gray900 md:py-5 lg:px-10">
+    <nav className="w-full border-b border-[#C3D4E9]/40 bg-white px-6 py-8 dark:border-gray850 dark:bg-gray900 md:py-5 xl:px-16">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
         <NavbarLogo />
 

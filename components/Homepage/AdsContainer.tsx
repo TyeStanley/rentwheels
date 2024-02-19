@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const AdsContainer = () => {
   return (
-    <section className="relative flex w-full justify-center gap-5">
+    <section className="relative flex w-full justify-between lg:gap-8">
       <Image
         src="/homepage/mobile_ad1.svg"
         alt="ads"
