@@ -1,5 +1,6 @@
 import AdsContainer from '@/components/Homepage/AdsContainer';
 import CarSearch from '@/components/Homepage/CarSearch';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -8,6 +9,20 @@ export default function Home() {
         <AdsContainer />
 
         <CarSearch />
+
+        <section className="mt-12 flex items-end justify-between lg:mt-10">
+          <p className="text-sm font-semibold text-gray400 lg:px-5 lg:text-base">
+            Popular cars
+          </p>
+
+          <Link
+            // ! Link to car search page
+            href=""
+            className="text-xs font-semibold text-primary lg:px-5 lg:text-base"
+          >
+            View All
+          </Link>
+        </section>
       </div>
     </main>
   );
