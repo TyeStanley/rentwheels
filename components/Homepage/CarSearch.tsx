@@ -57,7 +57,7 @@ const CarSearch = () => {
                 <ArrowDown />
               </button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0 dark:border-gray850 dark:bg-gray800">
+            <PopoverContent className="w-[200px] p-0">
               <Command>
                 <CommandInput placeholder="Search City" />
                 <CommandEmpty>No City found.</CommandEmpty>
