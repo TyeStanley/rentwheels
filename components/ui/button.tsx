@@ -21,6 +21,8 @@ const buttonVariants = cva(
           'h-12 w-full justify-center rounded-lg bg-primary text-white disabled:bg-green-500 disabled:opacity-80 dark:bg-primary dark:disabled:bg-green-500',
         carSearch:
           'flex h-[3rem] w-full items-center justify-center rounded-md bg-primary text-sm font-semibold text-white lg:h-[3.5rem] xl:text-base xl:font-medium',
+        carCard:
+          'h-9 rounded bg-primary px-5 text-xs font-medium text-white lg:h-11 lg:text-base lg:font-semibold',
       },
     },
     defaultVariants: {

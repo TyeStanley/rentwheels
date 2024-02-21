@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 import AdsContainer from '@/components/Homepage/AdsContainer';
 import CarSearch from '@/components/Homepage/CarSearch';
-import Link from 'next/link';
+import CarCard from '@/components/shared/CarCard';
 
 export default function Home() {
   return (
@@ -23,6 +25,8 @@ export default function Home() {
             View All
           </Link>
         </section>
+
+        <CarCard />
       </div>
     </main>
   );
