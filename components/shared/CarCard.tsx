@@ -2,10 +2,11 @@ import Image from 'next/image';
 
 import SteeringWheel from '@/components/icons/SteeringWheel';
 import Button from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const CarCard = () => {
+const CarCard = ({ cardType }: { cardType: 'popular' | 'recomendation' }) => {
   return (
-    <section className="max-w-[19rem] rounded-xl bg-white p-4 dark:bg-gray850 lg:p-6">
+    <section className="min-w-[15rem] rounded-xl bg-white p-4 dark:bg-gray850 lg:min-w-[19rem] lg:p-6">
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
           <h4 className="font-bold text-gray900 dark:text-white lg:text-xl">
@@ -22,7 +23,12 @@ const CarCard = () => {
         />
       </div>
 
-      <div className="mt-4 flex gap-4 lg:flex-col">
+      <div
+        className={cn(
+          'mt-4 flex gap-4',
+          cardType === 'popular' ? 'flex-col' : 'lg:flex-col'
+        )}
+      >
         <div className="relative h-[10rem] w-full rounded-lg bg-red-500">
           <Image
             src="/homepage/mobile_ad1.svg"
@@ -32,7 +38,13 @@ const CarCard = () => {
           />
         </div>
 
-        <div className="flex w-[4.6rem] shrink-0 flex-col items-start justify-start gap-4 lg:flex-row">
+        <div
+          className={cn(
+            'flex w-[4.6rem] shrink-0 gap-4',
+            cardType === 'popular' ? 'flex-row' : 'lg:flex-col'
+          )}
+        >
+          {/* // <div className="flex w-[4.6rem] shrink-0 flex-col items-start justify-start gap-4 lg:flex-row"> */}
           <section className="relative flex items-center justify-center gap-1">
             <div className="relative size-3.5 lg:size-6">
               <Image src="/shared/gas_station.svg" alt="Gas Station" fill />
