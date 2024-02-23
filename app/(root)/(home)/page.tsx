@@ -3,8 +3,8 @@ import HomeContent from '@/components/Homepage/HomeContent';
 
 export default function Home() {
   return (
-    <main className="bg-white200 px-6 py-8 dark:bg-gray900 xl:px-16">
-      <div className="mx-auto max-w-[1440px]">
+    <main className="bg-white200 dark:bg-gray900">
+      <div className="mx-auto px-6 py-8 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-16">
         <AdsContainer />
 
         <HomeContent />

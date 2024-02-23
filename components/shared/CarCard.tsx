@@ -4,9 +4,14 @@ import SteeringWheel from '@/components/icons/SteeringWheel';
 import Button from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const CarCard = ({ cardType }: { cardType: 'popular' | 'recomendation' }) => {
+const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
   return (
-    <section className="min-w-[15rem] rounded-xl bg-white p-4 dark:bg-gray850 lg:min-w-[19rem] lg:p-6">
+    <section
+      className={cn(
+        'min-w-[15rem] rounded-xl bg-white p-4 dark:bg-gray850 lg:max-w-[19rem] lg:p-6',
+        cardType === 'popular' ? 'lg:min-w-[19rem]' : 'w-full'
+      )}
+    >
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
           <h4 className="font-bold text-gray900 dark:text-white lg:text-xl">
@@ -41,10 +46,11 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recomendation' }) => {
         <div
           className={cn(
             'flex w-[4.6rem] shrink-0 gap-4',
-            cardType === 'popular' ? 'flex-row' : 'lg:flex-col'
+            cardType === 'popular'
+              ? 'flex-row'
+              : 'flex-col items-start justify-start lg:flex-row'
           )}
         >
-          {/* // <div className="flex w-[4.6rem] shrink-0 flex-col items-start justify-start gap-4 lg:flex-row"> */}
           <section className="relative flex items-center justify-center gap-1">
             <div className="relative size-3.5 lg:size-6">
               <Image src="/shared/gas_station.svg" alt="Gas Station" fill />
