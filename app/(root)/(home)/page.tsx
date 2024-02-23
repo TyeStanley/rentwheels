@@ -1,5 +1,6 @@
 import AdsContainer from '@/components/Homepage/AdsContainer';
 import HomeContent from '@/components/Homepage/HomeContent';
+import Footer from '@/components/Footer/Footer';
 
 export default function Home() {
   return (
@@ -8,6 +9,8 @@ export default function Home() {
         <AdsContainer />
 
         <HomeContent />
+
+        <Footer />
       </div>
     </main>
   );

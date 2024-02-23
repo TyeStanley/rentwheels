@@ -1,4 +1,4 @@
-const Logo = () => {
+const Logo = ({ className }: { className?: string }) => {
   return (
     <svg
       width="90"
@@ -6,6 +6,7 @@ const Logo = () => {
       viewBox="0 0 90 31"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className ?? ''}
     >
       <path
         d="M3.97437 13.6536C3.97437 13.6536 5.53351 11.4594 11.8762 11.0684C11.8762 11.0684 10.6244 12.3284 9.86452 12.828C9.10463 13.3277 8.14342 13.0669 6.6011 13.219C5.05847 13.3709 3.97437 13.6536 3.97437 13.6536Z"
