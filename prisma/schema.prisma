@@ -19,14 +19,24 @@ model User {
 }
 
 model Car {
-  id        String   @id @default(uuid())
-  make      String
-  model     String
-  year      Int
-  color     String
-  price     Float
+  id           String       @id @default(uuid())
+  title        String
+  type         String
+  rentPrice    String
+  capacity     String
+  transmission Transmission
+  location     String
+  fuelCapacity Int
+  description  String
+  images       String[]
+
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Transmission {
+  MANUAL
+  AUTOMATIC
 }
