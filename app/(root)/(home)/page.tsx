@@ -1,10 +1,17 @@
+import Link from 'next/link';
+
 import AdsContainer from '@/components/Homepage/AdsContainer';
 import Footer from '@/components/Footer/Footer';
 import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
-import Link from 'next/link';
+import { verifyUser } from '@/lib/actions/user.actions';
 
-export default function Home({ searchParams }: { searchParams: any }) {
+export default async function Home() {
+  const { id, isUserLoggedIn } = await verifyUser();
+
+  console.log('id', id);
+  console.log('isUserLoggedIn', isUserLoggedIn);
+
   return (
     <main className="bg-white200 dark:bg-gray900">
       <div className="mx-auto px-6 py-8 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-16">

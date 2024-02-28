@@ -149,18 +149,21 @@ export async function logoutUser() {
   }
 }
 
-export async function verifyUser(): Promise<string | null> {
+export async function verifyUser(): Promise<any> {
   try {
     const token = cookies().get('token');
 
-    if (!token || !token.value) return null;
+    if (!token || !token.value) return { id: null, isUserLoggedIn: false };
 
-    const payload = jwt.verify(token.value, process.env.JWT_SECRET as string);
+    const { id } = jwt.verify(
+      token.value,
+      process.env.JWT_SECRET as string
+    ) as JwtPayload;
 
-    return (payload as JwtPayload).id;
+    return { id, isUserLoggedIn: true };
   } catch (error) {
     console.error(`An error occurred while verifying the user: ${error}`);
-    return null;
+    return { id: null, isUserLoggedIn: false };
   }
 }
 
@@ -171,9 +174,9 @@ export interface GetUserMenuType {
 
 export async function getUserMenu(): Promise<GetUserMenuType | null> {
   try {
-    const id = await verifyUser();
+    const { id, isUserLoggedIn } = await verifyUser();
 
-    if (!id) return null;
+    if (!id || !isUserLoggedIn) return null;
 
     const user = await prisma.user.findUnique({
       where: {
