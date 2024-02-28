@@ -22,8 +22,8 @@ model Car {
   id           String       @id @default(uuid())
   title        String
   type         String
-  rentPrice    String
-  capacity     String
+  rentPrice    Int
+  capacity     Int
   transmission Transmission
   location     String
   fuelCapacity Int
@@ -37,6 +37,6 @@ model Car {
 }
 
 enum Transmission {
-  MANUAL
-  AUTOMATIC
+  Manual
+  Automatic
 }

@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Transmission" AS ENUM ('Manual', 'Automatic');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -14,11 +17,15 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Car" (
     "id" TEXT NOT NULL,
-    "make" TEXT NOT NULL,
-    "model" TEXT NOT NULL,
-    "year" INTEGER NOT NULL,
-    "color" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
+    "title" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "rentPrice" INTEGER NOT NULL,
+    "capacity" INTEGER NOT NULL,
+    "transmission" "Transmission" NOT NULL,
+    "location" TEXT NOT NULL,
+    "fuelCapacity" INTEGER NOT NULL,
+    "description" TEXT NOT NULL,
+    "images" TEXT[],
     "userId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

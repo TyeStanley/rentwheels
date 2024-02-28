@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
 import Image from 'next/image';
 import { Check } from 'lucide-react';
 
@@ -23,12 +22,35 @@ import {
 } from '@/components/ui/command';
 
 import { locationList } from '@/constants';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const CarSearch = () => {
-  const [locationOpen, setLocationOpen] = useState(false);
-  const [location, setLocation] = useState('');
-  const [availabilityFrom, setAvailabilityFrom] = useState<Date>();
-  const [availabilityTo, setAvailabilityTo] = useState<Date>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const location = searchParams.get('city');
+  const from = searchParams.get('from');
+  const to = searchParams.get('to');
+
+  function queryURL(location: string, from: Date | null, to: Date | null) {
+    const locationLC = location.toLowerCase();
+    const fromDate = from?.toLocaleDateString().replace(/\//g, '-');
+    const toDate = to?.toLocaleDateString().replace(/\//g, '-');
+
+    let query = '';
+
+    if (locationLC.length !== 0) query += `?city=${locationLC}`;
+
+    if (fromDate)
+      query += (query.length !== 0 ? '&' : '?') + `from=${fromDate}`;
+    if (toDate) query += (query.length !== 0 ? '&' : '?') + `to=${toDate}`;
+
+    const baseUrl = '/';
+
+    const finalUrl = query.length !== 0 ? `${baseUrl}${query}` : baseUrl;
+
+    router.push(finalUrl, { scroll: false });
+  }
 
   return (
     <>
@@ -47,7 +69,7 @@ const CarSearch = () => {
             Location
           </label>
 
-          <Popover open={locationOpen} onOpenChange={setLocationOpen}>
+          <Popover>
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
                 {location
@@ -66,12 +88,13 @@ const CarSearch = () => {
                     <CommandItem
                       key={item.value}
                       value={item.value}
-                      onSelect={(currentValue) => {
-                        setLocation(
-                          currentValue === location ? '' : currentValue
-                        );
-                        setLocationOpen(false);
-                      }}
+                      onSelect={(currentValue) =>
+                        queryURL(
+                          currentValue === location ? '' : currentValue,
+                          from ? new Date(from) : null,
+                          to ? new Date(to) : null
+                        )
+                      }
                     >
                       <Check
                         className={cn(
@@ -105,8 +128,8 @@ const CarSearch = () => {
           <Popover>
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
-                {availabilityFrom
-                  ? availabilityFrom.toLocaleDateString()
+                {from
+                  ? new Date(from).toLocaleDateString()
                   : 'Select your date'}
 
                 <ArrowDown />
@@ -115,8 +138,14 @@ const CarSearch = () => {
             <PopoverContent className="p-1">
               <Calendar
                 mode="single"
-                selected={availabilityFrom}
-                onSelect={setAvailabilityFrom}
+                selected={from ? new Date(from) : undefined}
+                onSelect={(from) =>
+                  queryURL(
+                    location || '',
+                    from as Date,
+                    to ? new Date(to) : null
+                  )
+                }
               />
             </PopoverContent>
           </Popover>
@@ -139,9 +168,7 @@ const CarSearch = () => {
           <Popover>
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
-                {availabilityTo
-                  ? availabilityTo.toLocaleDateString()
-                  : 'Select your date'}
+                {to ? new Date(to).toLocaleDateString() : 'Select your date'}
 
                 <ArrowDown />
               </button>
@@ -149,8 +176,14 @@ const CarSearch = () => {
             <PopoverContent className="p-1">
               <Calendar
                 mode="single"
-                selected={availabilityTo}
-                onSelect={setAvailabilityTo}
+                selected={to ? new Date(to) : undefined}
+                onSelect={(to) =>
+                  queryURL(
+                    location || '',
+                    from ? new Date(from) : null,
+                    to as Date
+                  )
+                }
               />
             </PopoverContent>
           </Popover>
