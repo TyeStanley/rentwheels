@@ -8,6 +8,12 @@ const nextConfig = {
         port: '',
         pathname: '/attachments/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

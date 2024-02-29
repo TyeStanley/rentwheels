@@ -1,10 +1,35 @@
 import Image from 'next/image';
+import { Car } from '@prisma/client';
 
 import SteeringWheel from '@/components/icons/SteeringWheel';
 import Button from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import SignInForm from '../Navbar/SignInForm';
+import SignUpForm from '../Navbar/SignUpForm';
 
-const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
+interface CarCardProps {
+  car: Car;
+  cardType: 'popular' | 'recommended';
+  isUserLoggedIn: boolean;
+}
+
+const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
+  const {
+    // id,
+    title,
+    type,
+    rentPrice,
+    capacity,
+    transmission,
+    // location,
+    fuelCapacity,
+    // description,
+    images,
+    // userId,
+  } = car;
+
   return (
     <section
       className={cn(
@@ -15,9 +40,9 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
           <h4 className="font-bold text-gray900 dark:text-white lg:text-xl">
-            All New Rush
+            {title}
           </h4>
-          <p className="text-xs font-medium text-gray400 lg:text-sm">SUV</p>
+          <p className="text-xs font-medium text-gray400 lg:text-sm">{type}</p>
         </div>
 
         <Image
@@ -34,9 +59,9 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
           cardType === 'popular' ? 'flex-col' : 'lg:flex-col'
         )}
       >
-        <div className="relative h-[10rem] w-full rounded-lg bg-red-500">
+        <div className="relative h-[10rem] w-full rounded-lg bg-primary">
           <Image
-            src="/homepage/mobile_ad1.svg"
+            src={images[0]}
             alt="Car Display"
             fill
             className="rounded-lg object-cover"
@@ -57,7 +82,7 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
             </div>
 
             <span className="text-xs font-medium text-gray400 lg:text-sm">
-              80L
+              {fuelCapacity}L
             </span>
           </section>
 
@@ -65,7 +90,7 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
             <SteeringWheel />
 
             <span className="text-xs font-medium text-gray400 lg:text-sm">
-              Manual
+              {transmission}
             </span>
           </section>
 
@@ -75,7 +100,7 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
             </div>
 
             <span className="whitespace-nowrap text-xs font-medium text-gray400 lg:text-sm">
-              16 People
+              {capacity} People
             </span>
           </section>
         </div>
@@ -84,12 +109,34 @@ const CarCard = ({ cardType }: { cardType: 'popular' | 'recommended' }) => {
       <div className="mt-8 flex items-center justify-between">
         <div>
           <span className="font-bold text-gray900 dark:text-white lg:text-xl">
-            $80.00/
+            ${rentPrice}/
           </span>{' '}
           <span className="text-xs font-bold text-gray400 lg:text-sm">day</span>
         </div>
 
-        <Button variant="carCard">More info</Button>
+        {isUserLoggedIn ? (
+          <Button variant="carCard">More info</Button>
+        ) : (
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="carCard">More info</Button>
+            </DialogTrigger>
+            <DialogContent className="top-[20%]">
+              <Tabs defaultValue="signin">
+                <TabsList>
+                  <TabsTrigger value="signin">Sign-in</TabsTrigger>
+                  <TabsTrigger value="signup">Sign-up</TabsTrigger>
+                </TabsList>
+                <TabsContent value="signin">
+                  <SignInForm />
+                </TabsContent>
+                <TabsContent value="signup">
+                  <SignUpForm />
+                </TabsContent>
+              </Tabs>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </section>
   );

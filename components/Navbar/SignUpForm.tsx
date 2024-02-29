@@ -4,13 +4,13 @@ import { useState, FormEvent } from 'react';
 
 import Button from '@/components/ui/button';
 import { createUser } from '@/lib/actions/user.actions';
-import { createUserErrors } from '@/types';
+import { CreateUserErrors } from '@/types';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<createUserErrors>({});
+  const [errors, setErrors] = useState<CreateUserErrors>({});
   const [createdUser, setCreatedUser] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

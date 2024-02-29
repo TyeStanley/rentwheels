@@ -4,13 +4,16 @@ import AdsContainer from '@/components/Homepage/AdsContainer';
 import Footer from '@/components/Footer/Footer';
 import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
+
 import { verifyUser } from '@/lib/actions/user.actions';
+import { getCars } from '@/lib/actions/car.actions';
 
-export default async function Home() {
+export default async function Home({ searchParams }: any) {
   const { id, isUserLoggedIn } = await verifyUser();
+  console.log(id);
+  console.log('searchParams', searchParams);
 
-  console.log('id', id);
-  console.log('isUserLoggedIn', isUserLoggedIn);
+  const cars = await getCars();
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -34,11 +37,14 @@ export default async function Home() {
         </section>
 
         <section className="mt-5 flex gap-5 overflow-x-auto lg:mt-7 lg:gap-8">
-          {Array(6)
-            .fill(0)
-            .map((_, i) => (
-              <CarCard key={i} cardType="popular" />
-            ))}
+          {cars.map((car) => (
+            <CarCard
+              key={car.id}
+              car={car}
+              cardType="popular"
+              isUserLoggedIn={isUserLoggedIn}
+            />
+          ))}
         </section>
 
         <p className="mt-8 text-sm font-semibold text-gray400 lg:mt-10 lg:px-5 lg:text-base">
@@ -46,11 +52,14 @@ export default async function Home() {
         </p>
 
         <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:flex lg:gap-8">
-          {Array(17)
-            .fill(0)
-            .map((_, i) => (
-              <CarCard key={i} cardType="recommended" />
-            ))}
+          {cars.map((car) => (
+            <CarCard
+              key={car.id}
+              car={car}
+              cardType="recommended"
+              isUserLoggedIn={isUserLoggedIn}
+            />
+          ))}
         </section>
 
         <Footer />
