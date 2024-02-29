@@ -5,7 +5,7 @@ import { verifyUser } from './user.actions';
 
 export async function getCars() {
   const cars = await prisma.car.findMany();
-  console.log(cars);
+
   return cars;
 }
 
@@ -44,4 +44,15 @@ export async function likeCar(carId: string): Promise<void> {
       },
     });
   }
+}
+
+export async function getCityList() {
+  const locations = await prisma.car.findMany({
+    select: {
+      location: true,
+    },
+    distinct: ['location'],
+  });
+
+  return locations;
 }

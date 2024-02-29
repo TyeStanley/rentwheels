@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
 
 import Button from '@/components/ui/button';
 import SearchNormal from '@/components/icons/SearchNormal';
 import ArrowDown from '@/components/icons/ArrowDown';
 import { Calendar } from '@/components/ui/calendar';
-import { cn } from '@/lib/utils';
+import { capitalizeFirstLetterOfEachWord, cn } from '@/lib/utils';
 import {
   Popover,
   PopoverContent,
@@ -21,10 +22,11 @@ import {
   CommandItem,
 } from '@/components/ui/command';
 
-import { locationList } from '@/constants';
-import { useRouter, useSearchParams } from 'next/navigation';
-
-const CarSearch = () => {
+const CarSearch = ({
+  locationList,
+}: {
+  locationList: { location: string | undefined }[];
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -73,7 +75,10 @@ const CarSearch = () => {
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
                 {location
-                  ? locationList.find((item) => item.value === location)?.label
+                  ? capitalizeFirstLetterOfEachWord(
+                      locationList.find((city) => city.location === location)
+                        ?.location || ''
+                    )
                   : 'Location - Select your city'}
 
                 <ArrowDown />
@@ -84,10 +89,10 @@ const CarSearch = () => {
                 <CommandInput placeholder="Search City" />
                 <CommandEmpty>No City found.</CommandEmpty>
                 <CommandGroup>
-                  {locationList.map((item) => (
+                  {locationList.map((city) => (
                     <CommandItem
-                      key={item.value}
-                      value={item.value}
+                      key={city.location}
+                      value={city.location}
                       onSelect={(currentValue) =>
                         queryURL(
                           currentValue === location ? '' : currentValue,
@@ -99,10 +104,12 @@ const CarSearch = () => {
                       <Check
                         className={cn(
                           'mr-2 h-4 w-4',
-                          location === item.value ? 'opacity-100' : 'opacity-0'
+                          location === city.location
+                            ? 'opacity-100'
+                            : 'opacity-0'
                         )}
                       />
-                      {item.label}
+                      {capitalizeFirstLetterOfEachWord(city.location || '')}
                     </CommandItem>
                   ))}
                 </CommandGroup>

@@ -6,7 +6,7 @@ import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
 
 import { verifyUser } from '@/lib/actions/user.actions';
-import { getCars } from '@/lib/actions/car.actions';
+import { getCars, getCityList } from '@/lib/actions/car.actions';
 
 export default async function Home({ searchParams }: any) {
   const { id, isUserLoggedIn } = await verifyUser();
@@ -15,12 +15,14 @@ export default async function Home({ searchParams }: any) {
 
   const cars = await getCars();
 
+  const locationList = await getCityList();
+
   return (
     <main className="bg-white200 dark:bg-gray900">
       <div className="mx-auto px-6 py-8 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-16">
         <AdsContainer />
 
-        <CarSearch />
+        <CarSearch locationList={locationList} />
 
         <section className="mt-12 flex items-end justify-between lg:mt-10">
           <p className="text-sm font-semibold text-gray400 lg:px-5 lg:text-base">

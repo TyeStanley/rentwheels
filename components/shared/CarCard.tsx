@@ -119,6 +119,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
         ) : (
           <Dialog>
             <DialogTrigger>
+              {/* ! Causes Hydration Error */}
               <Button variant="carCard">More info</Button>
             </DialogTrigger>
             <DialogContent className="top-[20%]">
