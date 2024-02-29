@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  email     String   @unique
-  password  String
-  picture   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  car       Car[]
+  id           String         @id @default(uuid())
+  username     String         @unique
+  email        String         @unique
+  password     String
+  picture      String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  car          Car[]
+  UserLikesCar UserLikesCar[]
 }
 
 model Car {
@@ -30,10 +31,25 @@ model Car {
   description  String
   images       String[]
 
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  userId       String
+  UserLikesCar UserLikesCar[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model UserLikesCar {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  car   Car    @relation(fields: [carId], references: [id])
+  carId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, carId])
 }
 
 enum Transmission {
