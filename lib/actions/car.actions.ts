@@ -2,47 +2,61 @@
 
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 export async function getCars() {
+  const { id } = await verifyUser();
   const cars = await prisma.car.findMany();
 
-  return cars;
-}
-
-export async function likeCar(carId: string): Promise<void> {
-  const { id } = await verifyUser();
-
-  if (!id) {
-    throw new Error('You must be logged in to like a car');
-  }
-
-  const isCarLiked = prisma.userLikesCar.findUnique({
+  const userLikesCar = await prisma.userLikesCar.findMany({
     where: {
-      userId_carId: {
-        userId: id,
-        carId,
-      },
+      userId: id,
     },
   });
 
-  const carLikedBoolean = !!isCarLiked;
+  const carsWithLikes = cars.map((car) => {
+    const isCarLiked = userLikesCar.some((like) => like.carId === car.id);
 
-  if (carLikedBoolean) {
-    await prisma.userLikesCar.delete({
-      where: {
-        userId_carId: {
-          userId: id,
-          carId,
-        },
-      },
-    });
-  } else {
+    return { ...car, isCarLiked };
+  });
+
+  return carsWithLikes;
+}
+
+export async function likeCar(carId: string): Promise<boolean> {
+  const { id: userId } = await verifyUser();
+
+  if (!userId) {
+    throw new Error('You must be logged in to like a car');
+  }
+
+  try {
     await prisma.userLikesCar.create({
       data: {
-        userId: id,
+        userId,
         carId,
       },
     });
+
+    return true;
+  } catch (error) {
+    if (
+      error instanceof PrismaClientKnownRequestError &&
+      error.code === 'P2002'
+    ) {
+      await prisma.userLikesCar.delete({
+        where: {
+          userId_carId: {
+            userId,
+            carId,
+          },
+        },
+      });
+
+      return false;
+    } else {
+      throw error;
+    }
   }
 }
 

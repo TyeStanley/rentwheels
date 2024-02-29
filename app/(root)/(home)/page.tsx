@@ -11,7 +11,6 @@ import { getCars, getCityList } from '@/lib/actions/car.actions';
 export default async function Home({ searchParams }: any) {
   const { id, isUserLoggedIn } = await verifyUser();
   console.log(id);
-  console.log('searchParams', searchParams);
 
   const cars = await getCars();
 

@@ -8,16 +8,17 @@ import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import SignInForm from '../Navbar/SignInForm';
 import SignUpForm from '../Navbar/SignUpForm';
+import HeartInteraction from './HeartInteraction';
 
 interface CarCardProps {
-  car: Car;
+  car: Car & { isCarLiked: boolean };
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
 }
 
 const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
   const {
-    // id,
+    id,
     title,
     type,
     rentPrice,
@@ -28,6 +29,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
     // description,
     images,
     // userId,
+    isCarLiked,
   } = car;
 
   return (
@@ -45,12 +47,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
           <p className="text-xs font-medium text-gray400 lg:text-sm">{type}</p>
         </div>
 
-        <Image
-          src="/shared/heart.svg"
-          alt="Outline Heart"
-          width={24}
-          height={24}
-        />
+        <HeartInteraction carId={id} isCarLiked={isCarLiked} />
       </div>
 
       <div

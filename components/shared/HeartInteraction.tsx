@@ -1,0 +1,49 @@
+'use client';
+
+import Image from 'next/image';
+import { useState } from 'react';
+import { likeCar } from '@/lib/actions/car.actions';
+
+const heart = {
+  outline: '/shared/heart-outline.svg',
+  filled: '/shared/heart-filled.svg',
+};
+
+const HeartInteraction = ({
+  carId,
+  isCarLiked,
+}: {
+  carId: string;
+  isCarLiked: boolean;
+}) => {
+  const [isLiked, setIsLiked] = useState(isCarLiked);
+  const [isLiking, setIsLiking] = useState(false);
+
+  async function handleHeartClick() {
+    const originalIsLiked = isLiked;
+    setIsLiking(true);
+    setIsLiked(!isLiked);
+
+    try {
+      const result = await likeCar(carId);
+      setIsLiked(result);
+    } catch (error) {
+      setIsLiked(originalIsLiked);
+    } finally {
+      setIsLiking(false);
+    }
+  }
+
+  return (
+    <button onClick={handleHeartClick} disabled={isLiking}>
+      <Image
+        src={isLiked ? heart.filled : heart.outline}
+        alt="Outline Heart"
+        width={24}
+        height={24}
+      />
+    </button>
+  );
+};
+
+export default HeartInteraction;
