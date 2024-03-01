@@ -12,9 +12,11 @@ const heart = {
 const HeartInteraction = ({
   carId,
   isCarLiked,
+  isUserLoggedIn,
 }: {
   carId: string;
   isCarLiked: boolean;
+  isUserLoggedIn: boolean;
 }) => {
   const [isLiked, setIsLiked] = useState(isCarLiked);
   const [isLiking, setIsLiking] = useState(false);
@@ -35,7 +37,11 @@ const HeartInteraction = ({
   }
 
   return (
-    <button className="shrink-0" onClick={handleHeartClick} disabled={isLiking}>
+    <button
+      className="shrink-0"
+      onClick={isUserLoggedIn ? handleHeartClick : () => {}}
+      disabled={isLiking}
+    >
       <Image
         src={isLiked ? heart.filled : heart.outline}
         alt="Outline Heart"

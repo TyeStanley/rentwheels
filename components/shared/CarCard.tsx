@@ -11,7 +11,7 @@ import SignUpForm from '../Navbar/SignUpForm';
 import HeartInteraction from './HeartInteraction';
 
 interface CarCardProps {
-  car: Car & { isCarLiked: boolean };
+  car: Car & { isCarLiked?: boolean };
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
 }
@@ -47,7 +47,11 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
           <p className="text-xs font-medium text-gray400 lg:text-sm">{type}</p>
         </div>
 
-        <HeartInteraction carId={id} isCarLiked={isCarLiked} />
+        <HeartInteraction
+          carId={id}
+          isCarLiked={isCarLiked ?? false}
+          isUserLoggedIn={isUserLoggedIn}
+        />
       </div>
 
       <div

@@ -6,13 +6,19 @@ import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
 
 import { verifyUser } from '@/lib/actions/user.actions';
-import { getCars, getCityList } from '@/lib/actions/car.actions';
+import {
+  getCars,
+  getCityList,
+  getPopularCars,
+} from '@/lib/actions/car.actions';
 
 export default async function Home({ searchParams }: any) {
   const { id, isUserLoggedIn } = await verifyUser();
   console.log(id);
 
   const cars = await getCars();
+
+  const popularCars = await getPopularCars();
 
   const locationList = await getCityList();
 
@@ -38,7 +44,7 @@ export default async function Home({ searchParams }: any) {
         </section>
 
         <section className="mt-5 flex gap-5 overflow-x-auto lg:mt-7 lg:gap-8">
-          {cars.map((car) => (
+          {popularCars.map((car) => (
             <CarCard
               key={car.id}
               car={car}

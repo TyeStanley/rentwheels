@@ -3,10 +3,13 @@
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Car } from '@prisma/client';
 
 export async function getCars() {
   const { id } = await verifyUser();
   const cars = await prisma.car.findMany();
+
+  if (!id) return cars;
 
   const userLikesCar = await prisma.userLikesCar.findMany({
     where: {
@@ -60,23 +63,59 @@ export async function likeCar(carId: string): Promise<boolean> {
   }
 }
 
-export async function getPopularCars() {
-  // need to check if the user is logged in.
-  // if the user is not logged in then return 8 of the most popular cars based on their likes
-  // if the user is logged in then calculate what cares that they have liked and haven't liked and return 8 of the most popular cars based on their likes
-
+export async function getPopularCars(): Promise<Car[]> {
   const { id } = await verifyUser();
 
-  if (!id) {
-    const popularCars = await prisma.car.findMany({
-      include: {
-        UserLikesCar: true,
+  const popularCars = await prisma.car.findMany({
+    select: {
+      id: true,
+      title: true,
+      type: true,
+      rentPrice: true,
+      capacity: true,
+      transmission: true,
+      location: true,
+      fuelCapacity: true,
+      description: true,
+      images: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      _count: {
+        select: {
+          UserLikesCar: true,
+        },
       },
-      take: 8,
-    });
+    },
+    orderBy: {
+      UserLikesCar: {
+        _count: 'desc',
+      },
+    },
+    take: 8,
+  });
 
-    return popularCars;
+  const popularCarsWithLikes = popularCars.filter(
+    (car) => car._count.UserLikesCar > 0
+  );
+
+  if (!id) {
+    return popularCarsWithLikes;
   }
+
+  const userLikesCar = await prisma.userLikesCar.findMany({
+    where: {
+      userId: id,
+    },
+  });
+
+  const popularCarsFinal = popularCarsWithLikes.map((car) => {
+    const isCarLiked = userLikesCar.some((like) => like.carId === car.id);
+
+    return { ...car, isCarLiked };
+  });
+
+  return popularCarsFinal;
 }
 
 export async function getCityList() {
