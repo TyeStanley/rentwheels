@@ -35,7 +35,7 @@ const HeartInteraction = ({
   }
 
   return (
-    <button onClick={handleHeartClick} disabled={isLiking}>
+    <button className="shrink-0" onClick={handleHeartClick} disabled={isLiking}>
       <Image
         src={isLiked ? heart.filled : heart.outline}
         alt="Outline Heart"

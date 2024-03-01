@@ -41,7 +41,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
     >
       <div className="flex items-start justify-between">
         <div className="flex flex-col gap-1">
-          <h4 className="font-bold text-gray900 dark:text-white lg:text-xl">
+          <h4 className="line-clamp-1 font-bold text-gray900 dark:text-white lg:text-xl">
             {title}
           </h4>
           <p className="text-xs font-medium text-gray400 lg:text-sm">{type}</p>
