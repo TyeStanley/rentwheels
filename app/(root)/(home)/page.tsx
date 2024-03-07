@@ -108,13 +108,15 @@ export default async function Home({ searchParams }: any) {
         </section>
 
         {hasMoreCars && (
-          <Link
-            href={handleShowMore()}
-            className="mt-5 flex items-center justify-center"
-            scroll={false}
-          >
-            Show more cars
-          </Link>
+          <div className="mt-12 flex items-center justify-center">
+            <Link
+              href={handleShowMore()}
+              className="flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-center text-xs text-white lg:h-[3.5rem] lg:w-[14rem] lg:text-base"
+              scroll={false}
+            >
+              Show more cars
+            </Link>
+          </div>
         )}
 
         <Footer />
