@@ -13,7 +13,15 @@ import SignUpForm from '@/components/Navbar/SignUpForm';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const NavbarMobileMenu = () => {
+const NavbarMobileMenu = ({
+  picture,
+  username,
+  isUserLoggedIn,
+}: {
+  picture?: string | undefined;
+  username?: string | undefined;
+  isUserLoggedIn: boolean;
+}) => {
   const [showForm, setShowForm] = useState(false);
 
   const openForm = () => setShowForm(true);
@@ -34,7 +42,7 @@ const NavbarMobileMenu = () => {
               <TabsTrigger value="signup">Sign-up</TabsTrigger>
             </TabsList>
             <TabsContent value="signin">
-              <SignInForm />
+              <SignInForm closeForm={closeForm} />
             </TabsContent>
             <TabsContent value="signup">
               <SignUpForm />
@@ -44,7 +52,12 @@ const NavbarMobileMenu = () => {
           <>
             <NavbarMobileLinks />
 
-            <MobileAuthButtons openForm={openForm} />
+            <MobileAuthButtons
+              picture={picture}
+              username={username}
+              isUserLoggedIn={isUserLoggedIn}
+              openForm={openForm}
+            />
           </>
         )}
       </DialogContent>

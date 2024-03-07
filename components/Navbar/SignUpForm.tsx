@@ -8,7 +8,9 @@ import { CreateUserErrors } from '@/types';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState('');
+
   const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<CreateUserErrors>({});
   const [createdUser, setCreatedUser] = useState(false);
@@ -64,6 +66,7 @@ const SignUpForm = () => {
         />
         <span className="mt-1 h-4 text-xs text-red-500">{errors.password}</span>
       </label>
+
       <Button
         type="submit"
         variant="signInUp"

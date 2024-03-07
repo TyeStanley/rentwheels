@@ -138,6 +138,8 @@ export async function loginUser({
     expires: Date.now() + sevenDays,
     httpOnly: true,
   });
+
+  return { username: user[0].username };
 }
 
 export async function logoutUser() {

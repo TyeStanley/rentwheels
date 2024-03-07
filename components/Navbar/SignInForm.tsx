@@ -1,13 +1,16 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { loginUser } from '@/lib/actions/user.actions';
 
-const SignInForm = () => {
+const SignInForm = ({ closeForm }: { closeForm?: () => void }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
+  const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,6 +20,14 @@ const SignInForm = () => {
 
     if (user?.error) {
       setError(user.error);
+    } else {
+      if (user?.username) {
+        router.push(`/profile/${user.username}`);
+
+        if (closeForm) {
+          closeForm();
+        }
+      }
     }
   };
 
@@ -45,6 +56,7 @@ const SignInForm = () => {
         />
       </label>
       <span className="mt-5 h-5 text-xs text-red-500">{error}</span>
+
       <button
         type="submit"
         className="h-12 w-full rounded-lg bg-primary text-white dark:bg-primary"
