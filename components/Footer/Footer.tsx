@@ -3,7 +3,7 @@ import Logo from '@/components/icons/Logo';
 const Footer = () => {
   return (
     <>
-      <article className="mt-5 flex flex-col justify-between lg:flex-row lg:py-[4.5rem]">
+      <article className="mt-[4.5rem] flex flex-col justify-between lg:flex-row lg:py-[4.5rem]">
         <section className="flex flex-col gap-4">
           <Logo className="h-10 w-32 lg:h-12 lg:w-40" />
 
