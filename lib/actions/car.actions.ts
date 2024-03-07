@@ -74,13 +74,22 @@ export async function getPopularCars(): Promise<Car[]> {
 export async function getRecommendedCars(
   location?: string,
   from?: Date,
-  to?: Date
-): Promise<Car[]> {
+  to?: Date,
+  page: number = 1,
+  carsPerPage: number = 8
+): Promise<{ recommendedCars: Car[]; hasMoreCars: boolean }> {
   const { id } = await verifyUser();
 
   let recommendedCars: Car[];
+  let totalCount: number;
 
   if (location) {
+    totalCount = await prisma.car.count({
+      where: {
+        location,
+      },
+    });
+
     recommendedCars = await prisma.car.findMany({
       where: {
         location,
@@ -105,9 +114,12 @@ export async function getRecommendedCars(
           },
         },
       },
-      take: 8,
+      orderBy: [{ rentPrice: 'asc' }, { createdAt: 'desc' }, { title: 'asc' }],
+      take: carsPerPage * page,
     });
   } else {
+    totalCount = await prisma.car.count();
+
     recommendedCars = await prisma.car.findMany({
       select: {
         id: true,
@@ -129,12 +141,15 @@ export async function getRecommendedCars(
           },
         },
       },
-      take: 8,
+      orderBy: [{ rentPrice: 'asc' }, { createdAt: 'desc' }, { title: 'asc' }],
+      take: carsPerPage * page,
     });
   }
 
+  const hasMoreCars = recommendedCars.length < totalCount;
+
   if (!id) {
-    return recommendedCars;
+    return { recommendedCars, hasMoreCars };
   }
 
   const userLikesCar = await prisma.userLikesCar.findMany({
@@ -149,7 +164,7 @@ export async function getRecommendedCars(
     return { ...car, isCarLiked };
   });
 
-  return recommendedCars;
+  return { recommendedCars, hasMoreCars };
 }
 
 export async function likeCar(carId: string): Promise<boolean> {

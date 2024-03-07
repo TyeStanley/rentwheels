@@ -18,11 +18,48 @@ export default async function Home({ searchParams }: any) {
 
   const locationList = await getCityList();
   const popularCars = await getPopularCars();
-  const recommendedCars = await getRecommendedCars(
+  const { recommendedCars, hasMoreCars } = await getRecommendedCars(
     searchParams.city,
     searchParams.from,
-    searchParams.to
+    searchParams.to,
+    searchParams.page
   );
+
+  const handleShowMore = () => {
+    let page = 2;
+
+    if (searchParams.page) {
+      page = Number(searchParams.page) + 1;
+    }
+
+    let url = '';
+
+    if (searchParams.city) {
+      if (!url) {
+        url += `?city=${searchParams.city}`;
+      } else {
+        url += `city=${searchParams.city}`;
+      }
+    }
+
+    if (searchParams.from) {
+      if (!url) {
+        url += `?from=${searchParams.from}`;
+      } else {
+        url += `&from=${searchParams.from}`;
+      }
+    }
+
+    if (searchParams.to) {
+      if (!url) {
+        url += `?to=${searchParams.to}`;
+      } else {
+        url += `&to=${searchParams.to}`;
+      }
+    }
+
+    return `/${url}&page=${page}`;
+  };
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -37,8 +74,7 @@ export default async function Home({ searchParams }: any) {
           </p>
 
           <Link
-            // ! Link to car search page
-            href="/"
+            href="/search"
             className="text-xs font-semibold text-primary lg:px-5 lg:text-base"
           >
             View All
@@ -70,6 +106,16 @@ export default async function Home({ searchParams }: any) {
             />
           ))}
         </section>
+
+        {hasMoreCars && (
+          <Link
+            href={handleShowMore()}
+            className="mt-5 flex items-center justify-center"
+            scroll={false}
+          >
+            Show more cars
+          </Link>
+        )}
 
         <Footer />
       </div>
