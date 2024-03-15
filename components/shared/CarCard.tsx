@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import SignInForm from '../Navbar/SignInForm';
 import SignUpForm from '../Navbar/SignUpForm';
 import HeartInteraction from './HeartInteraction';
+import CarCardModal from './CarCardModal';
 
 interface CarCardProps {
   car: Car & { isCarLiked?: boolean };
@@ -116,7 +117,14 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
         </div>
 
         {isUserLoggedIn ? (
-          <Button variant="carCard">More info</Button>
+          <Dialog>
+            <DialogTrigger>
+              <Button variant="carCard">More info</Button>
+            </DialogTrigger>
+            <DialogContent className="top-[8%] p-4 dark:shadow-none">
+              <CarCardModal car={car} />
+            </DialogContent>
+          </Dialog>
         ) : (
           <Dialog>
             <DialogTrigger>
