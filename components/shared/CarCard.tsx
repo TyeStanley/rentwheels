@@ -121,7 +121,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
             <DialogTrigger>
               <Button variant="carCard">More info</Button>
             </DialogTrigger>
-            <DialogContent className="top-[8%] p-4 dark:shadow-none">
+            <DialogContent className="top-[8%] p-4 dark:shadow-none lg:flex lg:h-[540px] lg:w-[990px] lg:max-w-full lg:justify-between xl:w-[1054px]">
               <CarCardModal car={car} />
             </DialogContent>
           </Dialog>
