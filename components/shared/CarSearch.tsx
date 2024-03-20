@@ -146,9 +146,11 @@ const CarSearch = ({
             <PopoverContent className="p-1">
               <Calendar
                 mode="single"
-                disabled={(date) =>
-                  date < new Date(new Date().setHours(0, 0, 0, 0))
-                }
+                disabled={(date) => {
+                  const today = new Date(new Date().setHours(0, 0, 0, 0));
+                  const toDate = to ? new Date(to) : null;
+                  return date < today || (toDate && date >= toDate) || false;
+                }}
                 selected={from ? new Date(from) : undefined}
                 onSelect={(from) =>
                   queryURL(
@@ -191,7 +193,7 @@ const CarSearch = ({
                   const today = new Date(new Date().setHours(0, 0, 0, 0));
                   const fromDate = from ? new Date(from) : null;
                   return (
-                    date < today || (fromDate && date <= fromDate) || false
+                    date <= today || (fromDate && date <= fromDate) || false
                   );
                 }}
                 selected={to ? new Date(to) : undefined}
