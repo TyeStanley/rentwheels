@@ -89,10 +89,7 @@ const CarCardModalTwo = () => {
                     ? new Date(dropoffDate.setHours(0, 0, 0, 0))
                     : null;
                   return (
-                    date.getTime() === today.getTime() ||
-                    (returnDate && date.getTime() === returnDate.getTime()) ||
-                    date < today ||
-                    (returnDate ? date > returnDate : false)
+                    date < today || (returnDate ? date > returnDate : false)
                   );
                 }}
                 selected={pickupDate || undefined}
@@ -144,7 +141,7 @@ const CarCardModalTwo = () => {
                   today.setHours(0, 0, 0, 0);
                   const fromDate = pickupDate ? new Date(pickupDate) : null;
                   return (
-                    date < today || (fromDate && date <= fromDate) || false
+                    date <= today || (fromDate && date <= fromDate) || false
                   );
                 }}
                 selected={dropoffDate || undefined}
