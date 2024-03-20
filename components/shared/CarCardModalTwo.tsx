@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 import Cross from '@/components/icons/Cross';
+import ArrowDown from '@/components/icons/ArrowDown';
 import { DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -12,7 +13,13 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
-import ArrowDown from '@/components/icons/ArrowDown';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const CarCardModalTwo = () => {
   const [address, setAddress] = useState('');
@@ -109,7 +116,23 @@ const CarCardModalTwo = () => {
             />
             Pick-Up Time
           </h2>
-          {/* <div>time input</div> */}
+          <Select value={pickupTime} onValueChange={setPickupTime}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select your time" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7am">07:00AM</SelectItem>
+              <SelectItem value="8am">08:00AM</SelectItem>
+              <SelectItem value="9am">09:00AM</SelectItem>
+              <SelectItem value="10am">10:00AM</SelectItem>
+              <SelectItem value="11am">11:00AM</SelectItem>
+              <SelectItem value="12pm">12:00PM</SelectItem>
+              <SelectItem value="1pm">01:00PM</SelectItem>
+              <SelectItem value="2pm">02:00PM</SelectItem>
+              <SelectItem value="3pm">03:00PM</SelectItem>
+              <SelectItem value="4pm">04:00PM</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </section>
 
@@ -151,7 +174,7 @@ const CarCardModalTwo = () => {
             </PopoverContent>
           </Popover>
         </div>
-        <div className="w-1/2">
+        <div className="flex w-1/2 flex-col gap-3">
           <h2 className="flex items-center gap-2 text-sm font-semibold text-gray900 dark:text-white lg:text-base">
             <Image
               src="/shared/clock.svg"
@@ -161,7 +184,23 @@ const CarCardModalTwo = () => {
             />
             Drop-Off Time
           </h2>
-          {/* <div>time input</div> */}
+          <Select value={dropoffTime} onValueChange={setDropoffTime}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select your time" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7am">07:00AM</SelectItem>
+              <SelectItem value="8am">08:00AM</SelectItem>
+              <SelectItem value="9am">09:00AM</SelectItem>
+              <SelectItem value="10am">10:00AM</SelectItem>
+              <SelectItem value="11am">11:00AM</SelectItem>
+              <SelectItem value="12pm">12:00PM</SelectItem>
+              <SelectItem value="1pm">01:00PM</SelectItem>
+              <SelectItem value="2pm">02:00PM</SelectItem>
+              <SelectItem value="3pm">03:00PM</SelectItem>
+              <SelectItem value="4pm">04:00PM</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
       </section>
 
