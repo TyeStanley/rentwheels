@@ -40,7 +40,7 @@ function Calendar({
         day_today:
           'bg-ps50 hover:bg-primary hover:text-white dark:hover:bg-primary rounded-full text-gray800 dark:bg-gray800 dark:text-slate-50',
         day_disabled:
-          'text-slate-500 opacity-50 dark:text-slate-400 hover:bg-white200 hover:text-slate-500 dark:hover:text-slate-400',
+          '!text-slate-500 opacity-50 dark:text-slate-400 hover:bg-transparent hover:text-slate-500 dark:hover:text-slate-400 dark:hover:bg-transparent',
         day_range_middle:
           'aria-selected:bg-slate-100 aria-selected:text-slate-900 dark:aria-selected:bg-slate-800 dark:aria-selected:text-slate-50',
         day_hidden: 'invisible',

@@ -17,8 +17,9 @@ import ArrowDown from '@/components/icons/ArrowDown';
 const CarCardModalTwo = () => {
   const [address, setAddress] = useState('');
   const [pickupDate, setPickupDate] = useState<Date | null>(null);
-  const [pickupTime, setPickupTime] = useState('');
   const [dropoffDate, setDropoffDate] = useState<Date | null>(null);
+
+  const [pickupTime, setPickupTime] = useState('');
   const [dropoffTime, setDropoffTime] = useState('');
 
   return (
@@ -89,7 +90,7 @@ const CarCardModalTwo = () => {
                     ? new Date(dropoffDate.setHours(0, 0, 0, 0))
                     : null;
                   return (
-                    date < today || (returnDate ? date > returnDate : false)
+                    date < today || (returnDate ? date >= returnDate : false)
                   );
                 }}
                 selected={pickupDate || undefined}
