@@ -49,3 +49,14 @@ export const locationList = [
   { label: 'Austin', value: 'austin' },
   { label: 'Jacksonville', value: 'jacksonville' },
 ];
+
+export const filterOptions = [
+  {
+    title: 'TYPE',
+    options: ['Sport', 'SUV', 'Sedan', 'Coupe', 'Hatchback'],
+  },
+  {
+    title: 'CAPACITY',
+    options: ['2 Person', '4 Person', '6 Person', '8 or More'],
+  },
+];

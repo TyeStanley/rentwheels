@@ -1,4 +1,4 @@
-const Cross = () => {
+const Cross = ({ className }: { className?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,6 +6,7 @@ const Cross = () => {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
+      className={className}
     >
       <path
         d="M0 2C0 0.89543 0.895431 0 2 0H22C23.1046 0 24 0.895431 24 2V24H0V2Z"
