@@ -24,8 +24,10 @@ import {
 
 const CarSearch = ({
   locationList,
+  searchPage = false,
 }: {
   locationList: { location: string | undefined }[];
+  searchPage: boolean;
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -57,8 +59,16 @@ const CarSearch = ({
 
   return (
     <>
-      <section className="mt-8 w-full rounded-xl bg-white px-3 py-5 dark:bg-gray850 lg:flex lg:items-end lg:gap-4 lg:px-4 lg:py-6 xl:px-7">
-        <div className="flex flex-1 flex-col gap-3">
+      <section
+        className={`mt-8 w-full rounded-xl bg-white px-3 py-5 dark:bg-gray850 lg:gap-4 lg:px-4 lg:py-6 xl:px-7 ${
+          searchPage ? 'flex flex-wrap xl:items-end' : 'lg:flex lg:items-end'
+        }`}
+      >
+        <div
+          className={`flex flex-1 flex-col gap-3 ${
+            searchPage ? 'min-w-full xl:min-w-[unset]' : ''
+          }`}
+        >
           <label
             htmlFor="location"
             className="flex gap-2 align-baseline text-sm font-semibold text-gray900 dark:text-white lg:text-base"
@@ -119,7 +129,11 @@ const CarSearch = ({
           </Popover>
         </div>
 
-        <div className="mt-6 flex flex-1 flex-col gap-3 lg:mt-0">
+        <div
+          className={`mt-6 flex flex-1 flex-col gap-3 lg:mt-0 ${
+            searchPage ? 'min-w-full lg:min-w-[unset]' : ''
+          }`}
+        >
           <label
             htmlFor="availabilityFrom"
             className="flex gap-2 align-baseline text-sm font-semibold text-gray900 dark:text-white lg:text-base"
@@ -211,11 +225,19 @@ const CarSearch = ({
 
         <Button
           variant="carSearch"
-          className="hidden w-[4.6rem] items-center justify-center gap-1.5 lg:flex xl:w-[10rem]"
+          className={`hidden items-center justify-center gap-1.5 lg:flex xl:w-[10rem] ${
+            searchPage
+              ? 'w-full xl:aspect-square xl:h-[3.5rem] xl:w-[unset]'
+              : 'w-[4.6rem]'
+          }`}
         >
           <SearchNormal />
 
-          <span className="hidden xl:flex">Search</span>
+          <span
+            className={`hidden xl:flex ${searchPage && 'lg:flex xl:hidden'}`}
+          >
+            Search
+          </span>
         </Button>
       </section>
 

@@ -11,7 +11,7 @@ const Page = async () => {
         <SearchFilter />
 
         <section className="w-full bg-white200 p-5 dark:bg-[#1E2430]">
-          <CarSearch locationList={locationList} />
+          <CarSearch locationList={locationList} searchPage={true} />
         </section>
       </div>
 
