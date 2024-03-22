@@ -60,8 +60,10 @@ const CarSearch = ({
   return (
     <>
       <section
-        className={`mt-8 w-full rounded-xl bg-white px-3 py-5 dark:bg-gray850 lg:gap-4 lg:px-4 lg:py-6 xl:px-7 ${
-          searchPage ? 'flex flex-wrap xl:items-end' : 'lg:flex lg:items-end'
+        className={`w-full rounded-xl bg-white px-3 py-5 dark:bg-gray850 lg:gap-4 lg:px-4  xl:px-7 ${
+          searchPage
+            ? 'flex flex-wrap xl:items-end'
+            : 'mt-8 lg:flex lg:items-end lg:py-6'
         }`}
       >
         <div
