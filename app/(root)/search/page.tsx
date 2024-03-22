@@ -7,10 +7,10 @@ const Page = async () => {
   const locationList = await getCityList();
   return (
     <main className="bg-white dark:bg-gray900">
-      <div className="">
+      <div className="lg:flex">
         <SearchFilter />
 
-        <section className="bg-white200 p-5 dark:bg-[#1E2430]">
+        <section className="w-full bg-white200 p-5 dark:bg-[#1E2430]">
           <CarSearch locationList={locationList} />
         </section>
       </div>
