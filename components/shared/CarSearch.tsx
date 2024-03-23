@@ -50,7 +50,7 @@ const CarSearch = ({
 
     if (toDate) query += (query.length !== 0 ? '&' : '?') + `to=${toDate}`;
 
-    const baseUrl = '/';
+    const baseUrl = searchPage ? '/search' : '/';
 
     const finalUrl = query.length !== 0 ? `${baseUrl}${query}` : baseUrl;
 
