@@ -148,7 +148,28 @@ const SearchFilter = () => {
                 <div className="mt-3 flex flex-col gap-2">
                   {filter.options.map((option) => (
                     <label key={option} className="flex items-center gap-1.5">
-                      <input type="checkbox" className="" />
+                      <input
+                        id={
+                          filter.title === 'TYPE'
+                            ? option.toLowerCase()
+                            : option[0].toLowerCase()
+                        }
+                        type="checkbox"
+                        checked={
+                          filter.title === 'TYPE'
+                            ? typeValue?.includes(option.toLowerCase())
+                            : capacityValue?.includes(option[0].toLowerCase())
+                        }
+                        onChange={(e) =>
+                          setChange(
+                            e,
+                            filter.title === 'TYPE' ? typeValue : capacityValue,
+                            filter.title === 'TYPE'
+                              ? setTypeValue
+                              : setCapacityValue
+                          )
+                        }
+                      />
                       <span className="text-base font-semibold text-gray700 dark:text-white100">
                         {option}
                       </span>
@@ -165,15 +186,16 @@ const SearchFilter = () => {
             </h3>
 
             <Slider
-              defaultValue={[50]}
               min={1}
               max={100}
               step={1}
               className="mt-5"
+              value={[parseInt(priceValue)]}
+              onValueChange={(value) => setPriceValue(value[0].toString())}
             />
 
             <p className="mt-2.5 font-semibold text-gray700 dark:text-white100">
-              $150
+              ${priceValue}
             </p>
           </div>
         </PopoverContent>
