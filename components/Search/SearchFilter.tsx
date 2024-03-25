@@ -1,20 +1,49 @@
 'use client';
 
+import { useState, ChangeEvent } from 'react';
+import { useURLQuery } from '@/lib/hooks/useURLQuery';
+
+import Filter from '@/components/icons/Filter';
+import Magnifier from '@/components/icons/Magnifier';
+import Cross from '@/components/icons/Cross';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverClose,
 } from '@/components/ui/popover';
-import Filter from '@/components/icons/Filter';
-import { useState } from 'react';
-import Magnifier from '@/components/icons/Magnifier';
-import { filterOptions } from '@/constants';
-import Cross from '../icons/Cross';
 import { Slider } from '@/components/ui/slider';
+import { filterOptions } from '@/constants';
 
 const SearchFilter = () => {
   const [open, setOpen] = useState(false);
+
+  const [searchValue, setSearchValue] = useURLQuery('search', '', 500);
+  const [priceValue, setPriceValue] = useURLQuery('price', '50', 200);
+  const [typeValue, setTypeValue] = useURLQuery('type', '');
+  const [capacityValue, setCapacityValue] = useURLQuery('capacity', '');
+
+  const setChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    value: string,
+    setValue: (value: string) => void
+  ) => {
+    const array = value.split(',');
+    const isChecked = e.target.checked;
+    const target = e.target.id;
+
+    if (array[0] === '') array.shift();
+
+    if (isChecked) {
+      array.push(target);
+    } else {
+      const index = array.indexOf(target);
+      array.splice(index, 1);
+    }
+
+    const newSet = Array.from(new Set(array));
+    setValue(newSet.join(','));
+  };
 
   return (
     <section className="relative bottom-px flex items-center gap-4 bg-white px-6 pb-8 dark:bg-gray900 lg:bottom-0 lg:flex-col lg:items-start">
@@ -26,6 +55,8 @@ const SearchFilter = () => {
         <input
           type="text"
           placeholder="Search something here"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           className="w-full bg-transparent text-sm font-medium text-gray700 outline-none dark:text-ps100"
         />
       </div>
@@ -39,7 +70,28 @@ const SearchFilter = () => {
             <div className="mt-3 flex flex-col gap-2">
               {filter.options.map((option) => (
                 <label key={option} className="flex items-center gap-1.5">
-                  <input type="checkbox" className="" />
+                  <input
+                    id={
+                      filter.title === 'TYPE'
+                        ? option.toLowerCase()
+                        : option[0].toLowerCase()
+                    }
+                    type="checkbox"
+                    checked={
+                      filter.title === 'TYPE'
+                        ? typeValue?.includes(option.toLowerCase())
+                        : capacityValue?.includes(option[0].toLowerCase())
+                    }
+                    onChange={(e) =>
+                      setChange(
+                        e,
+                        filter.title === 'TYPE' ? typeValue : capacityValue,
+                        filter.title === 'TYPE'
+                          ? setTypeValue
+                          : setCapacityValue
+                      )
+                    }
+                  />
                   <span className="text-xl font-semibold text-gray700 dark:text-white100">
                     {option}
                   </span>
@@ -55,15 +107,16 @@ const SearchFilter = () => {
           </h3>
 
           <Slider
-            defaultValue={[50]}
             min={1}
             max={100}
             step={1}
             className="mt-5"
+            value={[parseInt(priceValue)]}
+            onValueChange={(value) => setPriceValue(value[0].toString())}
           />
 
           <p className="mt-2.5 text-xl font-semibold text-gray700 dark:text-white100">
-            $150
+            ${priceValue}
           </p>
         </div>
       </div>
