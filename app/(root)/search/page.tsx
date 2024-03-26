@@ -12,6 +12,8 @@ const Page = async () => {
 
         <section className="w-full bg-white200 p-5 dark:bg-[#1E2430]">
           <CarSearch locationList={locationList} searchPage={true} />
+
+          {/* Car Cards goes here */}
         </section>
       </div>
 

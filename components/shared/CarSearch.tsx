@@ -28,7 +28,7 @@ const CarSearch = ({
   searchPage = false,
 }: {
   locationList: { location: string | undefined }[];
-  searchPage: boolean;
+  searchPage?: boolean;
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
