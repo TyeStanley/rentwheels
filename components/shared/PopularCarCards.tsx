@@ -11,7 +11,7 @@ const PopularCarCards = async ({
 
   return (
     <section className="mt-5 flex gap-5 overflow-x-auto lg:mt-7 lg:gap-8">
-      {popularCars.map((car: any) => (
+      {popularCars.map((car) => (
         <CarCard
           key={car.id}
           car={car}
