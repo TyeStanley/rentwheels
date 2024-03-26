@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent } from 'react';
 import { useURLQuery } from '@/lib/hooks/useURLQuery';
+import Image from 'next/image';
 
 import Filter from '@/components/icons/Filter';
 import Magnifier from '@/components/icons/Magnifier';
@@ -69,8 +70,12 @@ const SearchFilter = () => {
             </h3>
             <div className="mt-3 flex flex-col gap-2">
               {filter.options.map((option) => (
-                <label key={option} className="flex items-center gap-1.5">
+                <label
+                  key={option}
+                  className="relative flex items-center gap-4"
+                >
                   <input
+                    className="invisible"
                     id={
                       filter.title === 'TYPE'
                         ? option.toLowerCase()
@@ -91,6 +96,21 @@ const SearchFilter = () => {
                           : setCapacityValue
                       )
                     }
+                  />
+                  <Image
+                    src={
+                      filter.title === 'TYPE'
+                        ? typeValue?.includes(option.toLowerCase())
+                          ? '/search/check.svg'
+                          : '/search/uncheck.svg'
+                        : capacityValue?.includes(option[0].toLowerCase())
+                        ? '/search/check.svg'
+                        : '/search/uncheck.svg'
+                    }
+                    alt="check box"
+                    width={24}
+                    height={24}
+                    className="absolute left-0"
                   />
                   <span className="text-xl font-semibold text-gray700 dark:text-white100">
                     {option}
@@ -147,8 +167,12 @@ const SearchFilter = () => {
                 </h3>
                 <div className="mt-3 flex flex-col gap-2">
                   {filter.options.map((option) => (
-                    <label key={option} className="flex items-center gap-1.5">
+                    <label
+                      key={option}
+                      className="relative flex items-center gap-3"
+                    >
                       <input
+                        className="invisible"
                         id={
                           filter.title === 'TYPE'
                             ? option.toLowerCase()
@@ -169,6 +193,21 @@ const SearchFilter = () => {
                               : setCapacityValue
                           )
                         }
+                      />
+                      <Image
+                        src={
+                          filter.title === 'TYPE'
+                            ? typeValue?.includes(option.toLowerCase())
+                              ? '/search/check.svg'
+                              : '/search/uncheck.svg'
+                            : capacityValue?.includes(option[0].toLowerCase())
+                            ? '/search/check.svg'
+                            : '/search/uncheck.svg'
+                        }
+                        alt="check box"
+                        width={20}
+                        height={20}
+                        className="absolute left-0"
                       />
                       <span className="text-base font-semibold text-gray700 dark:text-white100">
                         {option}
