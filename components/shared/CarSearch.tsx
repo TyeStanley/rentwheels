@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
+import queryString from 'query-string';
 
 import Button from '@/components/ui/button';
 import SearchNormal from '@/components/icons/SearchNormal';
@@ -41,20 +42,19 @@ const CarSearch = ({
     const fromDate = from?.toLocaleDateString().replace(/\//g, '-');
     const toDate = to?.toLocaleDateString().replace(/\//g, '-');
 
-    let query = '';
+    const param = queryString.parse(searchParams.toString());
 
-    if (locationLC.length !== 0) query += `?city=${locationLC}`;
+    Object.assign(param, {
+      city: locationLC,
+      from: fromDate,
+      to: toDate,
+    });
 
-    if (fromDate)
-      query += (query.length !== 0 ? '&' : '?') + `from=${fromDate}`;
+    const query = queryString.stringify(param, {
+      skipEmptyString: true,
+    });
 
-    if (toDate) query += (query.length !== 0 ? '&' : '?') + `to=${toDate}`;
-
-    const baseUrl = searchPage ? '/search' : '/';
-
-    const finalUrl = query.length !== 0 ? `${baseUrl}${query}` : baseUrl;
-
-    router.push(finalUrl, { scroll: false });
+    router.push('?' + query, { scroll: false });
   }
 
   return (

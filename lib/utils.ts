@@ -14,6 +14,9 @@ export function capitalizeFirstLetterOfEachWord(str: string): string {
 }
 
 type SearchParams = {
+  city: string;
+  from: string;
+  to: string;
   search: string;
   type: string;
   capacity: string;
