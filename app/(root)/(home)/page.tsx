@@ -5,6 +5,7 @@ import Footer from '@/components/Footer/Footer';
 import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
 
+import { modifySearchParams } from '@/lib/utils';
 import { verifyUser } from '@/lib/actions/user.actions';
 import {
   getCityList,
@@ -32,33 +33,11 @@ export default async function Home({ searchParams }: any) {
       page = Number(searchParams.page) + 1;
     }
 
-    let url = '';
+    const param = modifySearchParams(searchParams, {
+      page,
+    });
 
-    if (searchParams.city) {
-      if (!url) {
-        url += `?city=${searchParams.city}`;
-      } else {
-        url += `city=${searchParams.city}`;
-      }
-    }
-
-    if (searchParams.from) {
-      if (!url) {
-        url += `?from=${searchParams.from}`;
-      } else {
-        url += `&from=${searchParams.from}`;
-      }
-    }
-
-    if (searchParams.to) {
-      if (!url) {
-        url += `?to=${searchParams.to}`;
-      } else {
-        url += `&to=${searchParams.to}`;
-      }
-    }
-
-    return `/${url}&page=${page}`;
+    return '?' + param;
   };
 
   return (

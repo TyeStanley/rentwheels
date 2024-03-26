@@ -17,6 +17,7 @@ type SearchParams = {
   city: string;
   from: string;
   to: string;
+  page: number;
   search: string;
   type: string;
   capacity: string;

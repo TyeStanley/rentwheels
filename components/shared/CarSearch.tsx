@@ -3,13 +3,16 @@
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
-import queryString from 'query-string';
 
 import Button from '@/components/ui/button';
 import SearchNormal from '@/components/icons/SearchNormal';
 import ArrowDown from '@/components/icons/ArrowDown';
 import { Calendar } from '@/components/ui/calendar';
-import { capitalizeFirstLetterOfEachWord, cn } from '@/lib/utils';
+import {
+  capitalizeFirstLetterOfEachWord,
+  cn,
+  modifySearchParams,
+} from '@/lib/utils';
 import {
   Popover,
   PopoverContent,
@@ -42,19 +45,13 @@ const CarSearch = ({
     const fromDate = from?.toLocaleDateString().replace(/\//g, '-');
     const toDate = to?.toLocaleDateString().replace(/\//g, '-');
 
-    const param = queryString.parse(searchParams.toString());
-
-    Object.assign(param, {
+    const param = modifySearchParams(searchParams.toString(), {
       city: locationLC,
       from: fromDate,
       to: toDate,
     });
 
-    const query = queryString.stringify(param, {
-      skipEmptyString: true,
-    });
-
-    router.push('?' + query, { scroll: false });
+    router.push('?' + param, { scroll: false });
   }
 
   return (
