@@ -3,20 +3,30 @@ import { Suspense } from 'react';
 
 import AdsContainer from '@/components/Homepage/AdsContainer';
 import CarSearch from '@/components/shared/CarSearch';
+import PopularCarCards from '@/components/shared/PopularCarCards';
 import RecommendedCarCards from '@/components/shared/RecommendedCarCards';
-import CarCard from '@/components/shared/CarCard';
 import Footer from '@/components/Footer/Footer';
 import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
-import { getCityList, getPopularCars } from '@/lib/actions/car.actions';
+import { getCityList } from '@/lib/actions/car.actions';
 
-export default async function Home({ searchParams }: any) {
+interface HomeSearchParams {
+  city?: string;
+  from?: string;
+  to?: string;
+  page?: string | number;
+}
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: HomeSearchParams;
+}) {
   const { id, isUserLoggedIn } = await verifyUser();
   console.log(id);
 
   const locationList = await getCityList();
-  const popularCars = await getPopularCars();
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -38,16 +48,9 @@ export default async function Home({ searchParams }: any) {
           </Link>
         </section>
 
-        <section className="mt-5 flex gap-5 overflow-x-auto lg:mt-7 lg:gap-8">
-          {popularCars.map((car) => (
-            <CarCard
-              key={car.id}
-              car={car}
-              cardType="popular"
-              isUserLoggedIn={isUserLoggedIn}
-            />
-          ))}
-        </section>
+        <Suspense fallback={<Loader />}>
+          <PopularCarCards isUserLoggedIn={isUserLoggedIn} />
+        </Suspense>
 
         <p className="mt-8 text-sm font-semibold text-gray400 lg:mt-10 lg:px-5 lg:text-base">
           Recommended cars

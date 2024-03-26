@@ -73,8 +73,8 @@ export async function getPopularCars(): Promise<Car[]> {
 
 export async function getRecommendedCars(
   location?: string,
-  from?: Date,
-  to?: Date,
+  from?: string,
+  to?: string,
   page: number = 1,
   carsPerPage: number = 8
 ): Promise<{ recommendedCars: Car[]; hasMoreCars: boolean }> {
@@ -157,9 +157,6 @@ export async function getRecommendedCars(
       userId: id,
     },
   });
-
-  // make a timeout to wait before the rest of the code is executed
-  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   recommendedCars = recommendedCars.map((car) => {
     const isCarLiked = userLikesCar.some((like) => like.carId === car.id);

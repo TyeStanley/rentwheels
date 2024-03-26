@@ -3,12 +3,25 @@ import Link from 'next/link';
 import { modifySearchParams } from '@/lib/utils';
 import { getRecommendedCars } from '@/lib/actions/car.actions';
 
-const RecommendedCarCards = async ({ searchParams, isUserLoggedIn }: any) => {
+interface RecommendedCarCardsProps {
+  searchParams: {
+    city?: string;
+    from?: string | undefined;
+    to?: string | undefined;
+    page?: string | number | undefined;
+  };
+  isUserLoggedIn: boolean;
+}
+
+const RecommendedCarCards = async ({
+  searchParams,
+  isUserLoggedIn,
+}: RecommendedCarCardsProps) => {
   const { recommendedCars, hasMoreCars } = await getRecommendedCars(
     searchParams.city,
     searchParams.from,
     searchParams.to,
-    searchParams.page
+    Number(searchParams.page) || 1
   );
 
   const handleShowMore = () => {
@@ -16,7 +29,7 @@ const RecommendedCarCards = async ({ searchParams, isUserLoggedIn }: any) => {
 
     if (searchParams.page) page = Number(searchParams.page) + 1;
 
-    const param = modifySearchParams(searchParams, {
+    const param = modifySearchParams(searchParams.toString(), {
       page,
     });
 
@@ -25,8 +38,8 @@ const RecommendedCarCards = async ({ searchParams, isUserLoggedIn }: any) => {
 
   return (
     <>
-      <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:flex lg:gap-8">
-        {recommendedCars.map((car: any) => (
+      <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
+        {recommendedCars.map((car) => (
           <CarCard
             key={car.id}
             car={car}
