@@ -158,6 +158,9 @@ export async function getRecommendedCars(
     },
   });
 
+  // make a timeout to wait before the rest of the code is executed
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   recommendedCars = recommendedCars.map((car) => {
     const isCarLiked = userLikesCar.some((like) => like.carId === car.id);
 

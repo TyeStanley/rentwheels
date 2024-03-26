@@ -1,17 +1,14 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 import AdsContainer from '@/components/Homepage/AdsContainer';
-import Footer from '@/components/Footer/Footer';
-import CarCard from '@/components/shared/CarCard';
 import CarSearch from '@/components/shared/CarSearch';
+import RecommendedCarCards from '@/components/shared/RecommendedCarCards';
+import CarCard from '@/components/shared/CarCard';
+import Footer from '@/components/Footer/Footer';
 
-import { modifySearchParams } from '@/lib/utils';
 import { verifyUser } from '@/lib/actions/user.actions';
-import {
-  getCityList,
-  getPopularCars,
-  getRecommendedCars,
-} from '@/lib/actions/car.actions';
+import { getCityList, getPopularCars } from '@/lib/actions/car.actions';
 
 export default async function Home({ searchParams }: any) {
   const { id, isUserLoggedIn } = await verifyUser();
@@ -19,26 +16,6 @@ export default async function Home({ searchParams }: any) {
 
   const locationList = await getCityList();
   const popularCars = await getPopularCars();
-  const { recommendedCars, hasMoreCars } = await getRecommendedCars(
-    searchParams.city,
-    searchParams.from,
-    searchParams.to,
-    searchParams.page
-  );
-
-  const handleShowMore = () => {
-    let page = 2;
-
-    if (searchParams.page) {
-      page = Number(searchParams.page) + 1;
-    }
-
-    const param = modifySearchParams(searchParams, {
-      page,
-    });
-
-    return '?' + param;
-  };
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -75,28 +52,15 @@ export default async function Home({ searchParams }: any) {
           Recommended cars
         </p>
 
-        <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:flex lg:gap-8">
-          {recommendedCars.map((car) => (
-            <CarCard
-              key={car.id}
-              car={car}
-              cardType="recommended"
-              isUserLoggedIn={isUserLoggedIn}
-            />
-          ))}
-        </section>
-
-        {hasMoreCars && (
-          <div className="mt-12 flex items-center justify-center">
-            <Link
-              href={handleShowMore()}
-              className="flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-center text-xs text-white lg:h-[3.5rem] lg:w-[14rem] lg:text-base"
-              scroll={false}
-            >
-              Show more cars
-            </Link>
-          </div>
-        )}
+        <Suspense
+          fallback={<div>Loading...</div>}
+          key={JSON.stringify(searchParams)}
+        >
+          <RecommendedCarCards
+            searchParams={searchParams}
+            isUserLoggedIn={isUserLoggedIn}
+          />
+        </Suspense>
 
         <Footer />
       </div>
