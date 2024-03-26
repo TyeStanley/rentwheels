@@ -6,6 +6,7 @@ import CarSearch from '@/components/shared/CarSearch';
 import RecommendedCarCards from '@/components/shared/RecommendedCarCards';
 import CarCard from '@/components/shared/CarCard';
 import Footer from '@/components/Footer/Footer';
+import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList, getPopularCars } from '@/lib/actions/car.actions';
@@ -52,10 +53,7 @@ export default async function Home({ searchParams }: any) {
           Recommended cars
         </p>
 
-        <Suspense
-          fallback={<div>Loading...</div>}
-          key={JSON.stringify(searchParams)}
-        >
+        <Suspense fallback={<Loader />} key={JSON.stringify(searchParams)}>
           <RecommendedCarCards
             searchParams={searchParams}
             isUserLoggedIn={isUserLoggedIn}
