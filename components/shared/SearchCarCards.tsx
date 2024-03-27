@@ -18,7 +18,7 @@ const SearchCarCards = async ({
 
   return (
     <>
-      <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
+      <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-8 lg:flex lg:gap-8">
         {cars.map((car) => (
           <CarCard
             key={car.id}
