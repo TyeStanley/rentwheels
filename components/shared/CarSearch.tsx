@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 import { Check } from 'lucide-react';
 
 import Button from '@/components/ui/button';
@@ -33,22 +34,18 @@ const CarSearch = ({
   locationList: { location: string | undefined }[];
   searchPage?: boolean;
 }) => {
-  const router = useRouter();
+  const [location, setLocation] = useState<string>('');
+  const [from, setFrom] = useState<string | null>(null);
+  const [to, setTo] = useState<string | null>(null);
+
   const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const location = searchParams.get('city');
-  const from = searchParams.get('from');
-  const to = searchParams.get('to');
-
-  function queryURL(location: string, from: Date | null, to: Date | null) {
-    const locationLC = location.toLowerCase();
-    const fromDate = from?.toLocaleDateString().replace(/\//g, '-');
-    const toDate = to?.toLocaleDateString().replace(/\//g, '-');
-
+  function handleSearch() {
     const param = modifySearchParams(searchParams.toString(), {
-      city: locationLC,
-      from: fromDate,
-      to: toDate,
+      city: location?.toLowerCase(),
+      from: from?.replace(/\//g, '-'),
+      to: to?.replace(/\//g, '-'),
     });
 
     router.push('?' + param, { scroll: false });
@@ -104,10 +101,8 @@ const CarSearch = ({
                       key={city.location}
                       value={city.location}
                       onSelect={(currentValue) =>
-                        queryURL(
-                          currentValue === location ? '' : currentValue,
-                          from ? new Date(from) : null,
-                          to ? new Date(to) : null
+                        setLocation(
+                          currentValue === location ? '' : currentValue
                         )
                       }
                     >
@@ -149,9 +144,7 @@ const CarSearch = ({
           <Popover>
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
-                {from
-                  ? new Date(from).toLocaleDateString()
-                  : 'Select your date'}
+                {from !== null ? from : 'Select your date'}
 
                 <ArrowDown />
               </button>
@@ -166,11 +159,7 @@ const CarSearch = ({
                 }}
                 selected={from ? new Date(from) : undefined}
                 onSelect={(from) =>
-                  queryURL(
-                    location || '',
-                    from as Date,
-                    to ? new Date(to) : null
-                  )
+                  setFrom(from ? from.toLocaleDateString() : null)
                 }
               />
             </PopoverContent>
@@ -194,7 +183,7 @@ const CarSearch = ({
           <Popover>
             <PopoverTrigger asChild>
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
-                {to ? new Date(to).toLocaleDateString() : 'Select your date'}
+                {to !== null ? to : 'Select your date'}
 
                 <ArrowDown />
               </button>
@@ -210,13 +199,7 @@ const CarSearch = ({
                   );
                 }}
                 selected={to ? new Date(to) : undefined}
-                onSelect={(to) =>
-                  queryURL(
-                    location || '',
-                    from ? new Date(from) : null,
-                    to as Date
-                  )
-                }
+                onSelect={(to) => setTo(to ? to.toLocaleDateString() : null)}
               />
             </PopoverContent>
           </Popover>
@@ -229,6 +212,7 @@ const CarSearch = ({
               ? 'w-full xl:aspect-square xl:h-[3.5rem] xl:w-[unset]'
               : 'w-[4.6rem]'
           }`}
+          onClick={handleSearch}
         >
           <SearchNormal />
 
@@ -240,7 +224,11 @@ const CarSearch = ({
         </Button>
       </section>
 
-      <Button variant="carSearch" className="mt-5 gap-1.5 lg:hidden">
+      <Button
+        variant="carSearch"
+        className="mt-5 gap-1.5 lg:hidden"
+        onClick={handleSearch}
+      >
         <SearchNormal />
         Search
       </Button>
