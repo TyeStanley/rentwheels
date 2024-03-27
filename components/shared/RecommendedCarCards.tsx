@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import CarCard from '@/components/shared/CarCard';
 import { handleShowMore } from '@/lib/utils';
-import { getRecommendedCars } from '@/lib/actions/car.actions';
+import { getCars } from '@/lib/actions/car.actions';
 
 interface RecommendedCarCardsProps {
   searchParams: {
@@ -18,17 +18,12 @@ const RecommendedCarCards = async ({
   searchParams,
   isUserLoggedIn,
 }: RecommendedCarCardsProps) => {
-  const { recommendedCars, hasMoreCars } = await getRecommendedCars(
-    searchParams.city,
-    searchParams.from,
-    searchParams.to,
-    Number(searchParams.page) || 1
-  );
+  const { cars, hasMore } = await getCars(searchParams);
 
   return (
     <>
       <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
-        {recommendedCars.map((car) => (
+        {cars.map((car) => (
           <CarCard
             key={car.id}
             car={car}
@@ -38,7 +33,7 @@ const RecommendedCarCards = async ({
         ))}
       </section>
 
-      {hasMoreCars && (
+      {hasMore && (
         <div className="mt-12 flex items-center justify-center">
           <Link
             href={handleShowMore(searchParams)}
