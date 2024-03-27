@@ -3,7 +3,8 @@
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Car } from '@prisma/client';
+import { Car, Prisma } from '@prisma/client';
+import { Params } from '@/types';
 
 export async function getCityList() {
   const locations = await prisma.car.findMany({
@@ -71,7 +72,10 @@ export async function getPopularCars(): Promise<Car[]> {
   return popularCarsFinal;
 }
 
-export async function getCars(params: any) {
+export async function getCars(params: Params): Promise<{
+  cars: Car[];
+  hasMore: boolean;
+}> {
   const {
     city,
     search,
@@ -82,7 +86,7 @@ export async function getCars(params: any) {
     carsPerPage = 8,
   } = params;
 
-  const whereClause: any = {
+  const whereClause: Prisma.CarWhereInput = {
     location: city
       ? {
           contains: city,
@@ -98,7 +102,7 @@ export async function getCars(params: any) {
     AND: [
       {
         OR: type
-          ? type.split(',').map((typeItem: any) => ({
+          ? type.split(',').map((typeItem) => ({
               type: {
                 contains: typeItem.trim(),
                 mode: 'insensitive',
@@ -108,7 +112,7 @@ export async function getCars(params: any) {
       },
       {
         OR: capacity
-          ? capacity.split(',').map((capacityItem: any) => ({
+          ? capacity.split(',').map((capacityItem) => ({
               capacity: {
                 gte: Number(capacityItem.trim()),
               },

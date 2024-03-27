@@ -3,14 +3,23 @@ import Link from 'next/link';
 import CarCard from '@/components/shared/CarCard';
 import { handleShowMore } from '@/lib/utils';
 import { getCars } from '@/lib/actions/car.actions';
+import { Params } from '@/types';
 
-const SearchCarCards = async ({ searchParams, isUserLoggedIn }: any) => {
+interface SearchCarCardsProps {
+  searchParams: Params;
+  isUserLoggedIn: boolean;
+}
+
+const SearchCarCards = async ({
+  searchParams,
+  isUserLoggedIn,
+}: SearchCarCardsProps) => {
   const { cars, hasMore } = await getCars(searchParams);
 
   return (
     <>
       <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
-        {cars.map((car: any) => (
+        {cars.map((car) => (
           <CarCard
             key={car.id}
             car={car}

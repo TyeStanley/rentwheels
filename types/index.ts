@@ -16,3 +16,15 @@ export interface CreateUserType {
   created?: boolean;
   errors: CreateUserErrors;
 }
+
+export interface Params {
+  city?: string;
+  from?: string;
+  to?: string;
+  search?: string;
+  type?: string;
+  capacity?: string;
+  price?: string;
+  page?: number;
+  carsPerPage?: number;
+}

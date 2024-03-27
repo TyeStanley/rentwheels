@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import queryString from 'query-string';
+import { Params } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -13,21 +14,7 @@ export function capitalizeFirstLetterOfEachWord(str: string): string {
     .join(' ');
 }
 
-type SearchParams = {
-  city?: string;
-  from?: string;
-  to?: string;
-  page?: string | number;
-  search?: string;
-  type?: string;
-  capacity?: string;
-  price?: number;
-};
-
-export function modifySearchParams(
-  params: string,
-  change: Partial<SearchParams>
-) {
+export function modifySearchParams(params: string, change: Partial<Params>) {
   const param = queryString.parse(params);
   Object.assign(param, change);
 
@@ -35,7 +22,8 @@ export function modifySearchParams(
     skipEmptyString: true,
   });
 }
-export const handleShowMore = (searchParams: SearchParams) => {
+
+export const handleShowMore = (searchParams: Params) => {
   let page = 2;
 
   if (searchParams.page) page = Number(searchParams.page) + 1;
