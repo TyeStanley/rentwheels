@@ -22,7 +22,7 @@ const Page = async ({ searchParams }: any) => {
       <div className="lg:flex">
         <SearchFilter />
 
-        <section className="w-full bg-white200 p-5 dark:bg-[#1E2430]">
+        <section className="w-full bg-white200 p-5 dark:bg-[#1E2430] lg:pt-8">
           <CarSearch locationList={locationList} searchPage={true} />
 
           <Suspense fallback={<Loader />} key={JSON.stringify(searchParams)}>
