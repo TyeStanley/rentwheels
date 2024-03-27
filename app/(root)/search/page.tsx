@@ -9,8 +9,9 @@ import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList, getMaxPrice } from '@/lib/actions/car.actions';
+import { Params } from '@/types';
 
-const Page = async ({ searchParams }: any) => {
+const Page = async ({ searchParams }: { searchParams: Params }) => {
   const { isUserLoggedIn } = await verifyUser();
 
   if (!isUserLoggedIn) redirect('/');

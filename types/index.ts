@@ -28,3 +28,8 @@ export interface Params {
   page?: number;
   carsPerPage?: number;
 }
+
+export interface CarCardsProps {
+  searchParams: Params;
+  isUserLoggedIn: boolean;
+}

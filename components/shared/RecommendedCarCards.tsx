@@ -3,22 +3,21 @@ import Link from 'next/link';
 import CarCard from '@/components/shared/CarCard';
 import { handleShowMore } from '@/lib/utils';
 import { getCars } from '@/lib/actions/car.actions';
-
-interface RecommendedCarCardsProps {
-  searchParams: {
-    city?: string;
-    from?: string | undefined;
-    to?: string | undefined;
-    page?: string | number | undefined;
-  };
-  isUserLoggedIn: boolean;
-}
+import { CarCardsProps } from '@/types';
 
 const RecommendedCarCards = async ({
   searchParams,
   isUserLoggedIn,
-}: RecommendedCarCardsProps) => {
+}: CarCardsProps) => {
   const { cars, hasMore } = await getCars(searchParams);
+
+  if (cars.length === 0) {
+    return (
+      <p className="mt-8 animate-pulse text-center text-lg font-bold text-primary lg:text-xl">
+        No cars found.
+      </p>
+    );
+  }
 
   return (
     <>

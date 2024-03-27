@@ -10,19 +10,9 @@ import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList } from '@/lib/actions/car.actions';
+import { Params } from '@/types';
 
-interface HomeSearchParams {
-  city?: string;
-  from?: string;
-  to?: string;
-  page?: string | number;
-}
-
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: HomeSearchParams;
-}) {
+export default async function Home({ searchParams }: { searchParams: Params }) {
   const { isUserLoggedIn } = await verifyUser();
 
   const locationList = await getCityList();
