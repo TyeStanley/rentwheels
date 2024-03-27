@@ -14,14 +14,14 @@ export function capitalizeFirstLetterOfEachWord(str: string): string {
 }
 
 type SearchParams = {
-  city: string;
-  from: string;
-  to: string;
-  page: number;
-  search: string;
-  type: string;
-  capacity: string;
-  price: number;
+  city?: string;
+  from?: string;
+  to?: string;
+  page?: string | number;
+  search?: string;
+  type?: string;
+  capacity?: string;
+  price?: number;
 };
 
 export function modifySearchParams(
@@ -35,3 +35,14 @@ export function modifySearchParams(
     skipEmptyString: true,
   });
 }
+export const handleShowMore = (searchParams: SearchParams) => {
+  let page = 2;
+
+  if (searchParams.page) page = Number(searchParams.page) + 1;
+
+  const param = modifySearchParams(searchParams.toString(), {
+    page,
+  });
+
+  return '?' + param;
+};

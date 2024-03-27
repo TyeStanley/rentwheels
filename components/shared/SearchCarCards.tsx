@@ -2,23 +2,10 @@ import Link from 'next/link';
 
 import CarCard from '@/components/shared/CarCard';
 import { handleShowMore } from '@/lib/utils';
-import { getRecommendedCars } from '@/lib/actions/car.actions';
+import { getSearchCars } from '@/lib/actions/car.actions';
 
-interface RecommendedCarCardsProps {
-  searchParams: {
-    city?: string;
-    from?: string | undefined;
-    to?: string | undefined;
-    page?: string | number | undefined;
-  };
-  isUserLoggedIn: boolean;
-}
-
-const RecommendedCarCards = async ({
-  searchParams,
-  isUserLoggedIn,
-}: RecommendedCarCardsProps) => {
-  const { recommendedCars, hasMoreCars } = await getRecommendedCars(
+const SearchCarCards = async ({ searchParams, isUserLoggedIn }: any) => {
+  const { searchCars, hasMoreCars } = await getSearchCars(
     searchParams.city,
     searchParams.from,
     searchParams.to,
@@ -28,7 +15,7 @@ const RecommendedCarCards = async ({
   return (
     <>
       <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
-        {recommendedCars.map((car) => (
+        {searchCars.map((car: any) => (
           <CarCard
             key={car.id}
             car={car}
@@ -53,4 +40,4 @@ const RecommendedCarCards = async ({
   );
 };
 
-export default RecommendedCarCards;
+export default SearchCarCards;

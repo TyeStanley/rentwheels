@@ -23,8 +23,7 @@ export default async function Home({
 }: {
   searchParams: HomeSearchParams;
 }) {
-  const { id, isUserLoggedIn } = await verifyUser();
-  console.log(id);
+  const { isUserLoggedIn } = await verifyUser();
 
   const locationList = await getCityList();
 

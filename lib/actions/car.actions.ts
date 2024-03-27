@@ -167,6 +167,16 @@ export async function getRecommendedCars(
   return { recommendedCars, hasMoreCars };
 }
 
+export async function getSearchCars(
+  location?: string,
+  from?: string,
+  to?: string,
+  page: number = 1,
+  carsPerPage: number = 8
+) {
+  return { searchCars: [], hasMoreCars: false };
+}
+
 export async function likeCar(carId: string): Promise<boolean> {
   const { id: userId } = await verifyUser();
 
