@@ -8,7 +8,7 @@ import Footer from '@/components/Footer/Footer';
 import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
-import { getCityList } from '@/lib/actions/car.actions';
+import { getCityList, getMaxPrice } from '@/lib/actions/car.actions';
 
 const Page = async ({ searchParams }: any) => {
   const { isUserLoggedIn } = await verifyUser();
@@ -17,10 +17,12 @@ const Page = async ({ searchParams }: any) => {
 
   const locationList = await getCityList();
 
+  const maxPrice = await getMaxPrice();
+
   return (
     <main className="bg-white dark:bg-gray900">
       <div className="mx-auto lg:flex lg:max-w-[1024px] xl:max-w-[1440px]">
-        <SearchFilter />
+        <SearchFilter maxPrice={maxPrice} />
 
         <section className="w-full bg-white200 p-5 pb-10 dark:bg-[#1E2430] lg:relative lg:bottom-[-1px] lg:pt-8 xl:px-9">
           <CarSearch locationList={locationList} searchPage={true} />

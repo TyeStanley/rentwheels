@@ -16,13 +16,17 @@ import {
 import { Slider } from '@/components/ui/slider';
 import { filterOptions } from '@/constants';
 
-const SearchFilter = () => {
+const SearchFilter = ({ maxPrice }: { maxPrice: number }) => {
   const [open, setOpen] = useState(false);
 
   const [searchValue, setSearchValue] = useURLQuery('search', '', 500);
-  const [priceValue, setPriceValue] = useURLQuery('price', '50', 200);
   const [typeValue, setTypeValue] = useURLQuery('type', '');
   const [capacityValue, setCapacityValue] = useURLQuery('capacity', '');
+  const [priceValue, setPriceValue] = useURLQuery(
+    'price',
+    maxPrice.toString(),
+    200
+  );
 
   const setChange = (
     e: ChangeEvent<HTMLInputElement>,
@@ -128,7 +132,7 @@ const SearchFilter = () => {
 
           <Slider
             min={1}
-            max={100}
+            max={maxPrice}
             step={1}
             className="mt-5"
             value={[parseInt(priceValue)]}
@@ -136,7 +140,7 @@ const SearchFilter = () => {
           />
 
           <p className="mt-2.5 text-xl font-semibold text-gray700 dark:text-white100">
-            ${priceValue}
+            Max Price: ${priceValue}
           </p>
         </div>
       </div>
@@ -226,7 +230,7 @@ const SearchFilter = () => {
 
             <Slider
               min={1}
-              max={100}
+              max={maxPrice}
               step={1}
               className="mt-5"
               value={[parseInt(priceValue)]}
@@ -234,7 +238,7 @@ const SearchFilter = () => {
             />
 
             <p className="mt-2.5 font-semibold text-gray700 dark:text-white100">
-              ${priceValue}
+              Max Price: ${priceValue}
             </p>
           </div>
         </PopoverContent>

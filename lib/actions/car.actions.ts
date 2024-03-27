@@ -214,3 +214,13 @@ export async function likeCar(carId: string): Promise<boolean> {
     }
   }
 }
+
+export async function getMaxPrice(): Promise<number> {
+  const result = await prisma.car.aggregate({
+    _max: {
+      rentPrice: true,
+    },
+  });
+
+  return result._max.rentPrice ?? 100;
+}
