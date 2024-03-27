@@ -47,7 +47,7 @@ const SearchFilter = () => {
   };
 
   return (
-    <section className="relative bottom-px flex items-center gap-4 bg-white px-6 pb-8 dark:bg-gray900 lg:bottom-0 lg:w-[507px] lg:flex-col lg:items-start lg:px-5 lg:pb-5 lg:pt-8">
+    <section className="relative bottom-px flex items-center gap-4 bg-white px-6 pb-8 dark:bg-gray900 lg:bottom-[-1px] lg:w-[507px] lg:flex-col lg:items-start lg:px-5 lg:pb-5 lg:pt-8 xl:w-[520px] xl:px-9">
       <h3 className="hidden text-xs font-semibold tracking-[0.015rem] text-ps100 lg:block">
         SEARCH
       </h3>
