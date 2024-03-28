@@ -32,7 +32,7 @@ const MobileAuthButtons = ({
           <DialogClose asChild>
             <Link
               className={buttonVariants({ variant: 'primaryMenu' })}
-              href={`/profile/${username}`}
+              href="/profile"
             >
               <Image
                 src={picture || '/userPlaceholder.jpg'}

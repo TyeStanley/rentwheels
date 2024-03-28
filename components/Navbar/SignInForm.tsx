@@ -22,7 +22,7 @@ const SignInForm = ({ closeForm }: { closeForm?: () => void }) => {
       setError(user.error);
     } else {
       if (user?.username) {
-        router.push(`/profile/${user.username}`);
+        router.push('/profile');
 
         if (closeForm) {
           closeForm();

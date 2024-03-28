@@ -27,7 +27,7 @@ const UserMenu = async ({ username, picture }: GetUserMenuType) => {
         <PopoverClose asChild>
           <Link
             className={buttonVariants({ variant: 'primaryMenu' })}
-            href={`/profile/${username}`}
+            href="/profile"
           >
             <Image
               src={picture}

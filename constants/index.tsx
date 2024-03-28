@@ -14,7 +14,7 @@ export const navbarMobileLinks = [
     text: 'Search',
   },
   {
-    link: '/add-car',
+    link: '/cars/new',
     icon: Plus,
     text: 'Add Car',
   },
@@ -30,7 +30,7 @@ export const navbarDesktopLinks = [
     text: 'Search',
   },
   {
-    link: '/add-car',
+    link: '/cars/new',
     text: 'Add Car',
   },
 ];
