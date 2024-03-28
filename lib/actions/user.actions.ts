@@ -151,7 +151,10 @@ export async function logoutUser() {
   }
 }
 
-export async function verifyUser(): Promise<any> {
+export async function verifyUser(): Promise<{
+  id: string | null;
+  isUserLoggedIn: boolean;
+}> {
   try {
     const token = cookies().get('token');
 

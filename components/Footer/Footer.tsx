@@ -2,8 +2,8 @@ import Logo from '@/components/icons/Logo';
 
 const Footer = () => {
   return (
-    <>
-      <article className="flex flex-col justify-between lg:flex-row lg:py-[4.5rem]">
+    <footer className="bg-white py-5 dark:bg-gray900">
+      <article className="mx-auto flex flex-col justify-between px-5 lg:max-w-[1024px] lg:flex-row lg:py-[4.5rem] xl:max-w-[1440px] xl:px-16">
         <section className="flex flex-col gap-4">
           <Logo className="h-10 w-32 lg:h-12 lg:w-40" />
 
@@ -44,15 +44,19 @@ const Footer = () => {
         </section>
       </article>
 
-      <article className="mt-12 flex flex-col-reverse text-sm font-semibold text-gray800 dark:text-white100 lg:mt-0 lg:flex-row lg:justify-between lg:border-t lg:border-ps50 lg:py-10 lg:text-base lg:dark:border-gray850">
-        <h4 className="mt-8 lg:mt-0">©2024 RENTWHEELS. All rights reserved.</h4>
+      <article className="mx-auto mt-12 px-5 text-sm font-semibold text-gray800 dark:text-white100 lg:mt-0 lg:max-w-[1024px] lg:flex-row lg:justify-between lg:text-base xl:max-w-[1440px] xl:px-16">
+        <div className="flex w-full flex-col-reverse lg:flex-row lg:justify-between lg:border-t lg:border-ps50 lg:py-10 lg:dark:border-gray850">
+          <h4 className="mt-8 lg:mt-0">
+            ©2024 RENTWHEELS. All rights reserved.
+          </h4>
 
-        <section className="flex justify-between gap-5">
-          <p>Privacy Policy</p>
-          <p>Terms & Conditions</p>
-        </section>
+          <section className="flex justify-between gap-5">
+            <p>Privacy Policy</p>
+            <p>Terms & Conditions</p>
+          </section>
+        </div>
       </article>
-    </>
+    </footer>
   );
 };
 

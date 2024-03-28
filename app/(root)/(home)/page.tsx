@@ -5,7 +5,6 @@ import AdsContainer from '@/components/Homepage/AdsContainer';
 import CarSearch from '@/components/shared/CarSearch';
 import PopularCarCards from '@/components/shared/PopularCarCards';
 import RecommendedCarCards from '@/components/shared/RecommendedCarCards';
-import Footer from '@/components/Footer/Footer';
 import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
@@ -51,8 +50,6 @@ export default async function Home({ searchParams }: { searchParams: Params }) {
             isUserLoggedIn={isUserLoggedIn}
           />
         </Suspense>
-
-        <Footer />
       </div>
     </main>
   );

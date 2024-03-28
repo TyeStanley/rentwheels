@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import CarSearch from '@/components/shared/CarSearch';
 import SearchFilter from '@/components/Search/SearchFilter';
 import SearchCarCards from '@/components/shared/SearchCarCards';
-import Footer from '@/components/Footer/Footer';
 import Loader from '@/components/shared/Loader';
 
 import { verifyUser } from '@/lib/actions/user.actions';
@@ -36,10 +35,6 @@ const Page = async ({ searchParams }: { searchParams: Params }) => {
           </Suspense>
         </section>
       </div>
-
-      <section className="mx-auto mt-12 px-5 pb-5 lg:mt-0 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-9">
-        <Footer />
-      </section>
     </main>
   );
 };
