@@ -20,7 +20,7 @@ const RecommendedCarCards = async ({
   }
 
   return (
-    <>
+    <div className="pb-12">
       <section className="mt-5 flex flex-wrap gap-5 sm:grid sm:grid-cols-2 lg:mt-7 lg:flex lg:gap-8">
         {cars.map((car) => (
           <CarCard
@@ -43,7 +43,7 @@ const RecommendedCarCards = async ({
           </Link>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

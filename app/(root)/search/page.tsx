@@ -25,7 +25,7 @@ const Page = async ({ searchParams }: { searchParams: Params }) => {
       <div className="mx-auto lg:flex lg:max-w-[1024px] xl:max-w-[1440px]">
         <SearchFilter maxPrice={maxPrice} />
 
-        <section className="w-full bg-white200 p-5 pb-10 dark:bg-[#1E2430] lg:relative lg:bottom-[-1px] lg:pt-8 xl:px-9">
+        <section className="w-full bg-white200 px-5 pb-12 pt-5 dark:bg-[#1E2430] lg:relative lg:bottom-[-1px] lg:pt-8 xl:px-9">
           <CarSearch locationList={locationList} searchPage={true} />
 
           <Suspense fallback={<Loader />} key={JSON.stringify(searchParams)}>
@@ -37,7 +37,7 @@ const Page = async ({ searchParams }: { searchParams: Params }) => {
         </section>
       </div>
 
-      <section className="mx-auto px-5 pb-5 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-9">
+      <section className="mx-auto mt-12 px-5 pb-5 lg:mt-0 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-9">
         <Footer />
       </section>
     </main>
