@@ -231,9 +231,18 @@ const CarForm = () => {
         </div>
       </section>
 
-      <h3 className="mt-5">Upload Images</h3>
+      <h3 className="mt-5 font-bold text-gray900 dark:text-white lg:mt-11">
+        Upload Images
+      </h3>
 
-      <button type="submit">Register Car</button>
+      <div className="mt-7 flex justify-end lg:mt-9">
+        <button
+          type="submit"
+          className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white lg:w-[9.25rem]"
+        >
+          Register Car
+        </button>
+      </div>
     </form>
   );
 };
