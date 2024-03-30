@@ -6,9 +6,9 @@ import { z } from 'zod';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
 
 const formSchema = z.object({
-  carTitle: z.string(),
-  carType: z.string(),
-  rentPrice: z.number(),
+  carTitle: z.string({ required_error: 'This field is required' }),
+  carType: z.string({ required_error: 'This field is required' }),
+  rentPrice: z.number({ required_error: 'This field is required' }),
   capacity: z.number(),
   transmission: z.string(),
   location: z.string(),
@@ -36,7 +36,7 @@ const CarForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="my-7 w-full rounded-md bg-white p-5 dark:bg-gray850"
+      className="my-7 w-full max-w-[426px] rounded-md bg-white p-5 dark:bg-gray850 lg:max-w-[852px]"
     >
       <h1 className="text-xl font-bold text-gray900 dark:text-white">
         Add a Car for Rent
@@ -46,9 +46,9 @@ const CarForm = () => {
         Please enter your car info
       </p>
 
-      <h2 className="mt-5 text-lg font-bold text-primary">CAR INFO</h2>
+      <h2 className="mt-5 text-lg font-bold text-primary lg:mt-7">CAR INFO</h2>
 
-      <section className="mt-5 flex flex-col gap-5">
+      <section className="mt-3 flex flex-col gap-5 lg:mt-5 lg:grid lg:grid-cols-2 lg:gap-8">
         <div>
           <label
             htmlFor="carTitle"
