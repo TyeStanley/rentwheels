@@ -1,25 +1,26 @@
 'use client';
 
-import { useDropzone } from 'react-dropzone';
+import Image from 'next/image';
 import { useCallback, useState, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useDropzone } from 'react-dropzone';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
 } from '@/components/ui/select';
-import Image from 'next/image';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
 import { createCar } from '@/lib/actions/car.actions';
 
 const formSchema = z.object({
-  carTitle: z.string({ required_error: 'This field is required' }),
-  carType: z.string({ required_error: 'This field is required' }),
-  rentPrice: z.number({ required_error: 'This field is required' }),
+  carTitle: z.string(),
+  carType: z.string(),
+  rentPrice: z.number(),
   capacity: z.number(),
   transmission: z.string(),
   location: z.string(),
@@ -32,12 +33,9 @@ type FormData = z.infer<typeof formSchema>;
 interface ImageDataArrayType {
   url: string;
   blurDataURL: string;
-  width: number | undefined;
-  height: number | undefined;
 }
 
 const CarForm = () => {
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const {
     register,
     handleSubmit,
@@ -47,21 +45,21 @@ const CarForm = () => {
   } = useForm<FormData>({ resolver: zodResolver(formSchema) });
   const carType = watch('carType');
   const transmission = watch('transmission');
+
   const { startUpload } = useUploadThing('imageUploader');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const imageUrlStrings = useMemo(() => {
     return imageFiles.map((file) => URL.createObjectURL(file));
   }, [imageFiles]);
 
   const onDrop = useCallback(
-    (acceptedFiles: any) => {
-      acceptedFiles.slice(0, 3).forEach((file: any) => {
-        if (!file.type.startsWith('image')) {
-          return;
-        }
-        if (imageUrlStrings.length >= 3) {
-          return;
-        }
+    (acceptedFiles: File[]) => {
+      acceptedFiles.slice(0, 3).forEach((file) => {
+        if (!file.type.startsWith('image')) return;
+
+        if (imageUrlStrings.length >= 3) return;
+
         setImageFiles((prev) => [...prev, file]);
       });
     },
@@ -69,6 +67,12 @@ const CarForm = () => {
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const handleImageDelete = (index: number) => {
+    return () => {
+      setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    };
+  };
 
   const onSubmit = async (data: FormData) => {
     const imageDataArray: ImageDataArrayType[] = [];
@@ -81,15 +85,11 @@ const CarForm = () => {
 
           for (const imgRes of uploadResults) {
             if (imgRes && imgRes[0].url) {
-              const { blurDataURL, width, height } = await getBlurData(
-                imgRes[0].url
-              );
+              const { blurDataURL } = await getBlurData(imgRes[0].url);
 
               imageDataArray.push({
                 url: imgRes[0].url,
                 blurDataURL,
-                width,
-                height,
               });
             }
           }
@@ -105,7 +105,7 @@ const CarForm = () => {
             rentPrice: data.rentPrice,
           };
 
-          const result = await createCar({
+          await createCar({
             carData,
             carImages: imageDataArray,
           });
@@ -114,12 +114,6 @@ const CarForm = () => {
         }
       }
     } catch (error) {}
-  };
-
-  const handleImageDelete = (index: number) => {
-    return () => {
-      setImageFiles((prev) => prev.filter((_, i) => i !== index));
-    };
   };
 
   return (
@@ -324,6 +318,7 @@ const CarForm = () => {
         Upload Images
       </h3>
 
+      {/* Images after dropped in */}
       {imageUrlStrings && imageUrlStrings.length > 0 && (
         <div className="mt-6 flex w-full flex-wrap justify-center gap-4">
           {imageUrlStrings.map((image, index) => (
@@ -347,17 +342,20 @@ const CarForm = () => {
         </div>
       )}
 
-      <div
+      <section
         {...getRootProps()}
-        className={`cursor-pointer rounded-md border-2 border-dashed border-gray400 p-10 text-center ${
-          isDragActive && 'bg-white200 dark:bg-gray800'
-        }`}
+        className="mt-5 flex h-[11.5rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray400"
       >
         <input {...getInputProps()} />
-        <p className="text-sm text-gray400">
-          Drag and drop your images here or click to browse
+        <Image src="/shared/upload.svg" alt="upload" width={30} height={30} />
+        <p className="mt-2.5 text-sm font-semibold text-gray700 dark:text-ps100 lg:text-base">
+          Drag and drop an image, or{' '}
+          <span className="text-primary">Browse</span>
         </p>
-      </div>
+        <p className="text-xs text-gray400 dark:text-white100 lg:text-sm">
+          High resolution images (png, jpg, jpeg)
+        </p>
+      </section>
 
       <div className="mt-7 flex justify-end lg:mt-9">
         <button
