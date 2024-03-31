@@ -1,9 +1,20 @@
 'use client';
 
+import { useDropzone } from 'react-dropzone';
+import { useCallback, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '../ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from '@/components/ui/select';
+import Image from 'next/image';
+import { useUploadThing } from '@/lib/uploadthing';
+import { getBlurData } from '@/lib/actions/image.actions';
+import { createCar } from '@/lib/actions/car.actions';
 
 const formSchema = z.object({
   carTitle: z.string({ required_error: 'This field is required' }),
@@ -18,7 +29,15 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
+interface ImageDataArrayType {
+  url: string;
+  blurDataURL: string;
+  width: number | undefined;
+  height: number | undefined;
+}
+
 const CarForm = () => {
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const {
     register,
     handleSubmit,
@@ -28,9 +47,79 @@ const CarForm = () => {
   } = useForm<FormData>({ resolver: zodResolver(formSchema) });
   const carType = watch('carType');
   const transmission = watch('transmission');
+  const { startUpload } = useUploadThing('imageUploader');
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
+  const imageUrlStrings = useMemo(() => {
+    return imageFiles.map((file) => URL.createObjectURL(file));
+  }, [imageFiles]);
+
+  const onDrop = useCallback(
+    (acceptedFiles: any) => {
+      acceptedFiles.slice(0, 3).forEach((file: any) => {
+        if (!file.type.startsWith('image')) {
+          return;
+        }
+        if (imageUrlStrings.length >= 3) {
+          return;
+        }
+        setImageFiles((prev) => [...prev, file]);
+      });
+    },
+    [imageUrlStrings, setImageFiles]
+  );
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const onSubmit = async (data: FormData) => {
+    const imageDataArray: ImageDataArrayType[] = [];
+    try {
+      if (imageFiles.length > 0) {
+        const uploadPromises = imageFiles.map((file) => startUpload([file]));
+
+        try {
+          const uploadResults = await Promise.all(uploadPromises);
+
+          for (const imgRes of uploadResults) {
+            if (imgRes && imgRes[0].url) {
+              const { blurDataURL, width, height } = await getBlurData(
+                imgRes[0].url
+              );
+
+              imageDataArray.push({
+                url: imgRes[0].url,
+                blurDataURL,
+                width,
+                height,
+              });
+            }
+          }
+
+          const carData = {
+            title: data.carTitle,
+            type: data.carType,
+            location: data.location,
+            description: data.description,
+            transmission: data.transmission,
+            fuelCapacity: data.fuelCapacity,
+            capacity: data.capacity,
+            rentPrice: data.rentPrice,
+          };
+
+          const result = await createCar({
+            carData,
+            carImages: imageDataArray,
+          });
+        } catch (error) {
+          console.error('Failed to upload images:', error);
+        }
+      }
+    } catch (error) {}
+  };
+
+  const handleImageDelete = (index: number) => {
+    return () => {
+      setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    };
   };
 
   return (
@@ -234,6 +323,41 @@ const CarForm = () => {
       <h3 className="mt-5 font-bold text-gray900 dark:text-white lg:mt-11">
         Upload Images
       </h3>
+
+      {imageUrlStrings && imageUrlStrings.length > 0 && (
+        <div className="mt-6 flex w-full flex-wrap justify-center gap-4">
+          {imageUrlStrings.map((image, index) => (
+            <div key={image} className="relative flex">
+              <button
+                className="absolute right-1 top-1 bg-white/50 text-xl text-slate-600"
+                onClick={handleImageDelete(index)}
+                type="button"
+              >
+                X
+              </button>
+              <Image
+                src={image}
+                alt="car image"
+                width={180}
+                height={180}
+                className="w-full max-w-60 object-contain"
+              />
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div
+        {...getRootProps()}
+        className={`cursor-pointer rounded-md border-2 border-dashed border-gray400 p-10 text-center ${
+          isDragActive && 'bg-white200 dark:bg-gray800'
+        }`}
+      >
+        <input {...getInputProps()} />
+        <p className="text-sm text-gray400">
+          Drag and drop your images here or click to browse
+        </p>
+      </div>
 
       <div className="mt-7 flex justify-end lg:mt-9">
         <button

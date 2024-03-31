@@ -3,17 +3,17 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
-import { DialogClose } from '@/components/ui/dialog';
 import Cross from '@/components/icons/Cross';
+import { DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
-import { Car } from '@prisma/client';
+import { CarDetails } from '@/types';
 
 const CarCardModalOne = ({
   car,
   handleModalTwo,
 }: {
-  car: Car;
+  car: CarDetails;
   handleModalTwo: () => void;
 }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -27,7 +27,8 @@ const CarCardModalOne = ({
       <section className="lg:w-1/2">
         <div className="relative h-[14.5rem] w-full rounded-lg lg:h-[350px]">
           <Image
-            src={car.images[currentImage]}
+            src={car.images[currentImage].url}
+            blurDataURL={car.images[currentImage].blurDataURL}
             alt="Car Display"
             fill
             className="rounded-lg border border-ps50 object-cover"
@@ -42,7 +43,8 @@ const CarCardModalOne = ({
               onClick={() => setCurrentImage(index)}
             >
               <Image
-                src={image}
+                src={image.url}
+                blurDataURL={image.blurDataURL}
                 alt="Car Display"
                 fill
                 className={`rounded-lg border object-cover ${

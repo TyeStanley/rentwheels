@@ -3,10 +3,10 @@
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Car, Prisma } from '@prisma/client';
-import { Params } from '@/types';
+import { Prisma } from '@prisma/client';
+import { CarDetails, Params } from '@/types';
 
-export async function getCityList() {
+export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
     select: {
       location: true,
@@ -17,7 +17,7 @@ export async function getCityList() {
   return locations;
 }
 
-export async function getPopularCars(): Promise<Car[]> {
+export async function getPopularCars(): Promise<CarDetails[]> {
   const { id } = await verifyUser();
 
   const popularCars = await prisma.car.findMany({
@@ -31,10 +31,17 @@ export async function getPopularCars(): Promise<Car[]> {
       location: true,
       fuelCapacity: true,
       description: true,
-      images: true,
       userId: true,
       createdAt: true,
       updatedAt: true,
+      images: {
+        select: {
+          url: true,
+          blurDataURL: true,
+          height: true,
+          width: true,
+        },
+      },
       _count: {
         select: {
           UserLikesCar: true,
@@ -73,7 +80,7 @@ export async function getPopularCars(): Promise<Car[]> {
 }
 
 export async function getCars(params: Params): Promise<{
-  cars: Car[];
+  cars: CarDetails[];
   hasMore: boolean;
 }> {
   const {
@@ -139,10 +146,17 @@ export async function getCars(params: Params): Promise<{
       location: true,
       fuelCapacity: true,
       description: true,
-      images: true,
       userId: true,
       createdAt: true,
       updatedAt: true,
+      images: {
+        select: {
+          url: true,
+          blurDataURL: true,
+          height: true,
+          width: true,
+        },
+      },
       _count: {
         select: {
           UserLikesCar: true,
@@ -223,4 +237,30 @@ export async function getMaxPrice(): Promise<number> {
   });
 
   return result._max.rentPrice ?? 100;
+}
+
+export async function createCar({
+  carData,
+  carImages,
+}: {
+  carData: any;
+  carImages: any;
+}): Promise<any> {
+  const { id } = await verifyUser();
+
+  const newCar = await prisma.car.create({
+    data: {
+      ...carData,
+      userId: id,
+    },
+  });
+
+  const newCarImages = carImages.map((image: any) => ({
+    ...image,
+    carId: newCar.id,
+  }));
+
+  await prisma.carImage.createMany({ data: newCarImages });
+
+  return newCar;
 }

@@ -6,11 +6,10 @@ import CarCardModalOne from '@/components/shared/CarCardModalOne';
 import CarCardModalTwo from '@/components/shared/CarCardModalTwo';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-
-import { Car } from '@prisma/client';
 import { cn } from '@/lib/utils';
+import { CarDetails } from '@/types';
 
-const CarCardModal = ({ car }: { car: Car }) => {
+const CarCardModal = ({ car }: { car: CarDetails }) => {
   const [isModalTwo, setIsModalTwo] = useState(false);
 
   const modalOne =

@@ -1,3 +1,4 @@
+import { Car } from '@prisma/client';
 import { HTMLAttributes } from 'react';
 
 export interface ThemeContextType {
@@ -32,4 +33,16 @@ export interface Params {
 export interface CarCardsProps {
   searchParams: Params;
   isUserLoggedIn: boolean;
+}
+
+export interface CarImage {
+  url: string;
+  blurDataURL: string;
+  height: number;
+  width: number;
+}
+
+export interface CarDetails extends Car {
+  images: CarImage[];
+  isCarLiked?: boolean;
 }

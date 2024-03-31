@@ -1,18 +1,18 @@
 import Image from 'next/image';
-import { Car } from '@prisma/client';
 
+import SignInForm from '@/components/Navbar/SignInForm';
+import SignUpForm from '@/components/Navbar/SignUpForm';
+import HeartInteraction from '@/components/shared/HeartInteraction';
+import CarCardModal from '@/components/shared/CarCardModal';
 import SteeringWheel from '@/components/icons/SteeringWheel';
 import Button from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import SignInForm from '../Navbar/SignInForm';
-import SignUpForm from '../Navbar/SignUpForm';
-import HeartInteraction from './HeartInteraction';
-import CarCardModal from './CarCardModal';
+import { cn } from '@/lib/utils';
+import { CarDetails } from '@/types';
 
 interface CarCardProps {
-  car: Car & { isCarLiked?: boolean };
+  car: CarDetails;
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
 }
@@ -25,11 +25,8 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
     rentPrice,
     capacity,
     transmission,
-    // location,
     fuelCapacity,
-    // description,
     images,
-    // userId,
     isCarLiked,
   } = car;
 
@@ -63,9 +60,12 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
       >
         <div className="relative h-[10rem] w-full rounded-lg bg-primary">
           <Image
-            src={images[0]}
-            alt="Car Display"
+            src={images[0]?.url ?? '/shared/car_placeholder.svg'}
+            blurDataURL={
+              images[0]?.blurDataURL ?? '/shared/car_placeholder.svg'
+            }
             fill
+            alt="Car Display"
             className="rounded-lg object-cover"
           />
         </div>
