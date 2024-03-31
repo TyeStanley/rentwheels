@@ -11,7 +11,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'los angeles',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Audi A4 is a line of compact executive cars produced since 1994 by the German car manufacturer Audi, a subsidiary of the Volkswagen Group.',
         // images: [
@@ -28,7 +28,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'miami',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Mercedes-Benz C-Class is a line of compact executive cars produced by Daimler AG. Introduced in 1993 as a replacement for the 190 (W201) range.',
         // images: [
@@ -45,7 +45,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'san francisco',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Tesla Model 3 is an electric four-door sedan developed by Tesla. The Model 3 Standard Range Plus version delivers an EPA-rated all-electric range of 263 miles.',
         // images: [
@@ -62,7 +62,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'chicago',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Honda Accord is a series of automobiles manufactured by Honda since 1976, best known for its four-door sedan variant, which has been one of the best-selling cars in the US since 1989.',
         // images: [
@@ -79,7 +79,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'seattle',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Toyota Camry is an automobile sold internationally by the Japanese manufacturer Toyota since 1982, spanning multiple generations. Known for its spacious interior, smooth ride, and efficient performance.',
         // images: [
@@ -96,7 +96,7 @@ async function seed() {
         capacity: 4,
         transmission: 'Manual',
         location: 'las vegas',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Ford Mustang GT is an iconic American muscle car known for its powerful V8 engine and classic design. It offers thrilling performance combined with modern technology and comfort.',
         // images: [
@@ -113,7 +113,7 @@ async function seed() {
         capacity: 2,
         transmission: 'Automatic',
         location: 'miami',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Chevrolet Corvette Stingray is a legendary American sports car that offers an unmatched combination of performance, innovation, and style. It features a mid-engine design for incredible handling and acceleration.',
         // images: [
@@ -130,7 +130,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Manual',
         location: 'boston',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Volkswagen Golf GTI is a hot hatch that combines performance, comfort, and practicality. Known for its sporty design and responsive handling, it has been a popular choice among driving enthusiasts.',
         // images: [
@@ -147,7 +147,7 @@ async function seed() {
         capacity: 4,
         transmission: 'Automatic',
         location: 'san diego',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Porsche 911 Carrera is an iconic sports car that offers exceptional performance, precision, and luxury. Its distinctive design and engineering excellence make it a timeless choice for car enthusiasts.',
         // images: [
@@ -164,7 +164,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'atlanta',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Lexus ES 350 is a luxury sedan that combines elegance with performance. Offering a smooth ride, spacious interior, and advanced safety features, it represents the pinnacle of comfort in its class.',
         // images: [
@@ -181,7 +181,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'denver',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Nissan Altima offers a blend of comfort, style, and efficiency. It stands out with its spacious interior, advanced safety features, and smooth ride, making it a great choice for family trips or commuting.',
         // images: [
@@ -198,7 +198,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'portland',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           "The Subaru Outback is renowned for its rugged build, all-wheel drive, and ample cargo space. It's the perfect companion for adventure seekers looking to explore off the beaten path.",
         // images: [
@@ -215,7 +215,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'austin',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Mazda CX-5 stands out with its sleek design, engaging driving experience, and cutting-edge technology. It offers a premium feel at an accessible price point, making it a favorite among SUV enthusiasts.',
         // images: [
@@ -232,7 +232,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'san jose',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           "The Chevrolet Bolt EV is a game-changer in the electric vehicle market, offering impressive range, spacious interiors, and affordable pricing. It's an excellent option for eco-conscious drivers looking to reduce their carbon footprint.",
         // images: [
@@ -249,7 +249,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'phoenix',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Hyundai Sonata blends modern styling with refined performance. Known for its spacious interior, advanced safety features, and smooth ride, it offers great value and comfort.',
         // images: [
@@ -266,7 +266,7 @@ async function seed() {
         capacity: 4,
         transmission: 'Manual',
         location: 'salt lake city',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Jeep Wrangler is the ultimate off-road vehicle, offering unmatched capability and ruggedness. Its iconic design and versatility make it a favorite for adventure enthusiasts.',
         // images: [
@@ -283,7 +283,7 @@ async function seed() {
         capacity: 7,
         transmission: 'Automatic',
         location: 'orlando',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Ford Explorer is a versatile SUV that offers spacious seating for seven, making it ideal for family adventures. Equipped with advanced safety features and a powerful engine, it provides a comfortable and secure ride.',
         // images: [
@@ -300,7 +300,7 @@ async function seed() {
         capacity: 7,
         transmission: 'Automatic',
         location: 'boulder',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Tesla Model Y is an all-electric SUV that combines performance, safety, and versatility. It offers ample space for passengers and cargo, along with advanced autonomous driving features for a futuristic driving experience.',
         // images: [
@@ -317,7 +317,7 @@ async function seed() {
         capacity: 5,
         transmission: 'Automatic',
         location: 'minneapolis',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The BMW X5 is a luxury SUV that offers an exceptional blend of performance, comfort, and technology. With its spacious interior and state-of-the-art features, it provides a superior driving experience.',
         // images: [
@@ -334,7 +334,7 @@ async function seed() {
         capacity: 7,
         transmission: 'Automatic',
         location: 'san antonio',
-        userId: 'fc0096f5-ee54-4235-ade5-96e9e55b6bf6',
+        userId: '52089c46-7cf6-42e5-9e22-e7f50e798bd6',
         description:
           'The Audi Q7 is a full-size luxury SUV that combines elegance with powerful performance. It features a spacious and sophisticated interior, advanced driving aids, and a smooth, commanding ride.',
         // images: [
@@ -379,8 +379,6 @@ async function seed() {
           url: 'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
           blurDataURL:
             'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
-          width: 100,
-          height: 100,
         },
       });
     });

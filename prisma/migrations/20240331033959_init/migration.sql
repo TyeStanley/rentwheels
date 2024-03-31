@@ -37,8 +37,6 @@ CREATE TABLE "CarImage" (
     "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
     "blurDataURL" TEXT NOT NULL,
-    "width" INTEGER NOT NULL,
-    "height" INTEGER NOT NULL,
     "carId" TEXT NOT NULL,
 
     CONSTRAINT "CarImage_pkey" PRIMARY KEY ("id")

@@ -38,8 +38,6 @@ export async function getPopularCars(): Promise<CarDetails[]> {
         select: {
           url: true,
           blurDataURL: true,
-          height: true,
-          width: true,
         },
       },
       _count: {
@@ -153,8 +151,6 @@ export async function getCars(params: Params): Promise<{
         select: {
           url: true,
           blurDataURL: true,
-          height: true,
-          width: true,
         },
       },
       _count: {

@@ -38,8 +38,6 @@ export interface CarCardsProps {
 export interface CarImage {
   url: string;
   blurDataURL: string;
-  height: number;
-  width: number;
 }
 
 export interface CarDetails extends Car {
