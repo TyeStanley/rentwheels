@@ -185,7 +185,11 @@ const CarForm = () => {
             {...register('carTitle', { required: true })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.carTitle && <span>{errors.carTitle.message}</span>}
+          {errors.carTitle && (
+            <span className="text-sm text-red-500">
+              {errors.carTitle.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -230,7 +234,11 @@ const CarForm = () => {
               </SelectItem>
             </SelectContent>
           </Select>
-          {errors.carType && <span>{errors.carType.message}</span>}
+          {errors.carType && (
+            <span className="text-sm text-red-500">
+              {errors.carType.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -250,7 +258,11 @@ const CarForm = () => {
             })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.rentPrice && <span>{errors.rentPrice.message}</span>}
+          {errors.rentPrice && (
+            <span className="text-sm text-red-500">
+              {errors.rentPrice.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -267,7 +279,11 @@ const CarForm = () => {
             {...register('capacity', { required: true, valueAsNumber: true })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.capacity && <span>{errors.capacity.message}</span>}
+          {errors.capacity && (
+            <span className="text-sm text-red-500">
+              {errors.capacity.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -301,7 +317,11 @@ const CarForm = () => {
               </SelectItem>
             </SelectContent>
           </Select>
-          {errors.transmission && <span>{errors.transmission.message}</span>}
+          {errors.transmission && (
+            <span className="text-sm text-red-500">
+              {errors.transmission.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -318,7 +338,11 @@ const CarForm = () => {
             {...register('location', { required: true })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.location && <span>{errors.location.message}</span>}
+          {errors.location && (
+            <span className="text-sm text-red-500">
+              {errors.location.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -338,7 +362,11 @@ const CarForm = () => {
             })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.fuelCapacity && <span>{errors.fuelCapacity.message}</span>}
+          {errors.fuelCapacity && (
+            <span className="text-sm text-red-500">
+              {errors.fuelCapacity.message}
+            </span>
+          )}
         </div>
 
         <div>
@@ -355,7 +383,11 @@ const CarForm = () => {
             {...register('description', { required: true })}
             className="mt-1 h-[2.875rem] w-full rounded-md bg-white200 px-4 text-sm text-gray400 outline-none placeholder:text-gray400 dark:bg-gray800 dark:text-white dark:placeholder:text-white200 dark:placeholder:text-opacity-70 lg:h-[3.5rem]"
           />
-          {errors.description && <span>{errors.description.message}</span>}
+          {errors.description && (
+            <span className="text-sm text-red-500">
+              {errors.description.message}
+            </span>
+          )}
         </div>
       </section>
 
