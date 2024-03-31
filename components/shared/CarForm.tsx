@@ -28,13 +28,19 @@ const formSchema = z.object({
     required_error: 'Car type is required',
   }),
   rentPrice: z
-    .number()
+    .number({
+      required_error: 'Rent price is required',
+      invalid_type_error: 'Rent price must be a number',
+    })
     .positive('Rent price must be a positive number')
     .int('Rent price must be an integer')
     .min(1, 'Rent price must be at least $1')
     .max(1000, 'Rent price must be under $1,000'),
   capacity: z
-    .number()
+    .number({
+      required_error: 'Capacity is required',
+      invalid_type_error: 'Capacity must be a number',
+    })
     .positive('Capacity must be a positive number')
     .int('Capacity must be an integer')
     .min(1, 'Capacity must be at least 1 person')
@@ -47,7 +53,10 @@ const formSchema = z.object({
     .min(1, 'Location is required')
     .max(50, 'City name must be under 50 characters'),
   fuelCapacity: z
-    .number()
+    .number({
+      required_error: 'Fuel capacity is required',
+      invalid_type_error: 'Fuel capacity must be a number',
+    })
     .positive('Fuel capacity must be a positive number')
     .int('Fuel capacity must be an integer')
     .min(1, 'Fuel capacity must be at least 1 liter')
@@ -70,6 +79,8 @@ const CarForm = () => {
   } = useForm<FormData>({ resolver: zodResolver(formSchema) });
   const carType = watch('carType');
   const transmission = watch('transmission');
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { startUpload } = useUploadThing('imageUploader');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -100,6 +111,8 @@ const CarForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+
     const carImages: CarImage[] = [];
 
     if (imageFiles.length > 0) {
@@ -136,6 +149,8 @@ const CarForm = () => {
         });
       } catch (error) {
         console.error('Failed to upload images: ', error);
+      } finally {
+        setIsSubmitting(false);
       }
     }
   };
@@ -182,7 +197,11 @@ const CarForm = () => {
           </label>
           <Select
             onValueChange={(value) =>
-              setValue('carType', value, { shouldValidate: true })
+              setValue(
+                'carType',
+                value as 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback',
+                { shouldValidate: true }
+              )
             }
             value={carType}
           >
@@ -260,7 +279,9 @@ const CarForm = () => {
           </label>
           <Select
             onValueChange={(value) =>
-              setValue('transmission', value, { shouldValidate: true })
+              setValue('transmission', value as 'Automatic' | 'Manual', {
+                shouldValidate: true,
+              })
             }
             value={transmission}
           >
@@ -387,9 +408,10 @@ const CarForm = () => {
       <div className="mt-7 flex justify-end lg:mt-9">
         <button
           type="submit"
-          className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white lg:w-[9.25rem]"
+          className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
+          disabled={isSubmitting}
         >
-          Register Car
+          {isSubmitting ? 'Registering Car' : 'Register Car'}
         </button>
       </div>
     </form>
