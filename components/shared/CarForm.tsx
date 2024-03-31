@@ -345,7 +345,10 @@ const CarForm = () => {
 
       <section
         {...getRootProps()}
-        className="mt-5 flex h-[11.5rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray400"
+        className={`mt-5 flex h-[11.5rem] w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray400 ${
+          isDragActive && 'border-primary'
+        }
+        ${imageUrlStrings?.length === 3 && '!border-gray400 opacity-50'}`}
       >
         <input {...getInputProps()} />
         <Image src="/shared/upload.svg" alt="upload" width={30} height={30} />
