@@ -16,6 +16,7 @@ import {
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
 import { createCar } from '@/lib/actions/car.actions';
+import Close from '../icons/Close';
 
 const formSchema = z.object({
   carTitle: z.string(),
@@ -318,28 +319,28 @@ const CarForm = () => {
         Upload Images
       </h3>
 
-      {/* Images after dropped in */}
-      {imageUrlStrings && imageUrlStrings.length > 0 && (
-        <div className="mt-6 flex w-full flex-wrap justify-center gap-4">
+      {imageUrlStrings?.length > 0 && (
+        <section className="mt-5 grid grid-cols-3 gap-5">
           {imageUrlStrings.map((image, index) => (
-            <div key={image} className="relative flex">
+            <div
+              key={image}
+              className="relative aspect-square max-h-full rounded-md"
+            >
               <button
-                className="absolute right-1 top-1 bg-white/50 text-xl text-slate-600"
                 onClick={handleImageDelete(index)}
-                type="button"
+                className="absolute right-2 top-2 z-10 rounded-md bg-gray400"
               >
-                X
+                <Close />
               </button>
               <Image
                 src={image}
-                alt="car image"
-                width={180}
-                height={180}
-                className="w-full max-w-60 object-contain"
+                alt="user uploaded image"
+                fill
+                className="rounded-md border border-gray400"
               />
             </div>
           ))}
-        </div>
+        </section>
       )}
 
       <section
@@ -348,12 +349,12 @@ const CarForm = () => {
       >
         <input {...getInputProps()} />
         <Image src="/shared/upload.svg" alt="upload" width={30} height={30} />
-        <p className="mt-2.5 text-sm font-semibold text-gray700 dark:text-ps100 lg:text-base">
+        <p className="mt-2.5 text-center text-sm font-semibold text-gray700 dark:text-ps100 lg:text-base">
           Drag and drop an image, or{' '}
           <span className="text-primary">Browse</span>
         </p>
-        <p className="text-xs text-gray400 dark:text-white100 lg:text-sm">
-          High resolution images (png, jpg, jpeg)
+        <p className="text-center text-xs text-gray400 dark:text-white100 lg:text-sm">
+          High resolution images (png, jpg, gif)
         </p>
       </section>
 
