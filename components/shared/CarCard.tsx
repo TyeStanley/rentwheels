@@ -64,6 +64,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
             blurDataURL={
               images[0]?.blurDataURL ?? '/shared/car_placeholder.svg'
             }
+            placeholder="blur"
             fill
             alt="Car Display"
             className="rounded-lg object-cover"

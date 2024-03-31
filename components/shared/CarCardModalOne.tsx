@@ -29,6 +29,7 @@ const CarCardModalOne = ({
           <Image
             src={car.images[currentImage].url}
             blurDataURL={car.images[currentImage].blurDataURL}
+            placeholder="blur"
             alt="Car Display"
             fill
             className="rounded-lg border border-ps50 object-cover"
@@ -45,6 +46,7 @@ const CarCardModalOne = ({
               <Image
                 src={image.url}
                 blurDataURL={image.blurDataURL}
+                placeholder="blur"
                 alt="Car Display"
                 fill
                 className={`rounded-lg border object-cover ${
