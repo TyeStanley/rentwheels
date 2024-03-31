@@ -3,8 +3,8 @@
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Prisma } from '@prisma/client';
-import { CarDetails, Params } from '@/types';
+import { Prisma, Transmission } from '@prisma/client';
+import { CarDetails, CarImage, Params } from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
@@ -235,28 +235,42 @@ export async function getMaxPrice(): Promise<number> {
   return result._max.rentPrice ?? 100;
 }
 
+interface CarData {
+  title: string;
+  type: string;
+  rentPrice: number;
+  capacity: number;
+  transmission: string;
+  location: string;
+  fuelCapacity: number;
+  description: string;
+}
+
 export async function createCar({
   carData,
   carImages,
 }: {
-  carData: any;
-  carImages: any;
-}): Promise<any> {
+  carData: CarData;
+  carImages: CarImage[];
+}): Promise<string> {
   const { id } = await verifyUser();
+
+  if (!id) throw new Error('You must be logged in to create a car');
 
   const newCar = await prisma.car.create({
     data: {
       ...carData,
+      transmission: carData.transmission as Transmission,
       userId: id,
     },
   });
 
-  const newCarImages = carImages.map((image: any) => ({
-    ...image,
-    carId: newCar.id,
-  }));
+  await prisma.carImage.createMany({
+    data: carImages.map((image) => ({
+      ...image,
+      carId: newCar.id,
+    })),
+  });
 
-  await prisma.carImage.createMany({ data: newCarImages });
-
-  return newCar;
+  return newCar.id;
 }

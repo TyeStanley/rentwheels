@@ -13,10 +13,11 @@ import {
   SelectItem,
   SelectTrigger,
 } from '@/components/ui/select';
+import Close from '@/components/icons/Close';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
 import { createCar } from '@/lib/actions/car.actions';
-import Close from '../icons/Close';
+import { CarImage } from '@/types';
 
 const formSchema = z.object({
   carTitle: z.string(),
@@ -30,11 +31,6 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
-
-interface ImageDataArrayType {
-  url: string;
-  blurDataURL: string;
-}
 
 const CarForm = () => {
   const {
@@ -76,45 +72,44 @@ const CarForm = () => {
   };
 
   const onSubmit = async (data: FormData) => {
-    const imageDataArray: ImageDataArrayType[] = [];
-    try {
-      if (imageFiles.length > 0) {
-        const uploadPromises = imageFiles.map((file) => startUpload([file]));
+    const carImages: CarImage[] = [];
 
-        try {
-          const uploadResults = await Promise.all(uploadPromises);
+    if (imageFiles.length > 0) {
+      const uploadPromises = imageFiles.map((file) => startUpload([file]));
 
-          for (const imgRes of uploadResults) {
-            if (imgRes && imgRes[0].url) {
-              const { blurDataURL } = await getBlurData(imgRes[0].url);
+      try {
+        const uploadResults = await Promise.all(uploadPromises);
 
-              imageDataArray.push({
-                url: imgRes[0].url,
-                blurDataURL,
-              });
-            }
+        for (const imgRes of uploadResults) {
+          if (imgRes && imgRes[0].url) {
+            const { blurDataURL } = await getBlurData(imgRes[0].url);
+
+            carImages.push({
+              url: imgRes[0].url,
+              blurDataURL,
+            });
           }
-
-          const carData = {
-            title: data.carTitle,
-            type: data.carType,
-            location: data.location,
-            description: data.description,
-            transmission: data.transmission,
-            fuelCapacity: data.fuelCapacity,
-            capacity: data.capacity,
-            rentPrice: data.rentPrice,
-          };
-
-          await createCar({
-            carData,
-            carImages: imageDataArray,
-          });
-        } catch (error) {
-          console.error('Failed to upload images:', error);
         }
+
+        const carData = {
+          title: data.carTitle,
+          type: data.carType,
+          rentPrice: data.rentPrice,
+          capacity: data.capacity,
+          transmission: data.transmission,
+          location: data.location,
+          fuelCapacity: data.fuelCapacity,
+          description: data.description,
+        };
+
+        await createCar({
+          carData,
+          carImages,
+        });
+      } catch (error) {
+        console.error('Failed to upload images: ', error);
       }
-    } catch (error) {}
+    }
   };
 
   return (
