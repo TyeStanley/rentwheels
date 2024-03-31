@@ -20,14 +20,42 @@ import { createCar } from '@/lib/actions/car.actions';
 import { CarImage } from '@/types';
 
 const formSchema = z.object({
-  carTitle: z.string(),
-  carType: z.string(),
-  rentPrice: z.number(),
-  capacity: z.number(),
-  transmission: z.string(),
-  location: z.string(),
-  fuelCapacity: z.number(),
-  description: z.string(),
+  carTitle: z
+    .string()
+    .min(1, 'Car title is required')
+    .max(50, 'Car title must be under 50 characters'),
+  carType: z.enum(['Sport', 'SUV', 'Sedan', 'Coupe', 'Hatchback'], {
+    required_error: 'Car type is required',
+  }),
+  rentPrice: z
+    .number()
+    .positive('Rent price must be a positive number')
+    .int('Rent price must be an integer')
+    .min(1, 'Rent price must be at least $1')
+    .max(1000, 'Rent price must be under $1,000'),
+  capacity: z
+    .number()
+    .positive('Capacity must be a positive number')
+    .int('Capacity must be an integer')
+    .min(1, 'Capacity must be at least 1 person')
+    .max(15, 'Capacity must be under 15 persons'),
+  transmission: z.enum(['Automatic', 'Manual'], {
+    required_error: 'Transmission type is required',
+  }),
+  location: z
+    .string()
+    .min(1, 'Location is required')
+    .max(50, 'City name must be under 50 characters'),
+  fuelCapacity: z
+    .number()
+    .positive('Fuel capacity must be a positive number')
+    .int('Fuel capacity must be an integer')
+    .min(1, 'Fuel capacity must be at least 1 liter')
+    .max(120, 'Fuel capacity must be under 120 liters'),
+  description: z
+    .string()
+    .min(20, 'Description must be at least 20 characters')
+    .max(250, 'Description must be under 250 characters'),
 });
 
 type FormData = z.infer<typeof formSchema>;
