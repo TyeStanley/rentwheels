@@ -6,6 +6,7 @@ import '@/app/globals.css';
 import { ThemeProvider } from '@/context/ThemeProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer/Footer';
+import { Toaster } from '@/components/ui/toaster';
 
 const font = plusJakartaSans({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
           <Navbar />
           {children}
           <Footer />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

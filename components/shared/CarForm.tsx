@@ -14,6 +14,7 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 import Close from '@/components/icons/Close';
+import { useToast } from '@/components/ui/use-toast';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
 import { createCar } from '@/lib/actions/car.actions';
@@ -82,6 +83,8 @@ const CarForm = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { toast } = useToast();
+
   const { startUpload } = useUploadThing('imageUploader');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
@@ -147,8 +150,17 @@ const CarForm = () => {
           carData,
           carImages,
         });
+
+        toast({
+          title: 'Car created',
+          description: 'Your car has been created successfully',
+        });
       } catch (error) {
-        console.error('Failed to upload images: ', error);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'An error occurred while creating your car',
+        });
       } finally {
         setIsSubmitting(false);
       }
