@@ -11,7 +11,7 @@ const Page = async () => {
   return (
     <main className="bg-white200 dark:bg-gray900">
       <div className="flex items-center justify-center dark:bg-[#1E2430]">
-        <CarForm isEditing={true} />
+        <CarForm />
       </div>
     </main>
   );

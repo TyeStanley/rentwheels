@@ -264,6 +264,7 @@ export async function createCar({
       userId: id,
     },
   });
+  console.log(newCar.id);
 
   await prisma.carImage.createMany({
     data: carImages.map((image) => ({
