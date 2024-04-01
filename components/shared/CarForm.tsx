@@ -153,6 +153,14 @@ const CarForm = ({
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
+    if (car && JSON.stringify(data) === JSON.stringify(car)) {
+      toast({
+        title: 'No changes were made',
+        description: 'Your car details are the same as the initial values',
+      });
+      return;
+    }
+
     const carImages: CarImage[] = [];
 
     if (imageFiles.length > 0) {
