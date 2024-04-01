@@ -153,15 +153,6 @@ const CarForm = ({
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    if (!car || typeof car.id !== 'string') {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'Invalid car data. Cannot update.',
-      });
-      return;
-    }
-
     const carImages: CarImage[] = [];
 
     if (imageFiles.length > 0) {
@@ -193,6 +184,15 @@ const CarForm = ({
         };
 
         if (isEditing) {
+          if (!car || typeof car.id !== 'string') {
+            toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: 'Invalid car data. Cannot update.',
+            });
+            return;
+          }
+
           const updatedCarData = {
             ...car,
             ...carData,
