@@ -18,7 +18,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
 import { createCar } from '@/lib/actions/car.actions';
-import { CarImage } from '@/types';
+import { CarDetails, CarImage } from '@/types';
 
 const formSchema = z.object({
   carTitle: z
@@ -70,18 +70,28 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const CarForm = () => {
+const CarForm = ({
+  car,
+  isEditing = false,
+}: {
+  car?: CarDetails | null;
+  isEditing?: boolean;
+}) => {
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(formSchema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: car ?? {},
+  });
   const carType = watch('carType');
   const transmission = watch('transmission');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { toast } = useToast();
 
@@ -111,6 +121,10 @@ const CarForm = () => {
     return () => {
       setImageFiles((prev) => prev.filter((_, i) => i !== index));
     };
+  };
+
+  const handleCarDelete = () => {
+    setIsDeleting(true);
   };
 
   const onSubmit = async (data: FormData) => {
@@ -173,7 +187,7 @@ const CarForm = () => {
       className="my-7 w-full max-w-[426px] rounded-md bg-white p-5 dark:bg-gray850 lg:max-w-[852px]"
     >
       <h1 className="text-xl font-bold text-gray900 dark:text-white">
-        Add a Car for Rent
+        {isEditing ? 'Edit Car Details' : 'Add a Car for Rent'}
       </h1>
 
       <p className="text-sm font-medium text-gray400">
@@ -449,14 +463,45 @@ const CarForm = () => {
         </p>
       </section>
 
-      <div className="mt-7 flex justify-end lg:mt-9">
-        <button
-          type="submit"
-          className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Registering Car' : 'Register Car'}
-        </button>
+      <div className="mt-7 flex flex-col-reverse justify-end gap-5 lg:mt-9 lg:flex-row">
+        {isEditing ? (
+          <>
+            <button
+              className="flex h-[3.5rem] w-full items-center justify-center gap-1 rounded-md bg-red-500 font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
+              disabled={isSubmitting}
+              onClick={handleCarDelete}
+            >
+              {isDeleting ? (
+                'Removing Car'
+              ) : (
+                <>
+                  <Image
+                    src="/shared/delete.svg"
+                    alt="delete"
+                    width={20}
+                    height={20}
+                  />
+                  Remove Car
+                </>
+              )}
+            </button>
+            <button
+              type="submit"
+              className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Editing Car' : 'Edit Car'}
+            </button>
+          </>
+        ) : (
+          <button
+            type="submit"
+            className="h-[3.5rem] w-full rounded-md bg-primary font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Registering Car' : 'Register Car'}
+          </button>
+        )}
       </div>
     </form>
   );

@@ -274,3 +274,22 @@ export async function createCar({
 
   return newCar.id;
 }
+
+export async function getCar(carId: string): Promise<CarDetails | null> {
+  const { id } = await verifyUser();
+
+  if (!id) return null;
+
+  const car = await prisma.car.findUnique({
+    where: {
+      id: carId,
+    },
+    include: {
+      images: true,
+    },
+  });
+
+  if (car?.userId !== id) return null;
+
+  return car;
+}
