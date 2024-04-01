@@ -293,3 +293,36 @@ export async function getCar(carId: string): Promise<CarDetails | null> {
 
   return car;
 }
+
+export async function deleteCar(carId: string): Promise<boolean> {
+  try {
+    const { id } = await verifyUser();
+
+    if (!id) throw new Error('You must be logged in to delete a car');
+
+    const car = await prisma.car.findUnique({
+      where: {
+        id: carId,
+      },
+    });
+
+    if (car?.userId !== id)
+      throw new Error('You are not allowed to delete this car');
+
+    await prisma.carImage.deleteMany({
+      where: {
+        carId,
+      },
+    });
+
+    await prisma.car.delete({
+      where: {
+        id: carId,
+      },
+    });
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}

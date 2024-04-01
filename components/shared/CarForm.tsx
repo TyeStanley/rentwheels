@@ -17,7 +17,7 @@ import Close from '@/components/icons/Close';
 import { useToast } from '@/components/ui/use-toast';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
-import { createCar } from '@/lib/actions/car.actions';
+import { createCar, deleteCar } from '@/lib/actions/car.actions';
 import { CarDetails, CarImage } from '@/types';
 
 const formSchema = z.object({
@@ -123,8 +123,31 @@ const CarForm = ({
     };
   };
 
-  const handleCarDelete = () => {
-    setIsDeleting(true);
+  const handleCarDelete = async () => {
+    try {
+      setIsDeleting(true);
+      setIsSubmitting(true);
+
+      if (!car) return;
+
+      const isDeleted = await deleteCar(car.id);
+
+      if (isDeleted) {
+        toast({
+          title: 'Car deleted',
+          description: 'Your car has been deleted successfully',
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'An error occurred while deleting your car',
+      });
+    } finally {
+      setIsDeleting(false);
+      setIsSubmitting(false);
+    }
   };
 
   const onSubmit = async (data: FormData) => {
