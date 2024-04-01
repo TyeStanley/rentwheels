@@ -85,7 +85,17 @@ const CarForm = ({
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
-    defaultValues: car ?? {},
+    defaultValues: {
+      carTitle: car?.title,
+      carType:
+        (car?.type as 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback') || '',
+      rentPrice: car?.rentPrice ? Number(car.rentPrice) : undefined,
+      capacity: car?.capacity ? Number(car.capacity) : undefined,
+      transmission: car?.transmission,
+      location: car?.location,
+      fuelCapacity: car?.fuelCapacity ? Number(car.fuelCapacity) : undefined,
+      description: car?.description,
+    },
   });
   const carType = watch('carType');
   const transmission = watch('transmission');
