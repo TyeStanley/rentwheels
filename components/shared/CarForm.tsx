@@ -17,7 +17,7 @@ import Close from '@/components/icons/Close';
 import { useToast } from '@/components/ui/use-toast';
 import { useUploadThing } from '@/lib/uploadthing';
 import { getBlurData } from '@/lib/actions/image.actions';
-import { createCar, deleteCar } from '@/lib/actions/car.actions';
+import { createCar, deleteCar, updateCar } from '@/lib/actions/car.actions';
 import { CarDetails, CarImage } from '@/types';
 
 const formSchema = z.object({
@@ -153,6 +153,15 @@ const CarForm = ({
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
+    if (!car || typeof car.id !== 'string') {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Invalid car data. Cannot update.',
+      });
+      return;
+    }
+
     const carImages: CarImage[] = [];
 
     if (imageFiles.length > 0) {
@@ -183,21 +192,44 @@ const CarForm = ({
           description: data.description,
         };
 
-        await createCar({
-          carData,
-          carImages,
-        });
+        if (isEditing) {
+          const updatedCarData = {
+            ...car,
+            ...carData,
+            images: carImages,
+          };
 
-        toast({
-          title: 'Car created',
-          description: 'Your car has been created successfully',
-        });
+          await updateCar({ carData: updatedCarData });
+
+          toast({
+            title: 'Car updated',
+            description: 'Your car has been updated successfully',
+          });
+        } else {
+          await createCar({
+            carData,
+            carImages,
+          });
+
+          toast({
+            title: 'Car created',
+            description: 'Your car has been created successfully',
+          });
+        }
       } catch (error) {
-        toast({
-          variant: 'destructive',
-          title: 'Error',
-          description: 'An error occurred while creating your car',
-        });
+        if (isEditing) {
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'An error occurred while updating your car',
+          });
+        } else {
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'An error occurred while creating your car',
+          });
+        }
       } finally {
         setIsSubmitting(false);
       }

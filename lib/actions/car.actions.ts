@@ -3,7 +3,7 @@
 import prisma from '@/lib/prisma';
 import { verifyUser } from './user.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Prisma, Transmission } from '@prisma/client';
+import { Car, Prisma, Transmission } from '@prisma/client';
 import { CarDetails, CarImage, Params } from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
@@ -318,6 +318,47 @@ export async function deleteCar(carId: string): Promise<boolean> {
     await prisma.car.delete({
       where: {
         id: carId,
+      },
+    });
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export async function updateCar({
+  carData,
+}: {
+  carData: Car & { images: CarImage[] };
+}): Promise<boolean> {
+  try {
+    const { id } = await verifyUser();
+
+    if (!id) throw new Error('You must be logged in to update a car');
+
+    const car = await prisma.car.findUnique({
+      where: {
+        id: carData.id,
+      },
+    });
+
+    if (car?.userId !== id)
+      throw new Error('You are not allowed to update this car');
+
+    await prisma.car.update({
+      where: {
+        id: carData.id,
+      },
+      data: {
+        ...carData,
+        images: {
+          deleteMany: {},
+          create: carData.images.map((image) => ({
+            url: image.url,
+            blurDataURL: image.blurDataURL,
+          })),
+        },
       },
     });
 
