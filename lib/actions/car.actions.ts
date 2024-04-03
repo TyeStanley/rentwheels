@@ -1,10 +1,11 @@
 'use server';
 
 import prisma from '@/lib/prisma';
-import { verifyUser } from './user.actions';
+import { verifyUser } from '@/lib/actions/user.actions';
+import { deleteFiles } from '@/lib/actions/image.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Car, Prisma, Transmission } from '@prisma/client';
-import { CarDetails, CarImage, Params } from '@/types';
+import { Prisma, Transmission } from '@prisma/client';
+import { CarData, CarDetails, CarImage, Params, UpdateCarData } from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
@@ -37,6 +38,7 @@ export async function getPopularCars(): Promise<CarDetails[]> {
       images: {
         select: {
           url: true,
+          key: true,
           blurDataURL: true,
         },
       },
@@ -150,6 +152,7 @@ export async function getCars(params: Params): Promise<{
       images: {
         select: {
           url: true,
+          key: true,
           blurDataURL: true,
         },
       },
@@ -235,17 +238,6 @@ export async function getMaxPrice(): Promise<number> {
   return result._max.rentPrice ?? 100;
 }
 
-interface CarData {
-  title: string;
-  type: string;
-  rentPrice: number;
-  capacity: number;
-  transmission: string;
-  location: string;
-  fuelCapacity: number;
-  description: string;
-}
-
 export async function createCar({
   carData,
   carImages,
@@ -264,7 +256,6 @@ export async function createCar({
       userId: id,
     },
   });
-  console.log(newCar.id);
 
   await prisma.carImage.createMany({
     data: carImages.map((image) => ({
@@ -305,24 +296,25 @@ export async function deleteCar(carId: string): Promise<boolean> {
       where: {
         id: carId,
       },
+      include: {
+        images: true,
+      },
     });
 
     if (car?.userId !== id)
       throw new Error('You are not allowed to delete this car');
 
-    await prisma.carImage.deleteMany({
+    const imageKeys = car.images.map((image) => image.key);
+
+    await deleteFiles(imageKeys);
+
+    const deletedCar = await prisma.car.delete({
       where: {
-        carId,
+        id: car.id,
       },
     });
 
-    await prisma.car.delete({
-      where: {
-        id: carId,
-      },
-    });
-
-    return true;
+    return !!deletedCar;
   } catch (error) {
     return false;
   }
@@ -331,7 +323,7 @@ export async function deleteCar(carId: string): Promise<boolean> {
 export async function updateCar({
   carData,
 }: {
-  carData: Car & { images: CarImage[] };
+  carData: UpdateCarData;
 }): Promise<boolean> {
   try {
     const { id } = await verifyUser();
@@ -349,7 +341,7 @@ export async function updateCar({
 
     await prisma.car.update({
       where: {
-        id: carData.id,
+        id: car.id,
       },
       data: {
         ...carData,
@@ -357,6 +349,7 @@ export async function updateCar({
           deleteMany: {},
           create: carData.images.map((image) => ({
             url: image.url,
+            key: image.key,
             blurDataURL: image.blurDataURL,
           })),
         },

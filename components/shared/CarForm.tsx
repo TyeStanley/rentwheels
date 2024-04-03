@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState, useMemo, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,8 +17,9 @@ import {
 import Close from '@/components/icons/Close';
 import { useToast } from '@/components/ui/use-toast';
 import { useUploadThing } from '@/lib/uploadthing';
-import { getBlurData } from '@/lib/actions/image.actions';
+import { deleteFiles, getBlurData } from '@/lib/actions/image.actions';
 import { createCar, deleteCar, updateCar } from '@/lib/actions/car.actions';
+import { imageURLToFile } from '@/lib/utils';
 import { CarDetails, CarImage } from '@/types';
 
 const formSchema = z.object({
@@ -82,13 +84,15 @@ const CarForm = ({
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       carTitle: car?.title,
       carType:
-        (car?.type as 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback') || '',
+        (car?.type as 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback') ||
+        undefined,
       rentPrice: car?.rentPrice ? Number(car.rentPrice) : undefined,
       capacity: car?.capacity ? Number(car.capacity) : undefined,
       transmission: car?.transmission,
@@ -100,17 +104,38 @@ const CarForm = ({
   const carType = watch('carType');
   const transmission = watch('transmission');
 
+  const router = useRouter();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const { toast } = useToast();
 
   const { startUpload } = useUploadThing('imageUploader');
+
   const [imageFiles, setImageFiles] = useState<File[]>([]);
 
   const imageUrlStrings = useMemo(() => {
     return imageFiles.map((file) => URL.createObjectURL(file));
   }, [imageFiles]);
+
+  useEffect(() => {
+    const fetchAndConvertImages = async () => {
+      if (!car || !car.images) return;
+
+      const imageAsFiles = await Promise.all(
+        car.images.map(async (image) => {
+          return imageURLToFile({ imageURL: image.url });
+        })
+      );
+      const validFiles = imageAsFiles.filter(
+        (file): file is File => file !== null
+      );
+      setImageFiles(validFiles);
+    };
+    fetchAndConvertImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -136,9 +161,8 @@ const CarForm = ({
   const handleCarDelete = async () => {
     try {
       setIsDeleting(true);
-      setIsSubmitting(true);
 
-      if (!car) return;
+      if (!car || !car.id) return;
 
       const isDeleted = await deleteCar(car.id);
 
@@ -147,6 +171,8 @@ const CarForm = ({
           title: 'Car deleted',
           description: 'Your car has been deleted successfully',
         });
+
+        router.push('/profile');
       }
     } catch (error) {
       toast({
@@ -156,103 +182,128 @@ const CarForm = ({
       });
     } finally {
       setIsDeleting(false);
-      setIsSubmitting(false);
     }
   };
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
-    if (car && JSON.stringify(data) === JSON.stringify(car)) {
-      toast({
-        title: 'No changes were made',
-        description: 'Your car details are the same as the initial values',
-      });
-      return;
-    }
-
-    const carImages: CarImage[] = [];
-
-    if (imageFiles.length > 0) {
-      const uploadPromises = imageFiles.map((file) => startUpload([file]));
-
-      try {
-        const uploadResults = await Promise.all(uploadPromises);
-
-        for (const imgRes of uploadResults) {
-          if (imgRes && imgRes[0].url) {
-            const { blurDataURL } = await getBlurData(imgRes[0].url);
-
-            carImages.push({
-              url: imgRes[0].url,
-              blurDataURL,
-            });
-          }
-        }
-
-        const carData = {
-          title: data.carTitle,
-          type: data.carType,
-          rentPrice: data.rentPrice,
-          capacity: data.capacity,
-          transmission: data.transmission,
-          location: data.location,
-          fuelCapacity: data.fuelCapacity,
-          description: data.description,
-        };
-
-        if (isEditing) {
-          if (!car || typeof car.id !== 'string') {
-            toast({
-              variant: 'destructive',
-              title: 'Error',
-              description: 'Invalid car data. Cannot update.',
-            });
-            return;
-          }
-
-          const updatedCarData = {
-            ...car,
-            ...carData,
-            images: carImages,
-          };
-
-          await updateCar({ carData: updatedCarData });
-
-          toast({
-            title: 'Car updated',
-            description: 'Your car has been updated successfully',
-          });
-        } else {
-          await createCar({
-            carData,
-            carImages,
-          });
-
-          toast({
-            title: 'Car created',
-            description: 'Your car has been created successfully',
-          });
-        }
-      } catch (error) {
-        if (isEditing) {
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'An error occurred while updating your car',
-          });
-        } else {
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'An error occurred while creating your car',
-          });
-        }
-      } finally {
-        setIsSubmitting(false);
+    try {
+      // check if at least one image is uploaded
+      if (imageFiles.length === 0) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'At least one image is required',
+        });
+        return;
       }
+
+      const previousCarData = {
+        title: car?.title,
+        type: car?.type,
+        rentPrice: car?.rentPrice,
+        capacity: car?.capacity,
+        transmission: car?.transmission,
+        location: car?.location,
+        fuelCapacity: car?.fuelCapacity,
+        description: car?.description,
+      };
+
+      // formats the form data to match the car data format
+      const carData = {
+        title: data.carTitle,
+        type: data.carType,
+        rentPrice: data.rentPrice,
+        capacity: data.capacity,
+        transmission: data.transmission,
+        location: data.location,
+        fuelCapacity: data.fuelCapacity,
+        description: data.description,
+      };
+
+      // Determine if there are any changes to the car details and images
+      const detailsHaveChanged =
+        JSON.stringify(previousCarData) !== JSON.stringify(carData);
+      const imagesHaveChanged =
+        imageFiles.some((image) => 'path' in image) ||
+        imageFiles.length < (car?.images?.length || 0);
+
+      // if no changes were made, return
+      if (isEditing && !detailsHaveChanged && !imagesHaveChanged) {
+        toast({
+          title: 'No changes were made',
+          description: 'Your car details are the same as the initial values',
+        });
+        return;
+      }
+
+      // Handle image deletion and upload
+      let carImages: CarImage[] = [];
+      if (isEditing) {
+        if (imagesHaveChanged && car?.images) {
+          const imagesToDelete = car.images.map((image) => image.key);
+          await deleteFiles(imagesToDelete);
+          carImages = await uploadImages(imageFiles);
+        } else {
+          carImages = car?.images || [];
+        }
+      } else if (!isEditing) {
+        carImages = await uploadImages(imageFiles);
+      }
+
+      // Update or create car
+      const actionResult = isEditing
+        ? await updateCar({
+            carData: { id: car!.id, ...carData, images: carImages },
+          })
+        : await createCar({ carData, carImages });
+
+      // if successful do toast
+      if (actionResult) {
+        toast({
+          title: `Car ${isEditing ? 'updated' : 'created'}`,
+          description: `Your car has been ${
+            isEditing ? 'updated' : 'created'
+          } successfully`,
+        });
+      }
+
+      // on editing page push to profile page
+      if (isEditing) {
+        router.push(`/profile`);
+      } else if (!isEditing) {
+        // clear the form data when creating car
+        reset();
+        setImageFiles([]);
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: `An error occurred while ${
+          isEditing ? 'updating' : 'creating'
+        } your car`,
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
+
+  async function uploadImages(imageFiles: File[]): Promise<CarImage[]> {
+    const uploadPromises = imageFiles.map((file) => startUpload([file]));
+    const uploadResults = await Promise.all(uploadPromises);
+    const imagesData = await Promise.all(
+      uploadResults.map(async (imgRes) => {
+        if (imgRes && imgRes[0].url && imgRes[0].key) {
+          const { blurDataURL } = await getBlurData(imgRes[0].url);
+          return { url: imgRes[0].url, key: imgRes[0].key, blurDataURL };
+        }
+        return null;
+      })
+    );
+    return imagesData.filter(Boolean) as CarImage[];
+  }
 
   return (
     <form
@@ -540,6 +591,7 @@ const CarForm = ({
         {isEditing ? (
           <>
             <button
+              type="button"
               className="flex h-[3.5rem] w-full items-center justify-center gap-1 rounded-md bg-red-500 font-bold text-white disabled:opacity-50 lg:w-[9.25rem]"
               disabled={isSubmitting}
               onClick={handleCarDelete}

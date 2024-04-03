@@ -1,6 +1,9 @@
 'use server';
 
 import sharp from 'sharp';
+import { UTApi } from 'uploadthing/server';
+
+const utapi = new UTApi();
 
 export const getBlurData = async (url: string) => {
   const buffer = await fetch(url).then((res) => res.arrayBuffer());
@@ -11,4 +14,12 @@ export const getBlurData = async (url: string) => {
   )}`;
 
   return { width, height, blurDataURL };
+};
+
+export const deleteFiles = async (imageKeys: string[]) => {
+  try {
+    await utapi.deleteFiles(imageKeys);
+  } catch (error) {
+    console.error('Failed to delete images:', error);
+  }
 };

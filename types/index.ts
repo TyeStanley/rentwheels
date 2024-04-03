@@ -1,4 +1,4 @@
-import { Car } from '@prisma/client';
+import { Car, Transmission } from '@prisma/client';
 import { HTMLAttributes } from 'react';
 
 export interface ThemeContextType {
@@ -37,10 +37,35 @@ export interface CarCardsProps {
 
 export interface CarImage {
   url: string;
+  key: string;
   blurDataURL: string;
 }
 
 export interface CarDetails extends Car {
   images: CarImage[];
   isCarLiked?: boolean;
+}
+
+export interface UpdateCarData {
+  id: string;
+  title: string;
+  type: 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback';
+  rentPrice: number;
+  capacity: number;
+  transmission: Transmission;
+  location: string;
+  fuelCapacity: number;
+  description: string;
+  images: CarImage[];
+}
+
+export interface CarData {
+  title: string;
+  type: 'Sport' | 'SUV' | 'Sedan' | 'Coupe' | 'Hatchback';
+  rentPrice: number;
+  capacity: number;
+  transmission: string;
+  location: string;
+  fuelCapacity: number;
+  description: string;
 }
