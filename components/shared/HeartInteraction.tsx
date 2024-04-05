@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 import Edit from '@/components/icons/Edit';
@@ -17,15 +16,15 @@ const HeartInteraction = ({
   carId,
   isCarLiked,
   isUserLoggedIn,
+  myCars = false,
 }: {
   carId: string;
   isCarLiked: boolean;
   isUserLoggedIn: boolean;
+  myCars?: boolean;
 }) => {
   const [isLiked, setIsLiked] = useState(isCarLiked);
   const [isLiking, setIsLiking] = useState(false);
-
-  const pathname = usePathname();
 
   async function handleHeartClick() {
     const originalIsLiked = isLiked;
@@ -42,7 +41,7 @@ const HeartInteraction = ({
     }
   }
 
-  if (pathname === '/profile') {
+  if (myCars) {
     return (
       <Link href={`/cars/${carId}`} className="shrink-0">
         <Edit />

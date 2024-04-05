@@ -1,6 +1,5 @@
+import CarCard from '@/components/shared/CarCard';
 import { getMyCars } from '@/lib/actions/car.actions';
-import React from 'react';
-import CarCard from './CarCard';
 
 const MyCarCards = async ({ isUserLoggedIn }: { isUserLoggedIn: boolean }) => {
   const cars = await getMyCars();
@@ -20,6 +19,7 @@ const MyCarCards = async ({ isUserLoggedIn }: { isUserLoggedIn: boolean }) => {
           car={car}
           cardType="recommended"
           isUserLoggedIn={isUserLoggedIn}
+          myCars={true}
         />
       ))}
     </section>

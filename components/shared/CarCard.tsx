@@ -15,9 +15,10 @@ interface CarCardProps {
   car: CarDetails;
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
+  myCars?: boolean;
 }
 
-const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
+const CarCard = ({ car, cardType, isUserLoggedIn, myCars }: CarCardProps) => {
   const {
     id,
     title,
@@ -49,6 +50,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn }: CarCardProps) => {
           carId={id}
           isCarLiked={isCarLiked ?? false}
           isUserLoggedIn={isUserLoggedIn}
+          myCars={myCars}
         />
       </div>
 
