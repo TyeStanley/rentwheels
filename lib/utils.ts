@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import queryString from 'query-string';
+import { ReactNode } from 'react';
 import { Params } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
@@ -52,3 +53,13 @@ export async function imageURLToFile({ imageURL }: { imageURL: string }) {
     return null;
   }
 }
+
+export const ConditionalWrapper = ({
+  condition,
+  wrapper,
+  children,
+}: {
+  condition: boolean;
+  wrapper: (children: ReactNode) => ReactNode;
+  children: ReactNode;
+}) => (condition ? wrapper(children) : children);

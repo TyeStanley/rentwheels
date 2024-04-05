@@ -4,12 +4,15 @@ import {
   NavbarDesktopLinks,
   AuthMenus,
 } from '@/components/Navbar/NavbarDesktop';
+import { getUserMenu } from '@/lib/actions/user.actions';
 
-const NavbarDesktop = () => {
+const NavbarDesktop = async () => {
+  const user = await getUserMenu();
+
   return (
     <div className="hidden items-center md:flex">
       <NavbarDesktopLinks />
-      <AuthMenus />
+      <AuthMenus user={user} />
       <Separator orientation="vertical" className="mx-5 h-9" />
       <ThemeToggle />
     </div>

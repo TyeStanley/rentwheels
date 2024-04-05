@@ -3,9 +3,17 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
+import { PopoverClose } from '@/components/ui/popover';
 import { loginUser } from '@/lib/actions/user.actions';
+import { ConditionalWrapper } from '@/lib/utils';
 
-const SignInForm = ({ closeForm }: { closeForm?: () => void }) => {
+const SignInForm = ({
+  closeForm,
+  signinClose = false,
+}: {
+  closeForm?: () => void;
+  signinClose?: boolean;
+}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -57,12 +65,17 @@ const SignInForm = ({ closeForm }: { closeForm?: () => void }) => {
       </label>
       <span className="mt-5 h-5 text-xs text-red-500">{error}</span>
 
-      <button
-        type="submit"
-        className="h-12 w-full rounded-lg bg-primary text-white dark:bg-primary"
+      <ConditionalWrapper
+        condition={signinClose}
+        wrapper={(children) => <PopoverClose>{children}</PopoverClose>}
       >
-        Sign In
-      </button>
+        <button
+          type="submit"
+          className="h-12 w-full rounded-lg bg-primary text-white dark:bg-primary"
+        >
+          Sign In
+        </button>
+      </ConditionalWrapper>
     </form>
   );
 };
