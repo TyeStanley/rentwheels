@@ -286,6 +286,102 @@ export async function getCar(carId: string): Promise<CarDetails | null> {
   return car;
 }
 
+export async function getRentedCars(): Promise<CarDetails[]> {
+  const { id, isUserLoggedIn } = await verifyUser();
+
+  if (!id || !isUserLoggedIn) return [];
+
+  const rentedCars = await prisma.userRentedCar.findMany({
+    where: {
+      userId: id,
+    },
+    include: {
+      car: {
+        select: {
+          id: true,
+          title: true,
+          type: true,
+          rentPrice: true,
+          capacity: true,
+          transmission: true,
+          location: true,
+          fuelCapacity: true,
+          description: true,
+          userId: true,
+          createdAt: true,
+          updatedAt: true,
+          images: {
+            select: {
+              url: true,
+              key: true,
+              blurDataURL: true,
+            },
+          },
+          _count: {
+            select: {
+              UserLikesCar: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const userLikesCars = await prisma.userLikesCar.findMany({
+    where: {
+      userId: id,
+    },
+  });
+
+  const rentedCarsFinal = rentedCars.map((car: any) => {
+    const isCarLiked = userLikesCars.some((like) => like.carId === car.id);
+
+    return { ...car, isCarLiked };
+  });
+
+  return rentedCarsFinal;
+}
+
+export async function getMyCars(): Promise<CarDetails[]> {
+  const { id } = await verifyUser();
+
+  if (!id) return [];
+
+  const myCars = await prisma.car.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true,
+      title: true,
+      type: true,
+      rentPrice: true,
+      capacity: true,
+      transmission: true,
+      location: true,
+      fuelCapacity: true,
+      description: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      images: {
+        select: {
+          url: true,
+          key: true,
+          blurDataURL: true,
+        },
+      },
+      _count: {
+        select: {
+          UserLikesCar: true,
+        },
+      },
+    },
+  });
+
+  return myCars;
+}
+
 export async function deleteCar(carId: string): Promise<boolean> {
   try {
     const { id } = await verifyUser();

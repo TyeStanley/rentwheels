@@ -8,15 +8,18 @@ datasource db {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  username     String         @unique
-  email        String         @unique
-  password     String
-  picture      String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  car          Car[]
-  UserLikesCar UserLikesCar[]
+  id            String          @id @default(uuid())
+  username      String          @unique
+  email         String          @unique
+  password      String
+  picture       String
+  coverImage    String
+  role          Role
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  car           Car[]
+  UserLikesCar  UserLikesCar[]
+  UserRentedCar UserRentedCar[]
 }
 
 model Car {
@@ -35,8 +38,9 @@ model Car {
   userId       String
   UserLikesCar UserLikesCar[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  UserRentedCar UserRentedCar[]
 }
 
 model CarImage {
@@ -61,7 +65,25 @@ model UserLikesCar {
   @@id([userId, carId])
 }
 
+model UserRentedCar {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  car   Car    @relation(fields: [carId], references: [id])
+  carId String
+
+  createdAt DateTime @default(now()) // The date and time when the record was created
+  updatedAt DateTime @updatedAt
+
+  @@id([userId, carId])
+}
+
 enum Transmission {
   Manual
   Automatic
+}
+
+enum Role {
+  Agent
+  Renter
 }

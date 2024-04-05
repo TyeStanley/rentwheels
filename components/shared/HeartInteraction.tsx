@@ -1,7 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+
+import Edit from '@/components/icons/Edit';
 import { likeCar } from '@/lib/actions/car.actions';
 
 const heart = {
@@ -21,6 +25,8 @@ const HeartInteraction = ({
   const [isLiked, setIsLiked] = useState(isCarLiked);
   const [isLiking, setIsLiking] = useState(false);
 
+  const pathname = usePathname();
+
   async function handleHeartClick() {
     const originalIsLiked = isLiked;
     setIsLiking(true);
@@ -34,6 +40,14 @@ const HeartInteraction = ({
     } finally {
       setIsLiking(false);
     }
+  }
+
+  if (pathname === '/profile') {
+    return (
+      <Link href={`/cars/${carId}`} className="shrink-0">
+        <Edit />
+      </Link>
+    );
   }
 
   return (

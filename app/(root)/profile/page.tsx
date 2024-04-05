@@ -1,9 +1,17 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
+import MyCarCards from '@/components/shared/MyCarCards';
+import RentedCarCards from '@/components/shared/RentedCarCards';
+import Loader from '@/components/shared/Loader';
 import { verifyUser } from '@/lib/actions/user.actions';
 
 const Page = async () => {
-  const { id } = await verifyUser();
+  const { id, isUserLoggedIn } = await verifyUser();
+
+  if (!id) redirect('/');
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -42,9 +50,30 @@ const Page = async () => {
           </button>
         </section>
 
-        <h3 className="mt-10">Rented cars</h3>
+        <h3 className="mt-10 font-semibold text-gray400 lg:mt-8">
+          Rented cars
+        </h3>
 
-        <h3 className="">My Cars for Rent</h3>
+        <Suspense fallback={<Loader />}>
+          <RentedCarCards isUserLoggedIn={isUserLoggedIn} />
+        </Suspense>
+
+        <h3 className="mt-10 font-semibold text-gray400 lg:mt-8">
+          My Cars for Rent
+        </h3>
+
+        <Suspense fallback={<Loader />}>
+          <MyCarCards isUserLoggedIn={isUserLoggedIn} />
+        </Suspense>
+
+        <div className="my-12 flex items-center justify-center">
+          <Link
+            href="/cars/create"
+            className="flex h-[56px] w-full items-center justify-center rounded-lg bg-primary font-bold text-white sm:max-w-[228px]"
+          >
+            Add More Cars for Rent
+          </Link>
+        </div>
       </div>
     </main>
   );
