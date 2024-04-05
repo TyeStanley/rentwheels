@@ -6,12 +6,16 @@ import { Suspense } from 'react';
 import MyCarCards from '@/components/shared/MyCarCards';
 import RentedCarCards from '@/components/shared/RentedCarCards';
 import Loader from '@/components/shared/Loader';
-import { verifyUser } from '@/lib/actions/user.actions';
+import { getUserProfile, verifyUser } from '@/lib/actions/user.actions';
 
 const Page = async () => {
   const { id, isUserLoggedIn } = await verifyUser();
 
   if (!id) redirect('/');
+
+  const profile = await getUserProfile(id);
+
+  if (!profile) redirect('/');
 
   return (
     <main className="bg-white200 dark:bg-gray900">
@@ -21,11 +25,14 @@ const Page = async () => {
         </h1>
 
         <section className="relative mt-6 h-[301px] rounded-lg bg-white dark:bg-gray850">
-          <div className="flex h-[150px] items-end justify-between rounded-t-lg bg-[url('/homepage/desktop_ad1.svg')] bg-cover bg-center bg-no-repeat lg:h-[184px]">
+          <div
+            style={{ backgroundImage: `url(${profile.coverImage})` }}
+            className="flex h-[150px] items-end justify-between rounded-t-lg bg-cover bg-center bg-no-repeat lg:h-[184px]"
+          >
             <div className="relative left-2.5 top-[91px] flex flex-col items-start lg:left-8 lg:flex-row lg:items-end lg:gap-8">
               <div className="relative size-[70px] lg:size-[160px]">
                 <Image
-                  src="/userPlaceholder.jpg"
+                  src={profile.picture}
                   alt="user"
                   fill
                   className="rounded-full"
@@ -34,9 +41,11 @@ const Page = async () => {
 
               <div className="mt-2.5 lg:relative lg:bottom-3 lg:mt-0 lg:flex lg:flex-col lg:gap-1">
                 <h2 className="text-xl font-bold text-gray900 dark:text-white">
-                  John Doe
+                  {profile.username}
                 </h2>
-                <p className="text-sm text-gray900/50 dark:text-ps100">Agent</p>
+                <p className="text-sm text-gray900/50 dark:text-ps100">
+                  {profile.role}
+                </p>
               </div>
             </div>
 

@@ -4,7 +4,7 @@ import { getUserMenu } from '@/lib/actions/user.actions';
 const AuthMenus = async () => {
   const user = await getUserMenu();
 
-  if (!user) return <LoginMenu />;
+  if (!user.username || !user.picture) return <LoginMenu />;
 
   return <UserMenu {...user} />;
 };

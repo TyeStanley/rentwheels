@@ -7,7 +7,7 @@ const NavbarMobile = async () => {
 
   let isUserLoggedIn = false;
 
-  if (user) {
+  if (user.username && user.picture) {
     isUserLoggedIn = true;
   } else {
     isUserLoggedIn = false;

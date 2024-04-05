@@ -12,8 +12,8 @@ const MobileAuthButtons = ({
   isUserLoggedIn,
   openForm,
 }: {
-  picture: string | undefined;
-  username: string | undefined;
+  picture: string;
+  username: string;
   isUserLoggedIn: boolean;
   openForm: () => void;
 }) => {
@@ -35,7 +35,7 @@ const MobileAuthButtons = ({
               href="/profile"
             >
               <Image
-                src={picture || '/userPlaceholder.jpg'}
+                src={picture}
                 alt="User profile picture"
                 width="20"
                 height="20"

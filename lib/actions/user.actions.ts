@@ -92,7 +92,10 @@ export async function createUser({
         email,
         password: hashedPassword,
         picture:
-          'https://cdn.discordapp.com/attachments/571883066017185802/1202061969033793556/userPlaceholder.jpg?ex=65cc1672&is=65b9a172&hm=76ad723735e39a0d73bab46bfc68a067ffe63bae69ac427d248d287180469672&',
+          'https://utfs.io/f/6a1de278-2231-478b-9f65-4545f6ffbba7-tgyw60.jpg',
+        coverImage:
+          'https://utfs.io/f/4a9a4f38-90ef-4185-9d1a-f8e8f92794c3-4q9otq.jpg',
+        role: 'Renter',
       },
     });
 
@@ -177,11 +180,11 @@ export interface GetUserMenuType {
   picture: string;
 }
 
-export async function getUserMenu(): Promise<GetUserMenuType | null> {
+export async function getUserMenu(): Promise<GetUserMenuType> {
   try {
     const { id, isUserLoggedIn } = await verifyUser();
 
-    if (!id || !isUserLoggedIn) return null;
+    if (!id || !isUserLoggedIn) return { username: '', picture: '' };
 
     const user = await prisma.user.findUnique({
       where: {
@@ -193,7 +196,37 @@ export async function getUserMenu(): Promise<GetUserMenuType | null> {
       },
     });
 
-    if (!user) return null;
+    if (!user) return { username: '', picture: '' };
+
+    return user;
+  } catch (error) {
+    console.error(error);
+    throw new Error('An error occurred while getting the user');
+  }
+}
+
+export async function getUserProfile(userId: string): Promise<{
+  username: string;
+  picture: string;
+  coverImage: string;
+  role: string;
+} | null> {
+  try {
+    const { id, isUserLoggedIn } = await verifyUser();
+
+    if (!id || !isUserLoggedIn) return null;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        username: true,
+        picture: true,
+        coverImage: true,
+        role: true,
+      },
+    });
 
     return user;
   } catch (error) {

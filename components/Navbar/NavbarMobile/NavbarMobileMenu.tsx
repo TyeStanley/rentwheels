@@ -18,8 +18,8 @@ const NavbarMobileMenu = ({
   username,
   isUserLoggedIn,
 }: {
-  picture?: string | undefined;
-  username?: string | undefined;
+  picture: string;
+  username: string;
   isUserLoggedIn: boolean;
 }) => {
   const [showForm, setShowForm] = useState(false);
