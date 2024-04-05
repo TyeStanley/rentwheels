@@ -1,5 +1,6 @@
-import { verifyUser } from '@/lib/actions/user.actions';
 import Image from 'next/image';
+
+import { verifyUser } from '@/lib/actions/user.actions';
 
 const Page = async () => {
   const { id } = await verifyUser();
@@ -12,10 +13,8 @@ const Page = async () => {
         </h1>
 
         <section className="relative mt-6 h-[301px] rounded-lg bg-white dark:bg-gray850">
-          {/* Image bg div */}
-          <div className="flex h-[150px] items-end justify-between rounded-t-lg bg-[url('/homepage/desktop_ad1.svg')] bg-cover bg-center bg-no-repeat">
-            {/* User Image and Name container */}
-            <div className="relative left-2.5 top-[91px] flex flex-col items-start">
+          <div className="flex h-[150px] items-end justify-between rounded-t-lg bg-[url('/homepage/desktop_ad1.svg')] bg-cover bg-center bg-no-repeat lg:h-[184px]">
+            <div className="relative left-2.5 top-[91px] flex flex-col items-start lg:left-8 lg:flex-row lg:items-end lg:gap-8">
               <div className="relative size-[70px] lg:size-[160px]">
                 <Image
                   src="/userPlaceholder.jpg"
@@ -25,8 +24,7 @@ const Page = async () => {
                 />
               </div>
 
-              {/* User Name and Role container */}
-              <div className="mt-2.5">
+              <div className="mt-2.5 lg:relative lg:bottom-3 lg:mt-0 lg:flex lg:flex-col lg:gap-1">
                 <h2 className="text-xl font-bold text-gray900 dark:text-white">
                   John Doe
                 </h2>
@@ -34,13 +32,12 @@ const Page = async () => {
               </div>
             </div>
 
-            {/* Edit Cover button */}
-            <button className="relative bottom-2.5 right-2.5 h-[26px] w-[68px] rounded-md bg-white/40 text-[0.625rem] text-white dark:bg-gray850/40">
+            <button className="relative bottom-2.5 right-2.5 h-[26px] w-[68px] rounded-md bg-white/40 text-[0.625rem] text-white dark:bg-gray850/40 lg:bottom-6 lg:right-12 lg:h-[40px] lg:w-[105px] lg:text-sm">
               Edit Cover
             </button>
           </div>
 
-          <button className="absolute bottom-5 right-2.5 h-[36px] w-[110px] rounded-lg bg-primary text-sm text-white">
+          <button className="absolute bottom-5 right-2.5 flex h-[36px] w-[110px] items-center justify-center rounded-lg bg-primary text-sm text-white lg:bottom-10 lg:right-12 lg:h-[46px] lg:w-[130px]">
             Edit Profile
           </button>
         </section>
