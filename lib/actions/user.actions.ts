@@ -5,6 +5,7 @@ import prisma from '@/lib/prisma';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { CreateUserType } from '@/types';
+import { Role } from '@prisma/client';
 
 export async function createUser({
   username,
@@ -93,8 +94,10 @@ export async function createUser({
         password: hashedPassword,
         picture:
           'https://utfs.io/f/6a1de278-2231-478b-9f65-4545f6ffbba7-tgyw60.jpg',
+        pictureKey: '0',
         coverImage:
           'https://utfs.io/f/4a9a4f38-90ef-4185-9d1a-f8e8f92794c3-4q9otq.jpg',
+        coverImageKey: '0',
         role: 'Renter',
       },
     });
@@ -208,8 +211,10 @@ export async function getUserMenu(): Promise<GetUserMenuType> {
 export async function getUserProfile(userId: string): Promise<{
   username: string;
   picture: string;
+  pictureKey: string;
   coverImage: string;
-  role: string;
+  coverImageKey: string;
+  role: Role;
 } | null> {
   try {
     const { id, isUserLoggedIn } = await verifyUser();
@@ -223,7 +228,9 @@ export async function getUserProfile(userId: string): Promise<{
       select: {
         username: true,
         picture: true,
+        pictureKey: true,
         coverImage: true,
+        coverImageKey: true,
         role: true,
       },
     });
@@ -232,5 +239,75 @@ export async function getUserProfile(userId: string): Promise<{
   } catch (error) {
     console.error(error);
     throw new Error('An error occurred while getting the user');
+  }
+}
+
+export async function updateUserProfile({
+  username,
+  picture,
+  pictureKey,
+  role,
+}: {
+  username: string;
+  picture: string;
+  pictureKey: string;
+  role: Role;
+}) {
+  try {
+    const { id } = await verifyUser();
+
+    if (!id) return;
+
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        username,
+        picture,
+        pictureKey,
+        role,
+      },
+    });
+
+    return { username, picture, role };
+  } catch (error) {
+    console.error(error);
+    throw new Error('An error occurred while updating the user');
+  }
+}
+
+export async function updateCoverImage({
+  coverImage,
+  coverImageKey,
+}: {
+  coverImage: string;
+  coverImageKey: string;
+}): Promise<{
+  coverImage: string;
+  coverImageKey: string;
+} | null> {
+  try {
+    const { id } = await verifyUser();
+
+    if (!id) return null;
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        coverImage,
+        coverImageKey,
+      },
+    });
+
+    return {
+      coverImage: updatedUser.coverImage,
+      coverImageKey: updatedUser.coverImageKey,
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error('An error occurred while updating the cover image');
   }
 }

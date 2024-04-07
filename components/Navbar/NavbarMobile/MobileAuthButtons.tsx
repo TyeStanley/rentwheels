@@ -40,6 +40,7 @@ const MobileAuthButtons = ({
                 width="20"
                 height="20"
                 className="rounded-full"
+                style={{ width: '20px', height: '20px' }}
               />
               My Profile
             </Link>

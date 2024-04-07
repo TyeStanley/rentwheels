@@ -34,13 +34,14 @@ const AuthMenus = ({
         {!user.username || !user.picture ? (
           <Button variant="primary">Login</Button>
         ) : (
-          <Image
-            src={user.picture}
-            alt="user button"
-            width="44"
-            height="44"
-            className="rounded-full"
-          />
+          <div className="relative size-[44px] rounded-full">
+            <Image
+              src={user.picture}
+              alt="user button"
+              fill
+              className="rounded-full object-cover"
+            />
+          </div>
         )}
       </PopoverTrigger>
       <PopoverContent
@@ -75,6 +76,7 @@ const AuthMenus = ({
                   width="20"
                   height="20"
                   className="rounded-full"
+                  style={{ width: '20px', height: '20px' }}
                 />
                 My Profile
               </Link>

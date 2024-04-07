@@ -1,15 +1,17 @@
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 
 import SignInForm from '@/components/Navbar/SignInForm';
 import SignUpForm from '@/components/Navbar/SignUpForm';
 import HeartInteraction from '@/components/shared/HeartInteraction';
 import CarCardModal from '@/components/shared/CarCardModal';
 import SteeringWheel from '@/components/icons/SteeringWheel';
-import Button from '@/components/ui/button';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { CarDetails } from '@/types';
+
+const Button = dynamic(() => import('@/components/ui/button'), { ssr: false });
 
 interface CarCardProps {
   car: CarDetails;
@@ -124,7 +126,6 @@ const CarCard = ({ car, cardType, isUserLoggedIn, myCars }: CarCardProps) => {
         ) : (
           <Dialog>
             <DialogTrigger>
-              {/* ! Causes Hydration Error */}
               <Button variant="carCard">More info</Button>
             </DialogTrigger>
             <DialogContent className="top-[20%]">

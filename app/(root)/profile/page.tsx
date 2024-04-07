@@ -5,6 +5,8 @@ import { Suspense } from 'react';
 
 import MyCarCards from '@/components/shared/MyCarCards';
 import RentedCarCards from '@/components/shared/RentedCarCards';
+import EditCover from '@/components/profile/EditCover';
+import EditProfile from '@/components/profile/EditProfile';
 import Loader from '@/components/shared/Loader';
 import { getUserProfile, verifyUser } from '@/lib/actions/user.actions';
 
@@ -49,14 +51,18 @@ const Page = async () => {
               </div>
             </div>
 
-            <button className="relative bottom-2.5 right-2.5 h-[26px] w-[68px] rounded-md bg-white/40 text-[0.625rem] text-white dark:bg-gray850/40 lg:bottom-6 lg:right-12 lg:h-[40px] lg:w-[105px] lg:text-sm">
-              Edit Cover
-            </button>
+            <EditCover
+              coverImage={profile.coverImage}
+              coverImageKey={profile.coverImageKey}
+            />
           </div>
 
-          <button className="absolute bottom-5 right-2.5 flex h-[36px] w-[110px] items-center justify-center rounded-lg bg-primary text-sm text-white lg:bottom-10 lg:right-12 lg:h-[46px] lg:w-[130px]">
-            Edit Profile
-          </button>
+          <EditProfile
+            username={profile.username}
+            picture={profile.picture}
+            pictureKey={profile.pictureKey}
+            role={profile.role}
+          />
         </section>
 
         <h3 className="mt-10 font-semibold text-gray400 lg:mt-8">
