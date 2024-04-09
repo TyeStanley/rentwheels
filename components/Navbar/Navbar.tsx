@@ -2,6 +2,8 @@ import NavbarLogo from '@/components/Navbar/NavbarLogo';
 import NavbarDesktop from '@/components/Navbar/NavbarDesktop';
 import NavbarMobile from '@/components/Navbar/NavbarMobile';
 
+export const dynamic = 'force-dynamic';
+
 const Navbar = () => {
   return (
     <nav className="border-b border-[#C3D4E9]/40 bg-white dark:border-gray850 dark:bg-gray900">
