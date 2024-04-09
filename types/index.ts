@@ -78,8 +78,8 @@ export interface FullCarData {
   capacity: number;
   location: string;
   description: string;
-  transmission: string;
+  transmission: Transmission;
   fuelCapacity: number;
-  images: { url: string; blurDataURL: string }[];
+  images: { url: string; key: string; blurDataURL: string }[];
   isCarLiked?: boolean;
 }

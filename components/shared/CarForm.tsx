@@ -20,7 +20,7 @@ import { useUploadThing } from '@/lib/uploadthing';
 import { deleteFiles, getBlurData } from '@/lib/actions/image.actions';
 import { createCar, deleteCar, updateCar } from '@/lib/actions/car.actions';
 import { imageURLToFile } from '@/lib/utils';
-import { CarDetails, CarImage } from '@/types';
+import { CarImage, FullCarData } from '@/types';
 
 const formSchema = z.object({
   carTitle: z
@@ -76,7 +76,7 @@ const CarForm = ({
   car,
   isEditing = false,
 }: {
-  car?: CarDetails | null;
+  car?: FullCarData;
   isEditing?: boolean;
 }) => {
   const {
