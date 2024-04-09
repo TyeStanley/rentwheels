@@ -11,6 +11,8 @@ import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList } from '@/lib/actions/car.actions';
 import { Params } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home({ searchParams }: { searchParams: Params }) {
   const { isUserLoggedIn } = await verifyUser();
 
