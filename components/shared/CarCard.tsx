@@ -14,7 +14,7 @@ import { CarDetails } from '@/types';
 const Button = dynamic(() => import('@/components/ui/button'), { ssr: false });
 
 interface CarCardProps {
-  car: CarDetails;
+  car: CarDetails & { id: string };
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
   myCars?: boolean;
