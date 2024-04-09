@@ -5,14 +5,7 @@ import { verifyUser } from '@/lib/actions/user.actions';
 import { deleteFiles } from '@/lib/actions/image.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Prisma, Transmission } from '@prisma/client';
-import {
-  CarData,
-  CarDetails,
-  CarImage,
-  FullCarData,
-  Params,
-  UpdateCarData,
-} from '@/types';
+import { CarData, CarImage, FullCarData, Params, UpdateCarData } from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
@@ -293,7 +286,7 @@ export async function getCar(carId: string): Promise<FullCarData | undefined> {
   return car;
 }
 
-export async function getRentedCars(): Promise<CarDetails[]> {
+export async function getRentedCars(): Promise<FullCarData[]> {
   const { id, isUserLoggedIn } = await verifyUser();
 
   if (!id || !isUserLoggedIn) return [];
@@ -349,7 +342,7 @@ export async function getRentedCars(): Promise<CarDetails[]> {
   return rentedCarsFinal;
 }
 
-export async function getMyCars(): Promise<CarDetails[]> {
+export async function getMyCars(): Promise<FullCarData[]> {
   const { id } = await verifyUser();
 
   if (!id) return [];
