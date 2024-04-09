@@ -9,12 +9,21 @@ import SteeringWheel from '@/components/icons/SteeringWheel';
 import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { CarDetails } from '@/types';
 
 const Button = dynamic(() => import('@/components/ui/button'), { ssr: false });
 
 interface CarCardProps {
-  car: CarDetails & { id: string };
+  car: {
+    id: string;
+    title: string;
+    type: string;
+    rentPrice: number;
+    capacity: number;
+    transmission: string;
+    fuelCapacity: number;
+    images: string[];
+    isCarLiked: boolean;
+  };
   cardType: 'popular' | 'recommended';
   isUserLoggedIn: boolean;
   myCars?: boolean;
