@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  username      String          @unique
-  email         String          @unique
+  id            String         @id @default(uuid())
+  username      String         @unique
+  email         String         @unique
   password      String
   picture       String
   pictureKey    String
   coverImage    String
   coverImageKey String
   role          Role
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
   car           Car[]
   UserLikesCar  UserLikesCar[]
-  UserRentedCar UserRentedCar[]
+  transaction   Transaction[]
 }
 
 model Car {
@@ -40,9 +40,9 @@ model Car {
   userId       String
   UserLikesCar UserLikesCar[]
 
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  UserRentedCar UserRentedCar[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  transaction Transaction[]
 }
 
 model CarImage {
@@ -67,17 +67,24 @@ model UserLikesCar {
   @@id([userId, carId])
 }
 
-model UserRentedCar {
+model Transaction {
+  id String @id @default(uuid())
+
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
   car   Car    @relation(fields: [carId], references: [id])
   carId String
 
-  createdAt DateTime @default(now()) // The date and time when the record was created
-  updatedAt DateTime @updatedAt
+  price Int
 
-  @@id([userId, carId])
+  startDate DateTime
+  endDate   DateTime
+
+  pending Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum Transmission {
