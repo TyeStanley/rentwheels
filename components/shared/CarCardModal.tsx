@@ -7,9 +7,9 @@ import CarCardModalTwo from '@/components/shared/CarCardModalTwo';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { CarDetails } from '@/types';
+import { FullCarData } from '@/types';
 
-const CarCardModal = ({ car }: { car: CarDetails }) => {
+const CarCardModal = ({ car }: { car: FullCarData }) => {
   const [isModalTwo, setIsModalTwo] = useState(false);
 
   const modalOne =

@@ -6,14 +6,13 @@ import { useState } from 'react';
 import Cross from '@/components/icons/Cross';
 import { DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-
-import { CarDetails } from '@/types';
+import { FullCarData } from '@/types';
 
 const CarCardModalOne = ({
   car,
   handleModalTwo,
 }: {
-  car: CarDetails;
+  car: FullCarData;
   handleModalTwo: () => void;
 }) => {
   const [currentImage, setCurrentImage] = useState(0);

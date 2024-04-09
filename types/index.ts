@@ -69,3 +69,17 @@ export interface CarData {
   fuelCapacity: number;
   description: string;
 }
+
+export interface FullCarData {
+  id: string;
+  title: string;
+  type: string;
+  rentPrice: number;
+  capacity: number;
+  location: string;
+  description: string;
+  transmission: string;
+  fuelCapacity: number;
+  images: { url: string; blurDataURL: string }[];
+  isCarLiked?: boolean;
+}

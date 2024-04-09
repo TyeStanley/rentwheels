@@ -5,7 +5,14 @@ import { verifyUser } from '@/lib/actions/user.actions';
 import { deleteFiles } from '@/lib/actions/image.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Prisma, Transmission } from '@prisma/client';
-import { CarData, CarDetails, CarImage, Params, UpdateCarData } from '@/types';
+import {
+  CarData,
+  CarDetails,
+  CarImage,
+  FullCarData,
+  Params,
+  UpdateCarData,
+} from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
@@ -18,7 +25,7 @@ export async function getCityList(): Promise<{ location: string }[]> {
   return locations;
 }
 
-export async function getPopularCars(): Promise<CarDetails[]> {
+export async function getPopularCars(): Promise<FullCarData[]> {
   const { id } = await verifyUser();
 
   const popularCars = await prisma.car.findMany({
