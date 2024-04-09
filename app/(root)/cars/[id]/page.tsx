@@ -4,6 +4,8 @@ import CarForm from '@/components/shared/CarForm';
 import { verifyUser } from '@/lib/actions/user.actions';
 import { getCar } from '@/lib/actions/car.actions';
 
+export const dynamic = 'force-dynamic';
+
 const Page = async ({ params }: { params: { id: string } }) => {
   const { id } = await verifyUser();
 

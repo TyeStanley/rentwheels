@@ -10,6 +10,8 @@ import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList, getMaxPrice } from '@/lib/actions/car.actions';
 import { Params } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 const Page = async ({ searchParams }: { searchParams: Params }) => {
   const { isUserLoggedIn } = await verifyUser();
 

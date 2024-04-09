@@ -10,6 +10,8 @@ import EditProfile from '@/components/profile/EditProfile';
 import Loader from '@/components/shared/Loader';
 import { getUserProfile, verifyUser } from '@/lib/actions/user.actions';
 
+export const dynamic = 'force-dynamic';
+
 const Page = async () => {
   const { id, isUserLoggedIn } = await verifyUser();
 
