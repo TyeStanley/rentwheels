@@ -87,7 +87,7 @@ export async function getPopularCars(): Promise<FullCarData[]> {
 }
 
 export async function getCars(params: Params): Promise<{
-  cars: CarDetails[];
+  cars: FullCarData[];
   hasMore: boolean;
 }> {
   const {
@@ -274,10 +274,10 @@ export async function createCar({
   return newCar.id;
 }
 
-export async function getCar(carId: string): Promise<CarDetails | null> {
+export async function getCar(carId: string): Promise<FullCarData | undefined> {
   const { id } = await verifyUser();
 
-  if (!id) return null;
+  if (!id) return undefined;
 
   const car = await prisma.car.findUnique({
     where: {
@@ -288,7 +288,7 @@ export async function getCar(carId: string): Promise<CarDetails | null> {
     },
   });
 
-  if (car?.userId !== id) return null;
+  if (car?.userId !== id) return undefined;
 
   return car;
 }
