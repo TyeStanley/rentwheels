@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 import { verifyUser } from '@/lib/actions/user.actions';
 import { deleteFiles } from '@/lib/actions/image.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Prisma, Transmission } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { CarData, CarImage, FullCarData, Params, UpdateCarData } from '@/types';
 
 export async function getCityList(): Promise<{ location: string }[]> {
@@ -252,7 +252,7 @@ export async function createCar({
   const newCar = await prisma.car.create({
     data: {
       ...carData,
-      transmission: carData.transmission as Transmission,
+      transmission: carData.transmission as 'Manual' | 'Automatic',
       userId: id,
     },
   });
