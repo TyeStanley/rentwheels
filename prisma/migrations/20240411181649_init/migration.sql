@@ -61,13 +61,18 @@ CREATE TABLE "UserLikesCar" (
 );
 
 -- CreateTable
-CREATE TABLE "UserRentedCar" (
+CREATE TABLE "Transaction" (
+    "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
     "carId" TEXT NOT NULL,
+    "price" INTEGER NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
+    "pending" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "UserRentedCar_pkey" PRIMARY KEY ("userId","carId")
+    CONSTRAINT "Transaction_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -89,7 +94,7 @@ ALTER TABLE "UserLikesCar" ADD CONSTRAINT "UserLikesCar_userId_fkey" FOREIGN KEY
 ALTER TABLE "UserLikesCar" ADD CONSTRAINT "UserLikesCar_carId_fkey" FOREIGN KEY ("carId") REFERENCES "Car"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserRentedCar" ADD CONSTRAINT "UserRentedCar_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserRentedCar" ADD CONSTRAINT "UserRentedCar_carId_fkey" FOREIGN KEY ("carId") REFERENCES "Car"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_carId_fkey" FOREIGN KEY ("carId") REFERENCES "Car"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

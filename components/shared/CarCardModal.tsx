@@ -30,7 +30,7 @@ const CarCardModal = ({ car }: { car: FullCarData }) => {
         className={cn('bg-white', isModalTwo ? modalTwo : modalOne)}
       >
         {isModalTwo ? (
-          <CarCardModalTwo />
+          <CarCardModalTwo carId={car.id} price={car.rentPrice} />
         ) : (
           <CarCardModalOne car={car} handleModalTwo={handleModalTwo} />
         )}

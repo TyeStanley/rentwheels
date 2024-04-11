@@ -20,14 +20,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { checkoutTransaction } from '@/lib/actions/transaction.actions';
 
-const CarCardModalTwo = () => {
+const CarCardModalTwo = ({
+  carId,
+  price,
+}: {
+  carId: string;
+  price: number;
+}) => {
   const [address, setAddress] = useState('');
   const [pickupDate, setPickupDate] = useState<Date | null>(null);
   const [dropoffDate, setDropoffDate] = useState<Date | null>(null);
 
   const [pickupTime, setPickupTime] = useState('');
   const [dropoffTime, setDropoffTime] = useState('');
+
+  const handleCheckout = async () => {
+    if (!pickupDate || !dropoffDate || !pickupTime || !dropoffTime) return;
+
+    await checkoutTransaction({
+      carId,
+      price,
+      pickupDate,
+      dropoffDate,
+    });
+  };
 
   return (
     <>
@@ -207,6 +225,7 @@ const CarCardModalTwo = () => {
       <Button
         variant="primary"
         className="mt-5 flex h-[3.5rem] justify-center font-bold"
+        onClick={handleCheckout}
       >
         Rent Now
       </Button>

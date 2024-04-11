@@ -10,7 +10,6 @@ import Loader from '@/components/shared/Loader';
 import { verifyUser } from '@/lib/actions/user.actions';
 import { getCityList } from '@/lib/actions/car.actions';
 import { Params } from '@/types';
-import Test from '@/components/Test';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +20,6 @@ export default async function Home({ searchParams }: { searchParams: Params }) {
 
   return (
     <main className="bg-white200 dark:bg-gray900">
-      <Test />
       <div className="mx-auto px-6 py-8 lg:max-w-[1024px] xl:max-w-[1440px] xl:px-16">
         <AdsContainer />
 
