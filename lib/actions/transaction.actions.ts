@@ -17,53 +17,51 @@ export async function checkoutTransaction({
   pickupDate: Date;
   dropoffDate: Date;
 }) {
-  try {
-    const { id: userId } = await verifyUser();
+  const { id: userId } = await verifyUser();
 
-    if (!userId) throw new Error('User not logged in');
+  if (!userId) throw new Error('User not logged in');
 
-    const transaction = await prisma.transaction.create({
-      data: {
-        userId,
-        carId,
-        price,
-        startDate: pickupDate,
-        endDate: dropoffDate,
-      },
-    });
+  const transaction = await prisma.transaction.create({
+    data: {
+      userId,
+      carId,
+      price,
+      startDate: pickupDate,
+      endDate: dropoffDate,
+    },
+  });
 
-    const days =
-      (new Date(dropoffDate).getTime() - new Date(pickupDate).getTime()) /
-      (1000 * 60 * 60 * 24);
+  const days =
+    (new Date(dropoffDate).getTime() - new Date(pickupDate).getTime()) /
+    (1000 * 60 * 60 * 24);
 
-    const amount = Number(price * days * 100);
+  const amount = Number(price * days * 100);
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
 
-    const session = await stripe.checkout.sessions.create({
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            unit_amount: amount,
-            product_data: {
-              name: `Car rental: ${carId}`,
-            },
+  const session = await stripe.checkout.sessions.create({
+    line_items: [
+      {
+        price_data: {
+          currency: 'usd',
+          unit_amount: amount,
+          product_data: {
+            name: `Car rental: ${carId}`,
           },
-          quantity: 1,
         },
-      ],
-      metadata: {
-        transactionId: transaction.id,
+        quantity: 1,
       },
-      mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/${transaction.id}?success=true`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout/${transaction.id}?success=false`,
-    });
+    ],
+    metadata: {
+      transactionId: transaction.id,
+    },
+    mode: 'payment',
+    success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout?success=true`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/checkout?success=false`,
+  });
 
-    redirect(session.url!);
-  } catch (error) {
-    console.log('Error with checkoutTransaction server action:', error);
+  if (session.url) {
+    redirect(session.url);
   }
 }
 
