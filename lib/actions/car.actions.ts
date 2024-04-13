@@ -91,6 +91,8 @@ export async function getCars(params: Params): Promise<{
     price,
     page = 1,
     carsPerPage = 8,
+    from,
+    to,
   } = params;
 
   const whereClause: Prisma.CarWhereInput = {
@@ -132,6 +134,20 @@ export async function getCars(params: Params): Promise<{
           lte: Number(price),
         }
       : undefined,
+    transaction: {
+      some: {
+        startDate: to
+          ? {
+              lte: new Date(to).toISOString(),
+            }
+          : undefined,
+        endDate: from
+          ? {
+              gte: new Date(from).toISOString(),
+            }
+          : undefined,
+      },
+    },
   };
 
   let cars = await prisma.car.findMany({

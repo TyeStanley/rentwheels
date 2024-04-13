@@ -83,8 +83,9 @@ const CarSearch = ({
               <button className="flex h-[2.875rem] items-center justify-between rounded-md bg-white200 px-4 text-left text-xs text-gray400 dark:bg-gray800 dark:text-white200 lg:h-[3.5rem] lg:text-sm">
                 {location
                   ? capitalizeFirstLetterOfEachWord(
-                      locationList.find((city) => city.location === location)
-                        ?.location || ''
+                      locationList.find(
+                        (city) => city.location?.toLowerCase() === location
+                      )?.location || ''
                     )
                   : 'Location - Select your city'}
 
