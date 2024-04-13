@@ -291,37 +291,40 @@ export async function getRentedCars(): Promise<FullCarData[]> {
 
   if (!id || !isUserLoggedIn) return [];
 
-  const rentedCars = await prisma.userRentedCar.findMany({
+  const rentedCars = await prisma.car.findMany({
     where: {
       userId: id,
+      transaction: {
+        some: {
+          endDate: {
+            lte: new Date(),
+          },
+        },
+      },
     },
-    include: {
-      car: {
+    select: {
+      id: true,
+      title: true,
+      type: true,
+      rentPrice: true,
+      capacity: true,
+      transmission: true,
+      location: true,
+      fuelCapacity: true,
+      description: true,
+      userId: true,
+      createdAt: true,
+      updatedAt: true,
+      images: {
         select: {
-          id: true,
-          title: true,
-          type: true,
-          rentPrice: true,
-          capacity: true,
-          transmission: true,
-          location: true,
-          fuelCapacity: true,
-          description: true,
-          userId: true,
-          createdAt: true,
-          updatedAt: true,
-          images: {
-            select: {
-              url: true,
-              key: true,
-              blurDataURL: true,
-            },
-          },
-          _count: {
-            select: {
-              UserLikesCar: true,
-            },
-          },
+          url: true,
+          key: true,
+          blurDataURL: true,
+        },
+      },
+      _count: {
+        select: {
+          UserLikesCar: true,
         },
       },
     },
