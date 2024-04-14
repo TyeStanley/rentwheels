@@ -6,6 +6,7 @@ import { deleteFiles } from '@/lib/actions/image.actions';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { Prisma } from '@prisma/client';
 import { CarData, CarImage, FullCarData, Params, UpdateCarData } from '@/types';
+import { revalidatePath } from 'next/cache';
 
 export async function getCityList(): Promise<{ location: string }[]> {
   const locations = await prisma.car.findMany({
@@ -135,7 +136,7 @@ export async function getCars(params: Params): Promise<{
         }
       : undefined,
     transaction: {
-      some: {
+      every: {
         startDate: to
           ? {
               lte: new Date(to).toISOString(),
@@ -412,7 +413,11 @@ export async function deleteCar(carId: string): Promise<boolean> {
         id: carId,
       },
       include: {
-        images: true,
+        images: {
+          select: {
+            key: true,
+          },
+        },
       },
     });
 
@@ -428,6 +433,8 @@ export async function deleteCar(carId: string): Promise<boolean> {
         id: car.id,
       },
     });
+
+    revalidatePath('/profile');
 
     return !!deletedCar;
   } catch (error) {
@@ -470,6 +477,8 @@ export async function updateCar({
         },
       },
     });
+
+    revalidatePath('/profile');
 
     return true;
   } catch (error) {
