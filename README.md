@@ -3,7 +3,7 @@
 [![Stars](https://img.shields.io/github/stars/TyeStanley/rentwheels?style=social)](https://rentwheels-ivory.vercel.app/)
 [![Fork](https://img.shields.io/github/forks/TyeStanley/rentwheels?style=social)](https://rentwheels-ivory.vercel.app/)
 
-![demo]()
+![demo](./public/readme/showcase.png)
 
 ![contributions](https://img.shields.io/badge/all_contributors-1-orange.svg)
 ![PRs](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=shields)
