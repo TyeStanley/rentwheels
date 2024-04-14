@@ -1,4 +1,124 @@
-// import prisma from '../lib/prisma';
+import prisma from '../lib/prisma';
+
+const userId = '58ce5cd6-31c3-446c-918a-73ddeceaedec';
+
+async function seed() {
+  await prisma.car.createMany({
+    data: [
+      {
+        title: 'Audi A4 Premium',
+        type: 'Sedan',
+        fuelCapacity: 58,
+        rentPrice: 120,
+        capacity: 5,
+        transmission: 'Automatic',
+        location: 'los angeles',
+        userId,
+        description:
+          'The Audi A4 is a line of compact executive cars produced since 1994 by the German car manufacturer Audi, a subsidiary of the Volkswagen Group.',
+      },
+      {
+        title: 'Mercedes-Benz C-Class',
+        type: 'Sedan',
+        fuelCapacity: 66,
+        rentPrice: 150,
+        capacity: 5,
+        transmission: 'Automatic',
+        location: 'miami',
+        userId,
+        description:
+          'The Mercedes-Benz C-Class is a line of compact executive cars produced by Daimler AG. Introduced in 1993 as a replacement for the 190 (W201) range.',
+      },
+      {
+        title: 'Tesla Model 3',
+        type: 'Sedan',
+        fuelCapacity: 0,
+        rentPrice: 200,
+        capacity: 5,
+        transmission: 'Automatic',
+        location: 'san francisco',
+        userId,
+        description:
+          'The Tesla Model 3 is an electric four-door sedan developed by Tesla. The Model 3 Standard Range Plus version delivers an EPA-rated all-electric range of 263 miles.',
+      },
+      {
+        title: 'Honda Accord LX',
+        type: 'Sedan',
+        fuelCapacity: 56,
+        rentPrice: 90,
+        capacity: 5,
+        transmission: 'Automatic',
+        location: 'chicago',
+        userId,
+        description:
+          'The Honda Accord is a series of automobiles manufactured by Honda since 1976, best known for its four-door sedan variant, which has been one of the best-selling cars in the US since 1989.',
+      },
+      {
+        title: 'Toyota Camry SE',
+        type: 'Sedan',
+        fuelCapacity: 60,
+        rentPrice: 95,
+        capacity: 5,
+        transmission: 'Automatic',
+        location: 'seattle',
+        userId,
+        description:
+          'The Toyota Camry is an automobile sold internationally by the Japanese manufacturer Toyota since 1982, spanning multiple generations. Known for its spacious interior, smooth ride, and efficient performance.',
+      },
+      {
+        title: 'Ford Mustang GT',
+        type: 'Coupe',
+        fuelCapacity: 61,
+        rentPrice: 150,
+        capacity: 4,
+        transmission: 'Manual',
+        location: 'las vegas',
+        userId,
+        description:
+          'The Ford Mustang GT is an iconic American muscle car known for its powerful V8 engine and classic design. It offers thrilling performance combined with modern technology and comfort.',
+      },
+      {
+        title: 'Chevrolet Corvette Stingray',
+        type: 'Sports Car',
+        fuelCapacity: 70,
+        rentPrice: 200,
+        capacity: 2,
+        transmission: 'Automatic',
+        location: 'miami',
+        userId,
+        description:
+          'The Chevrolet Corvette Stingray is a legendary American sports car that offers an unmatched combination of performance, innovation, and style. It features a mid-engine design for incredible handling and acceleration.',
+      },
+    ],
+  });
+
+  const cars = await prisma.car.findMany();
+
+  for (const car of cars) {
+    await Promise.all(
+      Array.from({ length: 3 }).map(async () => {
+        await prisma.carImage.createMany({
+          data: {
+            carId: car.id,
+            key: '',
+            url: 'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
+            blurDataURL:
+              'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
+          },
+        });
+      })
+    );
+  }
+}
+
+seed()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 
 // async function seed() {
 //   await prisma.car.createMany({
@@ -369,27 +489,4 @@
 //     ],
 //   });
 
-//   // create the images for each car from the cars promise
-//   const createdCars = await prisma.car.findMany();
-//   createdCars.forEach(async (car) => {
-//     Array.from({ length: 3 }).forEach(async () => {
-//       await prisma.carImage.createMany({
-//         data: {
-//           carId: car.id,
-//           url: 'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
-//           blurDataURL:
-//             'https://alanarent.ro/uploads/images/cars/img-placeholder.jpg',
-//         },
-//       });
-//     });
-//   });
-// }
-
-// seed()
-//   .catch((e) => {
-//     console.error(e);
-//     process.exit(1);
-//   })
-//   .finally(async () => {
-//     await prisma.$disconnect();
-//   });
+// create the images for each car from the cars promise
