@@ -29,14 +29,8 @@ export const CardContainer = ({
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    let x = (e.clientX - left - width / 2) / 10; // Decreased the division factor
-    let y = (e.clientY - top - height / 2) / 10; // Decreased the division factor
-    const maxRotation = 8; // Maximum rotation in degrees
-
-    // Clamp the rotation to the maximum
-    x = Math.min(Math.max(x, -maxRotation), maxRotation);
-    y = Math.min(Math.max(y, -maxRotation), maxRotation);
-
+    const x = (e.clientX - left - width / 2) / 20;
+    const y = (e.clientY - top - height / 2) / 20;
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
