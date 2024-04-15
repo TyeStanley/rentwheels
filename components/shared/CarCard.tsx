@@ -40,8 +40,10 @@ const CarCard = ({ car, cardType, isUserLoggedIn, myCars }: CarCardProps) => {
     >
       <CardBody
         className={cn(
-          'rounded-xl bg-white p-4 dark:bg-gray850 lg:max-w-[19rem] lg:p-6',
-          cardType === 'popular' ? 'lg:min-w-[19rem]' : 'w-full'
+          'rounded-xl group/card bg-white p-4 dark:bg-gray850 lg:max-w-[19rem] lg:p-6 ',
+          cardType === 'popular'
+            ? 'lg:min-w-[19rem]'
+            : 'w-full hover:shadow-2xl hover:shadow-gray400/[0.1]'
         )}
       >
         <CardItem translateZ="50" className="flex items-start justify-between">
@@ -80,7 +82,7 @@ const CarCard = ({ car, cardType, isUserLoggedIn, myCars }: CarCardProps) => {
               placeholder="blur"
               fill
               alt="Car Display"
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover hover:shadow-gray400/[0.1] group-hover/card:shadow-xl"
             />
           </CardItem>
 
